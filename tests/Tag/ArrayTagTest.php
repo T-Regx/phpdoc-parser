@@ -2,7 +2,6 @@
 
 namespace Jasny\PhpdocParser\Tests\Tag;
 
-use Jasny\PHPUnit\PrivateAccessTrait;
 use PHPUnit\Framework\TestCase;
 use Jasny\PhpdocParser\Tag\ArrayTag;
 use Jasny\PhpdocParser\PhpdocException;
@@ -14,8 +13,6 @@ use Jasny\PhpdocParser\PhpdocException;
  */
 class ArrayTagTest extends TestCase
 {
-    use PrivateAccessTrait;
-
     public function testConstruct()
     {
         $tag = new ArrayTag('foo');
@@ -50,7 +47,7 @@ class ArrayTagTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Invalid type 'ton'");
-    
+
         $tag = new ArrayTag('foo', 'ton');
         $tag->getType();
     }
@@ -135,7 +132,7 @@ class ArrayTagTest extends TestCase
     {
         $this->expectException(PhpdocException::class);
         $this->expectExceptionMessage("Failed to parse '@foo 10, 33.2, 20': invalid value '33.2'");
-    
+
         $tag = new ArrayTag('foo', 'int');
         $tag->process([], '10, 33.2, 20');
     }
@@ -144,7 +141,7 @@ class ArrayTagTest extends TestCase
     {
         $this->expectException(PhpdocException::class);
         $this->expectExceptionMessage("Failed to parse '@foo 10, 33.., 20': invalid value '33..'");
-    
+
         $tag = new ArrayTag('foo', 'float');
         $tag->process([], '10, 33.., 20');
     }
@@ -152,9 +149,9 @@ class ArrayTagTest extends TestCase
     public function testProcessInvalidType()
     {
         $this->expectException(\UnexpectedValueException::class);
-            
+
         $tag = new ArrayTag('foo');
-        $this->setPrivateProperty($tag, 'type', 'abc');
+        $tag->type = 'abc';
 
         $tag->process([], 'a');
     }

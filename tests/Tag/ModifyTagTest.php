@@ -4,23 +4,22 @@ namespace Jasny\PhpdocParser\Tests\Tag;
 
 use Jasny\PhpdocParser\Tag\ModifyTag;
 use Jasny\PhpdocParser\TagInterface;
-use Jasny\PHPUnit\CallbackMockTrait;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Jasny\PhpdocParser\Tag\ModifyTag
  */
 class ModifyTagTest extends TestCase
 {
-    use CallbackMockTrait;
-
     public function testGetName()
     {
         /** @var MockObject|TagInterface $mockTag */
         $mockTag = $this->createConfiguredMock(TagInterface::class, ['getName' => 'foo']);
 
-        $tag = new ModifyTag($mockTag, function() {});
+        $tag = new ModifyTag($mockTag, function () {
+        });
 
         $this->assertEquals('foo', $tag->getName());
     }
@@ -30,7 +29,8 @@ class ModifyTagTest extends TestCase
         /** @var MockObject|TagInterface $mockTag */
         $mockTag = $this->createMock(TagInterface::class);
 
-        $tag = new ModifyTag($mockTag, function() {});
+        $tag = new ModifyTag($mockTag, function () {
+        });
 
         $this->assertSame($mockTag, $tag->getTag());
     }
@@ -42,11 +42,10 @@ class ModifyTagTest extends TestCase
         $mockTag->expects($this->once())->method('process')->with([], 'one two')
             ->willReturn(['foo' => 42]);
 
-        /** @var MockObject|callable $apply */
-        $args = [['bar' => 1], ['foo' => 42], 'one two'];
-        $apply = $this->createCallbackMock($this->once(), $args, ['bar' => 2, 'foo' => 3]);
-
-        $tag = new ModifyTag($mockTag, $apply);
+        $tag = new ModifyTag($mockTag, function (...$actual) {
+            Assert::assertSame([['bar' => 1], ['foo' => 42], 'one two'], $actual);
+            return ['bar' => 2, 'foo' => 3];
+        });
 
         $result = $tag->process(['bar' => 1], 'one two');
 

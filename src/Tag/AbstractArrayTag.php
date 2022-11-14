@@ -17,7 +17,7 @@ abstract class AbstractArrayTag extends AbstractTag
      * @var string
      * @enum 'string', 'int', 'float'
      */
-    protected $type;
+    public $type;
 
     /**
      * Class constructor.

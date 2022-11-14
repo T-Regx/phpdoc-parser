@@ -5,7 +5,7 @@ namespace Jasny\PhpdocParser\Tests;
 use Jasny\PhpdocParser\PhpdocParser;
 use Jasny\PhpdocParser\TagInterface;
 use Jasny\PhpdocParser\TagSet;
-use Jasny\PHPUnit\CallbackMockTrait;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -14,8 +14,6 @@ use PHPUnit\Framework\TestCase;
  */
 class PhpdocParserTest extends TestCase
 {
-    use CallbackMockTrait;
-
     /**
      * @var TagInterface[]|MockObject[]
      */
@@ -35,10 +33,10 @@ class PhpdocParserTest extends TestCase
         ];
 
         $tagset = $this->createMock(TagSet::class);
-        $tagset->expects($this->any())->method('offsetExists')->willReturnCallback(function($key) use ($tags) {
+        $tagset->expects($this->any())->method('offsetExists')->willReturnCallback(function ($key) use ($tags) {
             return isset($tags[$key]);
         });
-        $tagset->expects($this->any())->method('offsetGet')->willReturnCallback(function($key) use ($tags) {
+        $tagset->expects($this->any())->method('offsetGet')->willReturnCallback(function ($key) use ($tags) {
             if (!isset($tags[$key])) {
                 throw new \OutOfRangeException("Unknown tag '@{$key}'");
             }
@@ -171,11 +169,11 @@ DOC;
         ];
 
         $tagset = $this->createMock(TagSet::class);
-        $tagset->expects($this->any())->method('offsetExists')->willReturnCallback(function($key) use ($tags) {
+        $tagset->expects($this->any())->method('offsetExists')->willReturnCallback(function ($key) use ($tags) {
             return isset($tags[$key]);
         });
 
-        $tagset->expects($this->any())->method('offsetGet')->willReturnCallback(function($key) use ($tags) {
+        $tagset->expects($this->any())->method('offsetGet')->willReturnCallback(function ($key) use ($tags) {
             return $tags[$key];
         });
 
@@ -192,21 +190,23 @@ DOC;
      */
     public function testCallback()
     {
-        $doc = <<<DOC
-/**
- * @bar Some value
- */
-DOC;
+        $doc = "/**\n * @bar Some value\n */";
 
         $expected = ['value after callback'];
 
-        $this->tags['bar']->expects($this->once())->method('process')
-            ->with([], 'Some value')->willReturn(['bar' => 'Some value']);
+        $this->tags['bar']
+            ->expects($this->once())
+            ->method('process')
+            ->with([], 'Some value')
+            ->willReturn(['bar' => 'Some value']);
 
-        $callback = $this->createCallbackMock($this->once(), [['bar' => 'Some value']], $expected);
-
+        $callback = function ($argument) use ($expected) {
+            Assert::assertSame(['bar' => 'Some value'], $argument);
+            return $expected;
+        };
+        // when
         $result = $this->parser->parse($doc, $callback);
-
+        // then
         $this->assertSame($expected, $result);
     }
 

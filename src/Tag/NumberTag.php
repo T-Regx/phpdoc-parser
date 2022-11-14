@@ -16,17 +16,17 @@ class NumberTag extends AbstractTag
     /**
      * @var string
      */
-    protected $type;
+    public $type;
 
     /**
      * @var int|float
      */
-    protected $min;
+    public $min;
 
     /**
      * @var int|float
      */
-    protected $max;
+    public $max;
 
     /**
      * NumberTag constructor.
