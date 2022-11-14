@@ -24,17 +24,6 @@ class ModifyTagTest extends TestCase
         $this->assertEquals('foo', $tag->getName());
     }
 
-    public function testGetTag()
-    {
-        /** @var MockObject|Tag $mockTag */
-        $mockTag = $this->createMock(Tag::class);
-
-        $tag = new ModifyTag($mockTag, function () {
-        });
-
-        $this->assertSame($mockTag, $tag->getTag());
-    }
-
     public function testProcess()
     {
         /** @var MockObject|Tag $mockTag */

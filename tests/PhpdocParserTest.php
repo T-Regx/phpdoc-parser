@@ -33,15 +33,19 @@ class PhpdocParserTest extends TestCase
         ];
 
         $tagset = $this->createMock(TagSet::class);
-        $tagset->expects($this->any())->method('offsetExists')->willReturnCallback(function ($key) use ($tags) {
-            return isset($tags[$key]);
-        });
-        $tagset->expects($this->any())->method('offsetGet')->willReturnCallback(function ($key) use ($tags) {
-            if (!isset($tags[$key])) {
-                throw new \OutOfRangeException("Unknown tag '@{$key}'");
-            }
-            return $tags[$key];
-        });
+        $tagset->expects($this->any())
+            ->method('offsetExists')
+            ->willReturnCallback(function ($key) use ($tags) {
+                return isset($tags[$key]);
+            });
+        $tagset->expects($this->any())
+            ->method('offsetGet')
+            ->willReturnCallback(function ($key) use ($tags) {
+                if (!isset($tags[$key])) {
+                    throw new \OutOfRangeException("Unknown tag '@{$key}'");
+                }
+                return $tags[$key];
+            });
 
         $this->tags = $tags;
         $this->parser = new PhpdocParser($tagset);
@@ -65,11 +69,16 @@ DOC;
 
     public function testParseFlagSeveral()
     {
-        $this->tags['foo']->expects($this->once())->method('process')
-            ->with([], '')->willReturn(['foo' => true]);
+        $this->tags['foo']
+            ->expects($this->once())
+            ->method('process')
+            ->with([], '')
+            ->willReturn(['foo' => true]);
 
-        $this->tags['bar']->expects($this->once())->method('process')
-            ->with(['foo' => true], '')->willReturn(['foo' => true, 'bar' => true]);
+        $this->tags['bar']->expects($this->once())
+            ->method('process')
+            ->with(['foo' => true], '')
+            ->willReturn(['foo' => true, 'bar' => true]);
 
         $doc = <<<DOC
 /**
@@ -85,8 +94,11 @@ DOC;
 
     public function testParseValue()
     {
-        $this->tags['foo']->expects($this->once())->method('process')
-            ->with([], 'hello')->willReturn(['foo' => 'HELLO!']);
+        $this->tags['foo']
+            ->expects($this->once())
+            ->method('process')
+            ->with([], 'hello')
+            ->willReturn(['foo' => 'HELLO!']);
 
         $doc = <<<DOC
 /**
@@ -101,7 +113,9 @@ DOC;
 
     public function testParseMultiple()
     {
-        $this->tags['foo']->expects($this->exactly(3))->method('process')
+        $this->tags['foo']
+            ->expects($this->exactly(3))
+            ->method('process')
             ->withConsecutive([[], ''], [['foo' => 1], ''], [['foo' => 2], ''])
             ->willReturnOnConsecutiveCalls(['foo' => 1], ['foo' => 2], ['foo' => 3]);
 
@@ -120,12 +134,17 @@ DOC;
 
     public function testParseFull()
     {
-        $this->tags['foo']->expects($this->exactly(2))->method('process')
+        $this->tags['foo']
+            ->expects($this->exactly(2))
+            ->method('process')
             ->withConsecutive([[], 'hi'], [['foo' => ['hi'], 'bar' => true], 'bye'])
             ->willReturnOnConsecutiveCalls(['foo' => ['hi']], ['foo' => ['hi', 'bye'], 'bar' => true]);
 
-        $this->tags['bar']->expects($this->once())->method('process')
-            ->with(['foo' => ['hi']], '')->willReturn(['foo' => ['hi'], 'bar' => true]);
+        $this->tags['bar']
+            ->expects($this->once())
+            ->method('process')
+            ->with(['foo' => ['hi']], '')
+            ->willReturn(['foo' => ['hi'], 'bar' => true]);
 
         $doc = <<<DOC
 /**
@@ -169,15 +188,23 @@ DOC;
         ];
 
         $tagset = $this->createMock(TagSet::class);
-        $tagset->expects($this->any())->method('offsetExists')->willReturnCallback(function ($key) use ($tags) {
-            return isset($tags[$key]);
-        });
+        $tagset->expects($this->any())
+            ->method('offsetExists')
+            ->willReturnCallback(function ($key) use ($tags) {
+                return isset($tags[$key]);
+            });
 
-        $tagset->expects($this->any())->method('offsetGet')->willReturnCallback(function ($key) use ($tags) {
-            return $tags[$key];
-        });
+        $tagset->expects($this->any())
+            ->method('offsetGet')
+            ->willReturnCallback(function ($key) use ($tags) {
+                return $tags[$key];
+            });
 
-        $tags['summery']->expects($this->once())->method('process')->with([], $doc)->willReturn($expected);
+        $tags['summery']
+            ->expects($this->once())
+            ->method('process')
+            ->with([], $doc)
+            ->willReturn($expected);
 
         $parser = new PhpdocParser($tagset);
         $result = $parser->parse($doc);
@@ -242,10 +269,14 @@ DOC;
             'bar' => 'Some bar value.',
             'foo' => 'This one also has multiline value.'
         ]);
-        $this->tags['qux']->expects($this->once())->method('process')->with([
-            'bar' => 'Some bar value.',
-            'foo' => 'This one also has multiline value.'
-        ], 'Single line value')->willReturn($expected);
+        $this->tags['qux']
+            ->expects($this->once())
+            ->method('process')
+            ->with([
+                'bar' => 'Some bar value.',
+                'foo' => 'This one also has multiline value.'
+            ], 'Single line value')
+            ->willReturn($expected);
 
         $result = $this->parser->parse($doc);
 
@@ -253,22 +284,17 @@ DOC;
     }
 
     /**
-     * Test parsing comment with no tags
+     * @test
      */
     public function test()
     {
-        $doc = <<<DOC
-/**
- * Just some description. Should be ignored.
- */
-DOC;
-
+        // given
         $this->tags['bar']->expects($this->never())->method('process');
         $this->tags['foo']->expects($this->never())->method('process');
         $this->tags['qux']->expects($this->never())->method('process');
-
-        $result = $this->parser->parse($doc);
-
+        // when
+        $result = $this->parser->parse("/**\n * Just some description. Should be ignored.\n */");
+        // then
         $this->assertSame([], $result);
     }
 }

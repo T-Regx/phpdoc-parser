@@ -6,7 +6,7 @@ namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\Tag;
 
-class ModifyTag implements Tag, ProxyTagInterface
+class ModifyTag implements Tag
 {
     /** @var Tag */
     protected $tag;
@@ -22,11 +22,6 @@ class ModifyTag implements Tag, ProxyTagInterface
     public function getName(): string
     {
         return $this->tag->getName();
-    }
-
-    public function getTag(): Tag
-    {
-        return $this->tag;
     }
 
     public function process(array $notations, string $value): array

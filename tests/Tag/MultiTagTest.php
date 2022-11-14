@@ -33,16 +33,6 @@ class MultiTagTest extends TestCase
         $this->assertEquals('foos', $tag->getKey());
     }
 
-    public function testGetTag()
-    {
-        /** @var MockObject|Tag $mockTag */
-        $mockTag = $this->createMock(Tag::class);
-
-        $tag = new MultiTag('foos', $mockTag);
-
-        $this->assertSame($mockTag, $tag->getTag());
-    }
-
     public function testProcess()
     {
         /** @var MockObject|Tag $mockTag */

@@ -7,7 +7,7 @@ namespace Jasny\PhpdocParser\Tag;
 use Jasny\PhpdocParser\PhpdocException;
 use Jasny\PhpdocParser\Tag;
 
-class MultiTag implements Tag, ProxyTagInterface
+class MultiTag implements Tag
 {
     /** @var string */
     protected $key;
@@ -19,13 +19,13 @@ class MultiTag implements Tag, ProxyTagInterface
     protected $index;
 
     /**
-     * @param string $key Notation key
-     * @param Tag $tag Representation of a single tag
-     * @param string|null $index Item key to index by
+     * @param string $notationKey
+     * @param Tag $tag
+     * @param string|null $index
      */
-    public function __construct(string $key, Tag $tag, ?string $index = null)
+    public function __construct(string $notationKey, Tag $tag, ?string $index = null)
     {
-        $this->key = $key;
+        $this->key = $notationKey;
         $this->tag = $tag;
         $this->index = $index;
     }
@@ -38,11 +38,6 @@ class MultiTag implements Tag, ProxyTagInterface
     public function getName(): string
     {
         return $this->tag->getName();
-    }
-
-    public function getTag(): Tag
-    {
-        return $this->tag;
     }
 
     public function process(array $notations, string $value): array
