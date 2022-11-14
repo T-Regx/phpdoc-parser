@@ -2,7 +2,7 @@
 
 namespace Jasny\PhpdocParser\Tests;
 
-use Jasny\PhpdocParser\TagInterface;
+use Jasny\PhpdocParser\Tag;
 use Jasny\PhpdocParser\TagSet;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 class TagSetTest extends TestCase
 {
     /**
-     * @var TagInterface[]|MockObject[]
+     * @var Tag[]|MockObject[]
      */
     protected $tags;
 
@@ -25,9 +25,9 @@ class TagSetTest extends TestCase
     public function setUp(): void
     {
         $this->tags = [
-            'foo' => $this->createConfiguredMock(TagInterface::class, ['getName' => 'foo']),
-            'bar' => $this->createConfiguredMock(TagInterface::class, ['getName' => 'bar']),
-            'qux' => $this->createConfiguredMock(TagInterface::class, ['getName' => 'qux']),
+            'foo' => $this->createConfiguredMock(Tag::class, ['getName' => 'foo']),
+            'bar' => $this->createConfiguredMock(Tag::class, ['getName' => 'bar']),
+            'qux' => $this->createConfiguredMock(Tag::class, ['getName' => 'qux']),
         ];
 
         $this->tagset = new TagSet(array_values($this->tags));
@@ -39,7 +39,7 @@ class TagSetTest extends TestCase
 
         foreach ($this->tagset as $key => $tag) {
             $this->assertIsString($key);
-            $this->assertInstanceOf(TagInterface::class, $tag);
+            $this->assertInstanceOf(Tag::class, $tag);
 
             $this->assertArrayHasKey($key, $this->tagset);
             $this->assertSame($this->tagset[$key], $tag);
@@ -53,9 +53,9 @@ class TagSetTest extends TestCase
     public function testWithTagSet()
     {
         $newTags = [
-            'red' => $this->createConfiguredMock(TagInterface::class, ['getName' => 'red']),
-            'blue' => $this->createConfiguredMock(TagInterface::class, ['getName' => 'blue']),
-            'green' => $this->createConfiguredMock(TagInterface::class, ['getName' => 'green'])
+            'red' => $this->createConfiguredMock(Tag::class, ['getName' => 'red']),
+            'blue' => $this->createConfiguredMock(Tag::class, ['getName' => 'blue']),
+            'green' => $this->createConfiguredMock(Tag::class, ['getName' => 'green'])
         ];
         $new = new TagSet(array_values($newTags));
 
@@ -75,9 +75,9 @@ class TagSetTest extends TestCase
     public function testWithArray()
     {
         $newTags = [
-            'red' => $this->createConfiguredMock(TagInterface::class, ['getName' => 'red']),
-            'blue' => $this->createConfiguredMock(TagInterface::class, ['getName' => 'blue']),
-            'green' => $this->createConfiguredMock(TagInterface::class, ['getName' => 'green'])
+            'red' => $this->createConfiguredMock(Tag::class, ['getName' => 'red']),
+            'blue' => $this->createConfiguredMock(Tag::class, ['getName' => 'blue']),
+            'green' => $this->createConfiguredMock(Tag::class, ['getName' => 'green'])
         ];
         $new = array_values($newTags);
 

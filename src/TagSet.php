@@ -9,16 +9,16 @@ use function Jasny\expect_type;
 
 class TagSet implements \IteratorAggregate, \ArrayAccess
 {
-    /** @var TagInterface[] */
+    /** @var Tag[] */
     protected $tags = [];
 
     /**
-     * @param iterable|TagInterface[] $tags
+     * @param iterable|Tag[] $tags
      */
     public function __construct(iterable $tags)
     {
         foreach ($tags as $tag) {
-            expect_type($tag, TagInterface::class);
+            expect_type($tag, Tag::class);
             $this->tags[$tag->getName()] = $tag;
         }
     }
@@ -45,7 +45,7 @@ class TagSet implements \IteratorAggregate, \ArrayAccess
         return isset($this->tags[$key]);
     }
 
-    public function offsetGet($key): TagInterface
+    public function offsetGet($key): Tag
     {
         if (!isset($this->tags[$key])) {
             throw new \OutOfBoundsException("Unknown tag '@{$key}'; Use isset to see if tag is defined.");

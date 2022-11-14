@@ -3,7 +3,7 @@
 namespace Jasny\PhpdocParser\Tests;
 
 use Jasny\PhpdocParser\PhpdocParser;
-use Jasny\PhpdocParser\TagInterface;
+use Jasny\PhpdocParser\Tag;
 use Jasny\PhpdocParser\TagSet;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 class PhpdocParserTest extends TestCase
 {
     /**
-     * @var TagInterface[]|MockObject[]
+     * @var Tag[]|MockObject[]
      */
     protected $tags;
 
@@ -27,9 +27,9 @@ class PhpdocParserTest extends TestCase
     public function setUp(): void
     {
         $tags = [
-            'foo' => $this->createConfiguredMock(TagInterface::class, ['getName' => 'foo']),
-            'bar' => $this->createConfiguredMock(TagInterface::class, ['getName' => 'bar']),
-            'qux' => $this->createConfiguredMock(TagInterface::class, ['getName' => 'qux']),
+            'foo' => $this->createConfiguredMock(Tag::class, ['getName' => 'foo']),
+            'bar' => $this->createConfiguredMock(Tag::class, ['getName' => 'bar']),
+            'qux' => $this->createConfiguredMock(Tag::class, ['getName' => 'qux']),
         ];
 
         $tagset = $this->createMock(TagSet::class);
@@ -165,7 +165,7 @@ DOC;
         $expected = ['summery' => 'Some summery', 'description' => "Some summery\nGeneral description\nspanning a few lines\nof doc-comment."];
 
         $tags = [
-            'summery' => $this->createConfiguredMock(TagInterface::class, ['getName' => 'summery']),
+            'summery' => $this->createConfiguredMock(Tag::class, ['getName' => 'summery']),
         ];
 
         $tagset = $this->createMock(TagSet::class);

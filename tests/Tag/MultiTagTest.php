@@ -2,9 +2,9 @@
 
 namespace Jasny\PhpdocParser\Tests\Tag;
 
-use Jasny\PhpdocParser\Tag\MultiTag;
-use Jasny\PhpdocParser\TagInterface;
 use Jasny\PhpdocParser\PhpdocException;
+use Jasny\PhpdocParser\Tag;
+use Jasny\PhpdocParser\Tag\MultiTag;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -15,8 +15,8 @@ class MultiTagTest extends TestCase
 {
     public function testGetName()
     {
-        /** @var MockObject|TagInterface $mockTag */
-        $mockTag = $this->createConfiguredMock(TagInterface::class, ['getName' => 'foo']);
+        /** @var MockObject|Tag $mockTag */
+        $mockTag = $this->createConfiguredMock(Tag::class, ['getName' => 'foo']);
 
         $tag = new MultiTag('foos', $mockTag);
 
@@ -25,8 +25,8 @@ class MultiTagTest extends TestCase
 
     public function testGetKey()
     {
-        /** @var MockObject|TagInterface $mockTag */
-        $mockTag = $this->createConfiguredMock(TagInterface::class, ['getName' => 'foo']);
+        /** @var MockObject|Tag $mockTag */
+        $mockTag = $this->createConfiguredMock(Tag::class, ['getName' => 'foo']);
 
         $tag = new MultiTag('foos', $mockTag);
 
@@ -35,8 +35,8 @@ class MultiTagTest extends TestCase
 
     public function testGetTag()
     {
-        /** @var MockObject|TagInterface $mockTag */
-        $mockTag = $this->createMock(TagInterface::class);
+        /** @var MockObject|Tag $mockTag */
+        $mockTag = $this->createMock(Tag::class);
 
         $tag = new MultiTag('foos', $mockTag);
 
@@ -45,8 +45,8 @@ class MultiTagTest extends TestCase
 
     public function testProcess()
     {
-        /** @var MockObject|TagInterface $mockTag */
-        $mockTag = $this->createMock(TagInterface::class);
+        /** @var MockObject|Tag $mockTag */
+        $mockTag = $this->createMock(Tag::class);
         $mockTag->expects($this->once())->method('process')->with([], 'three')
             ->willReturn(['foo' => '3']);
 
@@ -59,8 +59,8 @@ class MultiTagTest extends TestCase
 
     public function testProcessLogicException()
     {
-        /** @var MockObject|TagInterface $mockTag */
-        $mockTag = $this->createConfiguredMock(TagInterface::class, ['getName' => 'foo']);
+        /** @var MockObject|Tag $mockTag */
+        $mockTag = $this->createConfiguredMock(Tag::class, ['getName' => 'foo']);
         $mockTag->expects($this->once())->method('process')->with([], 'three')
             ->willReturn(['foo' => '3', 'bar' => '2']);
 
@@ -74,8 +74,8 @@ class MultiTagTest extends TestCase
 
     public function testProcessKey()
     {
-        /** @var MockObject|TagInterface $mockTag */
-        $mockTag = $this->createMock(TagInterface::class);
+        /** @var MockObject|Tag $mockTag */
+        $mockTag = $this->createMock(Tag::class);
         $mockTag->expects($this->once())->method('process')->with([], 'goodbye')
             ->willReturn(['foo' => ['name' => 'two', 'desc' => 'bye']]);
 
@@ -91,13 +91,13 @@ class MultiTagTest extends TestCase
 
     public function testProcessKeyUnkonwn()
     {
-        /** @var MockObject|TagInterface $mockTag */
-        $mockTag = $this->createConfiguredMock(TagInterface::class, ['getName' => 'foo']);
+        /** @var MockObject|Tag $mockTag */
+        $mockTag = $this->createConfiguredMock(Tag::class, ['getName' => 'foo']);
         $mockTag->expects($this->once())->method('process')->with([], 'goodbye')
             ->willReturn(['foo' => ['desc' => 'bye']]);
 
         $tag = new MultiTag('foos', $mockTag, 'name');
-        
+
         $this->expectException(PhpdocException::class);
         $this->expectExceptionMessage("Unable to add '@foo goodbye' tag: No name");
 
@@ -106,8 +106,8 @@ class MultiTagTest extends TestCase
 
     public function testProcessKeyDuplicate()
     {
-        /** @var MockObject|TagInterface $mockTag */
-        $mockTag = $this->createConfiguredMock(TagInterface::class, ['getName' => 'foo']);
+        /** @var MockObject|Tag $mockTag */
+        $mockTag = $this->createConfiguredMock(Tag::class, ['getName' => 'foo']);
         $mockTag->expects($this->once())->method('process')->with([], 'goodbye')
             ->willReturn(['foo' => ['name' => 'one', 'desc' => 'bye']]);
 

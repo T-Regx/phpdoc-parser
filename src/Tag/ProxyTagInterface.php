@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jasny\PhpdocParser\Tag;
 
-use Jasny\PhpdocParser\TagInterface;
+use Jasny\PhpdocParser\Tag;
 
 interface ProxyTagInterface
 {
-    public function getTag(): TagInterface;
+    public function getTag(): Tag;
 }

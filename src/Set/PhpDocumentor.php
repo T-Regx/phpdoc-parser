@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jasny\PhpdocParser\Set;
 
 use Jasny\PhpdocParser\PredefinedSetInterface;
+use Jasny\PhpdocParser\Tag;
 use Jasny\PhpdocParser\Tag\DescriptionTag;
 use Jasny\PhpdocParser\Tag\FlagTag;
 use Jasny\PhpdocParser\Tag\ModifyTag;
@@ -15,7 +16,6 @@ use Jasny\PhpdocParser\Tag\PhpDocumentor\TypeTag;
 use Jasny\PhpdocParser\Tag\PhpDocumentor\VarTag;
 use Jasny\PhpdocParser\Tag\RegExpTag;
 use Jasny\PhpdocParser\Tag\WordTag;
-use Jasny\PhpdocParser\TagInterface;
 use Jasny\PhpdocParser\TagSet;
 
 class PhpDocumentor implements PredefinedSetInterface
@@ -60,7 +60,7 @@ class PhpDocumentor implements PredefinedSetInterface
         ]);
     }
 
-    protected static function fqsen(TagInterface $tag, ?callable $fqsenConvertor): TagInterface
+    protected static function fqsen(Tag $tag, ?callable $fqsenConvertor): Tag
     {
         return isset($fqsenConvertor) ? new ModifyTag($tag, $fqsenConvertor) : $tag;
     }

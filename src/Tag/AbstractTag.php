@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Jasny\PhpdocParser\Tag;
 
-use Jasny\PhpdocParser\TagInterface;
+use Jasny\PhpdocParser\Tag;
 
-abstract class AbstractTag implements TagInterface
+abstract class AbstractTag implements Tag
 {
     /** @var string */
     protected $name;

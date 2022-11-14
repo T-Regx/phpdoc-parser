@@ -2,8 +2,8 @@
 
 namespace Jasny\PhpdocParser\Tests\Tag;
 
+use Jasny\PhpdocParser\Tag;
 use Jasny\PhpdocParser\Tag\ModifyTag;
-use Jasny\PhpdocParser\TagInterface;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -15,8 +15,8 @@ class ModifyTagTest extends TestCase
 {
     public function testGetName()
     {
-        /** @var MockObject|TagInterface $mockTag */
-        $mockTag = $this->createConfiguredMock(TagInterface::class, ['getName' => 'foo']);
+        /** @var MockObject|Tag $mockTag */
+        $mockTag = $this->createConfiguredMock(Tag::class, ['getName' => 'foo']);
 
         $tag = new ModifyTag($mockTag, function () {
         });
@@ -26,8 +26,8 @@ class ModifyTagTest extends TestCase
 
     public function testGetTag()
     {
-        /** @var MockObject|TagInterface $mockTag */
-        $mockTag = $this->createMock(TagInterface::class);
+        /** @var MockObject|Tag $mockTag */
+        $mockTag = $this->createMock(Tag::class);
 
         $tag = new ModifyTag($mockTag, function () {
         });
@@ -37,8 +37,8 @@ class ModifyTagTest extends TestCase
 
     public function testProcess()
     {
-        /** @var MockObject|TagInterface $mockTag */
-        $mockTag = $this->createMock(TagInterface::class);
+        /** @var MockObject|Tag $mockTag */
+        $mockTag = $this->createMock(Tag::class);
         $mockTag->expects($this->once())->method('process')->with([], 'one two')
             ->willReturn(['foo' => 42]);
 

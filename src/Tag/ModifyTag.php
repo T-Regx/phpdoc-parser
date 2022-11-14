@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Jasny\PhpdocParser\Tag;
 
-use Jasny\PhpdocParser\TagInterface;
+use Jasny\PhpdocParser\Tag;
 
-class ModifyTag implements TagInterface, ProxyTagInterface
+class ModifyTag implements Tag, ProxyTagInterface
 {
-    /** @var TagInterface */
+    /** @var Tag */
     protected $tag;
     /** @var callable */
     protected $logic;
 
-    public function __construct(TagInterface $tag, callable $logic)
+    public function __construct(Tag $tag, callable $logic)
     {
         $this->tag = $tag;
         $this->logic = $logic;
@@ -24,7 +24,7 @@ class ModifyTag implements TagInterface, ProxyTagInterface
         return $this->tag->getName();
     }
 
-    public function getTag(): TagInterface
+    public function getTag(): Tag
     {
         return $this->tag;
     }

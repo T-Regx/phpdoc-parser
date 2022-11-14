@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\PhpdocException;
-use Jasny\PhpdocParser\TagInterface;
+use Jasny\PhpdocParser\Tag;
 
-class MultiTag implements TagInterface, ProxyTagInterface
+class MultiTag implements Tag, ProxyTagInterface
 {
     /** @var string */
     protected $key;
 
-    /** @var TagInterface */
+    /** @var Tag */
     protected $tag;
 
     /** @var string|null */
@@ -20,10 +20,10 @@ class MultiTag implements TagInterface, ProxyTagInterface
 
     /**
      * @param string $key Notation key
-     * @param TagInterface $tag Representation of a single tag
+     * @param Tag $tag Representation of a single tag
      * @param string|null $index Item key to index by
      */
-    public function __construct(string $key, TagInterface $tag, ?string $index = null)
+    public function __construct(string $key, Tag $tag, ?string $index = null)
     {
         $this->key = $key;
         $this->tag = $tag;
@@ -40,7 +40,7 @@ class MultiTag implements TagInterface, ProxyTagInterface
         return $this->tag->getName();
     }
 
-    public function getTag(): TagInterface
+    public function getTag(): Tag
     {
         return $this->tag;
     }

@@ -2,9 +2,8 @@
 
 namespace Jasny\PhpdocParser\Tests\Set;
 
-use Jasny\PhpdocParser\TagSet;
-use Jasny\PhpdocParser\TagInterface;
 use Jasny\PhpdocParser\Set\PhpDocumentor;
+use Jasny\PhpdocParser\TagSet;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jasny\PhpdocParser;
 
-interface TagInterface
+interface Tag
 {
     public function getName(): string;
 
