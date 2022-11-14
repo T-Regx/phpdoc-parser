@@ -2,32 +2,41 @@
 
 namespace Jasny\PhpdocParser\Tests\Tag;
 
-use Jasny\PhpdocParser\Tag\Summery;
+use Jasny\PhpdocParser\Tag\Summary;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Jasny\PhpdocParser\Tag\Summery
+ * @covers \Jasny\PhpdocParser\Tag\Summary
  * @covers \Jasny\PhpdocParser\Tag\AbstractTag
  */
-class SummeryTest extends TestCase
+class SummaryTest extends TestCase
 {
     /**
-     * Test 'getName' method
+     * @test
      */
     public function testGetName()
     {
-        $tag = new Summery();
-        $result = $tag->getName();
-
-        $this->assertSame('summery', $result);
+        // given
+        $tag = new Summary();
+        // when, then
+        $this->assertSame('summery', $tag->getName());
     }
 
     /**
-     * Provide data for testing 'process' method
-     *
-     * @return array
+     * @test
+     * @dataProvider processProvider
      */
-    public function processProvider()
+    public function testProcess($doc, $expected)
+    {
+        // given
+        $tag = new Summary();
+        // when
+        $result = $tag->process(['some' => 'value'], $doc);
+        // then
+        $this->assertSame($expected, $result);
+    }
+
+    public function processProvider(): array
     {
         $doc1 = <<<DOC
 /**
@@ -121,18 +130,4 @@ DOC;
             ],
         ];
     }
-
-    /**
-     * Test 'process' method
-     *
-     * @dataProvider processProvider
-     */
-    public function testProcess($doc, $expected)
-    {
-        $tag = new Summery();
-        $result = $tag->process(['some' => 'value'], $doc);
-
-        $this->assertSame($expected, $result);
-    }
 }
-

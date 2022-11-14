@@ -7,7 +7,7 @@ namespace Jasny\PhpdocParser\Tag;
 /**
  * General doc-block summery and description
  */
-class Summery extends AbstractTag
+class Summary extends AbstractTag
 {
     public function __construct()
     {
