@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jasny\PhpdocParser\Tag\PhpDocumentor;
 
 use Jasny\PhpdocParser\Tag\AbstractTag;
-use Jasny\PhpdocParser\notation;
 use function Jasny\array_only;
 
 /**

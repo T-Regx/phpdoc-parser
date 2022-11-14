@@ -19,10 +19,8 @@ class TypeTag extends AbstractTag
     protected $fqsenConvertor;
 
     /**
-     * WordTag constructor.
-     *
-     * @param string      $name
-     * @param callable|null $fqsenConvertor  Logic to convert class to FQCN
+     * @param string $name
+     * @param callable|null $fqsenConvertor Logic to convert class to FQCN
      */
     public function __construct(string $name, ?callable $fqsenConvertor = null)
     {
@@ -31,13 +29,6 @@ class TypeTag extends AbstractTag
         $this->fqsenConvertor = $fqsenConvertor;
     }
 
-    /**
-     * Process a notation.
-     *
-     * @param array  $notations
-     * @param string $value
-     * @return array
-     */
     public function process(array $notations, string $value): array
     {
         if ($value === '') {
@@ -54,11 +45,6 @@ class TypeTag extends AbstractTag
         return $notations;
     }
 
-    /**
-     * Process type parameter
-     *
-     * @param array $data
-     */
     protected function processType(array &$data): void
     {
         if (isset($data['type']) && $this->fqsenConvertor !== null) {

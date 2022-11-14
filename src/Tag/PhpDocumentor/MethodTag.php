@@ -4,25 +4,18 @@ declare(strict_types=1);
 
 namespace Jasny\PhpdocParser\Tag\PhpDocumentor;
 
-use Jasny\PhpdocParser\Tag\AbstractTag;
 use Jasny\PhpdocParser\PhpdocException;
+use Jasny\PhpdocParser\Tag\AbstractTag;
 use function Jasny\array_only as array_only;
 
-/**
- * Custom logic for PhpDocumentor 'method' tag
- */
 class MethodTag extends AbstractTag
 {
-    /**
-     * @var callable|null
-     */
+    /** @var callable|null */
     protected $fqsenConvertor;
 
     /**
-     * Class constructor.
-     *
-     * @param string        $name            Tag name
-     * @param callable|null $fqsenConvertor  Logic to convert class to FQCN
+     * @param string $name Tag name
+     * @param callable|null $fqsenConvertor Logic to convert class to FQCN
      */
     public function __construct(string $name, ?callable $fqsenConvertor = null)
     {
@@ -31,13 +24,6 @@ class MethodTag extends AbstractTag
         $this->fqsenConvertor = $fqsenConvertor;
     }
 
-    /**
-     * Process a notation.
-     *
-     * @param array  $notations
-     * @param string $value
-     * @return array
-     */
     public function process(array $notations, string $value): array
     {
         $regexp = '/^(?:(?<return_type>\S+)\s+)?(?<name>\w+)\((?<params>[^\)]+)?\)(?:\s+(?<description>.*))?/';
@@ -58,17 +44,10 @@ class MethodTag extends AbstractTag
         return $notations;
     }
 
-    /**
-     * Process parameters from method notation
-     *
-     * @param string $value  Input value
-     * @param string $raw    Parameters string
-     * @return array
-     */
-    protected function processParams(string $value, string $raw): array
+    protected function processParams(string $value, string $parametersString): array
     {
         $params = [];
-        $rawParams = preg_split('/\s*,\s*/', $raw);
+        $rawParams = preg_split('/\s*,\s*/', $parametersString);
 
         $regexp = '/^(?:(?<type>[^$]+)\s+)?\$(?<name>\w+)(?:\s*=\s*(?<default>"[^"]+"|\[[^\]]+\]|[^,]+))?$/';
 
@@ -77,8 +56,8 @@ class MethodTag extends AbstractTag
                 throw new PhpdocException("Failed to parse '@{$this->name} {$value}': invalid syntax");
             }
 
-            $this->processParamType($param);
-            $this->processParamDefault($param);
+            $this->processParamTypeProperty($param);
+            $this->processParamDefaultProperty($param);
 
             $params[$param['name']] = array_only($param, ['type', 'name', 'default']);
         }
@@ -86,13 +65,7 @@ class MethodTag extends AbstractTag
         return $params;
     }
 
-    /**
-     * Process type property of parameter
-     *
-     * @param array $param
-     * @return void
-     */
-    protected function processParamType(array &$param): void
+    protected function processParamTypeProperty(array &$param): void
     {
         if (isset($param['type']) && $param['type'] === '') {
             unset($param['type']);
@@ -103,13 +76,7 @@ class MethodTag extends AbstractTag
         }
     }
 
-    /**
-     * Process default property of parameter
-     *
-     * @param array $param
-     * @return void
-     */
-    protected function processParamDefault(array &$param): void
+    protected function processParamDefaultProperty(array &$param): void
     {
         if (isset($param['default'])) {
             $param['default'] = trim($param['default'], '"\'');

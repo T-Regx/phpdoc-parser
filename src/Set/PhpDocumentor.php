@@ -5,37 +5,23 @@ declare(strict_types=1);
 namespace Jasny\PhpdocParser\Set;
 
 use Jasny\PhpdocParser\PredefinedSetInterface;
+use Jasny\PhpdocParser\Tag\DescriptionTag;
+use Jasny\PhpdocParser\Tag\FlagTag;
+use Jasny\PhpdocParser\Tag\ModifyTag;
 use Jasny\PhpdocParser\Tag\MultiTag;
 use Jasny\PhpdocParser\Tag\PhpDocumentor\ExampleTag;
 use Jasny\PhpdocParser\Tag\PhpDocumentor\MethodTag;
-use Jasny\PhpdocParser\Tag\PhpDocumentor\VarTag;
 use Jasny\PhpdocParser\Tag\PhpDocumentor\TypeTag;
-use Jasny\PhpdocParser\TagInterface;
-use Jasny\PhpdocParser\TagSet;
-use Jasny\PhpdocParser\Tag\ModifyTag;
-use Jasny\PhpdocParser\Tag\DescriptionTag;
-use Jasny\PhpdocParser\Tag\FlagTag;
+use Jasny\PhpdocParser\Tag\PhpDocumentor\VarTag;
 use Jasny\PhpdocParser\Tag\RegExpTag;
 use Jasny\PhpdocParser\Tag\WordTag;
+use Jasny\PhpdocParser\TagInterface;
+use Jasny\PhpdocParser\TagSet;
 
-/**
- * PhpDocumentor definitions
- * @static
- */
 class PhpDocumentor implements PredefinedSetInterface
 {
     /**
-     * Disable instantiation.
-     * @codeCoverageIgnore
-     */
-    private function __construct()
-    {
-    }
-
-    /**
-     * Get the tags
-     *
-     * @param callable|null $fqsenConvertor  Logic to convert class to FQCN
+     * @param callable|null $fqsenConvertor Logic to convert class to FQCN
      * @return TagSet
      */
     public static function tags(?callable $fqsenConvertor = null): TagSet
@@ -74,13 +60,6 @@ class PhpDocumentor implements PredefinedSetInterface
         ]);
     }
 
-    /**
-     * Apply FQCN converter if available
-     *
-     * @param TagInterface  $tag
-     * @param callable|null $fqsenConvertor
-     * @return TagInterface
-     */
     protected static function fqsen(TagInterface $tag, ?callable $fqsenConvertor): TagInterface
     {
         return isset($fqsenConvertor) ? new ModifyTag($tag, $fqsenConvertor) : $tag;

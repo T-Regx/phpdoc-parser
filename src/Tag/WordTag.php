@@ -6,23 +6,17 @@ namespace Jasny\PhpdocParser\Tag;
 
 use function Jasny\expect_type;
 use function Jasny\str_before;
-use function Jasny\str_starts_with;
 
 /**
  * Only use the first word after the tag, ignoring the rest
  */
 class WordTag extends AbstractTag
 {
-    /**
-     * Default value if no value is given for tag
-     * @var string|bool
-     */
+    /** @var string|bool */
     protected $default;
 
     /**
-     * WordTag constructor.
-     *
-     * @param string      $name
+     * @param string $name
      * @param string|bool $default
      */
     public function __construct(string $name, $default = '')
@@ -33,24 +27,11 @@ class WordTag extends AbstractTag
         $this->default = $default;
     }
 
-    /**
-     * Return default if no value is specified
-     *
-     * @return string|bool
-     */
     public function getDefault()
     {
         return $this->default;
     }
 
-
-    /**
-     * Process a notation.
-     *
-     * @param array  $notations
-     * @param string $value
-     * @return array
-     */
     public function process(array $notations, string $value): array
     {
         if ($value === '') {

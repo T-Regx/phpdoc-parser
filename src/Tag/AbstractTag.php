@@ -6,31 +6,16 @@ namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\TagInterface;
 
-/**
- * Base class for tags
- */
 abstract class AbstractTag implements TagInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $name;
 
-    /**
-     * Class constructor.
-     *
-     * @param string $name  Tag name
-     */
-    public function __construct(string $name)
+    public function __construct(string $tagName)
     {
-        $this->name = $name;
+        $this->name = $tagName;
     }
 
-    /**
-     * Get the tag name
-     *
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;

@@ -5,12 +5,8 @@ declare(strict_types=1);
 namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\PhpdocException;
-
 use function Jasny\str_starts_with;
 
-/**
- * Base class for array type tags
- */
 abstract class AbstractArrayTag extends AbstractTag
 {
     /**
@@ -20,25 +16,20 @@ abstract class AbstractArrayTag extends AbstractTag
     public $type;
 
     /**
-     * Class constructor.
-     *
      * @param string $name
-     * @param string $type   ('string', 'int', 'float')
+     * @param string $type ('string', 'int', 'float')
      */
     public function __construct(string $name, string $type = 'string')
     {
-        if (!in_array($type, ['string', 'int', 'float'], true)) {
+        if (in_array($type, ['string', 'int', 'float'], true)) {
+            parent::__construct($name);
+            $this->type = $type;
+        } else {
             throw new \InvalidArgumentException("Invalid type '$type'");
         }
-
-        parent::__construct($name);
-
-        $this->type = $type;
     }
 
     /**
-     * Get the value type
-     *
      * @return string  ('string', 'int', 'float')
      */
     public function getType(): string
@@ -49,7 +40,7 @@ abstract class AbstractArrayTag extends AbstractTag
     /**
      * Process the notation
      *
-     * @param array  $notations
+     * @param array $notations
      * @param string $value
      * @return array
      */
@@ -80,27 +71,14 @@ abstract class AbstractArrayTag extends AbstractTag
         return $notations;
     }
 
-    /**
-     * Strip parentheses from value
-     *
-     * @param string $value
-     * @return null|string|string[]
-     */
-    protected function stripParentheses(string $value)
+    protected function stripParentheses(string $value): string
     {
         return str_starts_with($value, '(')
             ? preg_replace('/^\(((?:"(?:[^"]++|\\\\.)*"|\'(?:[^\']++|\\\\.)*\'|[^\)]++|\))*)\).*$/', '$1', $value)
             : $value;
     }
 
-    /**
-     * Split value into items.
-     *
-     * @param string $value
-     * @return array
-     */
     abstract protected function splitValue(string $value): array;
-
 
     /**
      * Get regular expression to extract the value

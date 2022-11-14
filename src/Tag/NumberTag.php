@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\PhpdocException;
-
 use function Jasny\expect_type;
 
 /**
@@ -13,26 +12,18 @@ use function Jasny\expect_type;
  */
 class NumberTag extends AbstractTag
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public $type;
 
-    /**
-     * @var int|float
-     */
+    /** @var int|float */
     public $min;
 
-    /**
-     * @var int|float
-     */
+    /** @var int|float */
     public $max;
 
     /**
-     * NumberTag constructor.
-     *
-     * @param string    $name
-     * @param string    $type  ('int', 'float')
+     * @param string $name
+     * @param string $type ('int', 'float')
      * @param int|float $min
      * @param int|float $max
      */
@@ -56,13 +47,6 @@ class NumberTag extends AbstractTag
         $this->max = $max;
     }
 
-    /**
-     * Process an notation.
-     *
-     * @param array  $notations
-     * @param string $value
-     * @return array
-     */
     public function process(array $notations, string $value): array
     {
         [$word] = explode(' ', $value, 2);

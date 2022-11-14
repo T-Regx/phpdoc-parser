@@ -4,26 +4,16 @@ declare(strict_types=1);
 
 namespace Jasny\PhpdocParser\Tag\PhpDocumentor;
 
-use Jasny\PhpdocParser\Tag\AbstractTag;
 use Jasny\PhpdocParser\PhpdocException;
+use Jasny\PhpdocParser\Tag\AbstractTag;
 use function Jasny\array_only;
 
-/**
- * Custom logic for PhpDocumentor 'example' tag
- */
 class ExampleTag extends AbstractTag
 {
-    /**
-     * Process a notation.
-     *
-     * @param array  $notations
-     * @param string $value
-     * @return array
-     */
     public function process(array $notations, string $value): array
     {
         $regexp = '/^(?<location>(?:[^"]\S*|"[^"]+"))(?:\s*(?<start_line>\d+)'
-          . '(?:\s*(?<number_of_lines>\d+))?)?(?:\s*(?<description>.+))?/';
+            . '(?:\s*(?<number_of_lines>\d+))?)?(?:\s*(?<description>.+))?/';
 
         if (!preg_match($regexp, $value, $matches)) {
             throw new PhpdocException("Failed to parse '@{$this->name} $value': invalid syntax");
@@ -37,11 +27,6 @@ class ExampleTag extends AbstractTag
         return $notations;
     }
 
-    /**
-     * Normalize parsed values
-     *
-     * @param array $values
-     */
     protected function normalizeValues(array &$values): void
     {
         $values['location'] = trim($values['location'], '"');

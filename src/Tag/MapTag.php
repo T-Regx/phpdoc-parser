@@ -11,17 +11,11 @@ use Jasny\PhpdocParser\PhpdocException;
  */
 class MapTag extends AbstractArrayTag
 {
-    /**
-     * Split value into items.
-     *
-     * @param string $value
-     * @return array
-     */
     protected function splitValue(string $value): array
     {
         $regexpKey = '(?:\'(?:[^\']++|\\\\.)*\'|"(?:[^"]++|\\\\.)*"|[^,\'"\=]++|[\'"])*';
         $regexpValue = '\'(?:[^\']++|\\\\.)*\'|(?:"(?:[^"]++|\\\\.)*"|[^,\'"]+|[\'"])*';
-        $regexp = '/(?<=^|,)(?:(?<key>' . $regexpKey . ')\s*=\s*)?(?<value>' . $regexpValue. ')\s*/';
+        $regexp = '/(?<=^|,)(?:(?<key>' . $regexpKey . ')\s*=\s*)?(?<value>' . $regexpValue . ')\s*/';
 
         preg_match_all($regexp, $value, $matches, PREG_PATTERN_ORDER); // regex can't fail
 
