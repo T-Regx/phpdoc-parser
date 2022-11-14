@@ -11,12 +11,11 @@
     }
   ],
   "require": {
-    "php": ">=7.4.0",
-    "jasny/php-functions": "^3.3"
+    "php": "~8.0.0 | >=7.1.0",
+    "jasny/php-functions": "3.2"
   },
   "require-dev": {
-    "jasny/php-code-quality": "~2.7.0",
-    "phpunit/phpunit": ">= 9.0.0"
+    "phpunit/phpunit": "^9.5.4 || ^8.0 || ^7.5"
   },
   "autoload": {
     "psr-4": {
@@ -29,17 +28,6 @@
     }
   },
   "scripts": {
-    "test": [
-      "phpstan analyse",
-      "phpunit --testdox --colors=always",
-      "phpcs -p src"
-    ]
-  },
-  "config": {
-    "preferred-install": "dist",
-    "sort-packages": true,
-    "optimize-autoloader": true
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+    "test": "phpunit"
+  }
 }
