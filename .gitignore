@@ -2,8 +2,10 @@
 .idea/
 *.iml
 
+# Composer
 /vendor/
 composer.lock
+composer.phar
 
 # PhpUnit
 .phpunit.result.cache
