@@ -5,19 +5,20 @@ declare(strict_types=1);
 namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\PhpdocException;
+use Jasny\PhpdocParser\Tag;
 use function Jasny\expect_type;
 
 /**
  * Only use the first word (that should be a number) after the tag, ignoring the rest
  */
-class NumberTag extends AbstractTag
+class NumberTag implements Tag
 {
     /** @var string */
+    protected $name;
+    /** @var string */
     public $type;
-
     /** @var int|float */
     public $min;
-
     /** @var int|float */
     public $max;
 
@@ -29,6 +30,7 @@ class NumberTag extends AbstractTag
      */
     public function __construct(string $name, string $type = 'int', $min = 0, $max = INF)
     {
+        $this->name = $name;
         if (!in_array($type, ['int', 'integer', 'float'], true)) {
             throw new PhpdocException("NumberTag should be of type int or float, $type given");
         }
@@ -39,8 +41,6 @@ class NumberTag extends AbstractTag
         if ($min > $max) {
             throw new PhpdocException("Min value (given $min) should be less than max (given $max)");
         }
-
-        parent::__construct($name);
 
         $this->type = $type;
         $this->min = $min;
@@ -70,5 +70,10 @@ class NumberTag extends AbstractTag
         $notations[$this->name] = $word + 0;
 
         return $notations;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

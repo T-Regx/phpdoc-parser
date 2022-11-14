@@ -2,13 +2,12 @@
 
 namespace Jasny\PhpdocParser\Tests\Tag\PhpDocumentor;
 
-use Jasny\PhpdocParser\Tag\PhpDocumentor\MethodTag;
 use Jasny\PhpdocParser\PhpdocException;
+use Jasny\PhpdocParser\Tag\PhpDocumentor\MethodTag;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Jasny\PhpdocParser\Tag\PhpDocumentor\MethodTag
- * @covers \Jasny\PhpdocParser\Tag\AbstractTag
  */
 class MethodTagTest extends TestCase
 {

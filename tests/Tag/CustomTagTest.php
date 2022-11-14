@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Jasny\PhpdocParser\Tag\CustomTag
- * @covers \Jasny\PhpdocParser\Tag\AbstractTag
  */
 class CustomTagTest extends TestCase
 {

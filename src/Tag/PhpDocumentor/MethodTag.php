@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Jasny\PhpdocParser\Tag\PhpDocumentor;
 
 use Jasny\PhpdocParser\PhpdocException;
-use Jasny\PhpdocParser\Tag\AbstractTag;
+use Jasny\PhpdocParser\Tag;
 use function Jasny\array_only as array_only;
 
-class MethodTag extends AbstractTag
+class MethodTag implements Tag
 {
+    /** @var string */
+    private $name;
     /** @var callable|null */
     protected $fqsenConvertor;
 
@@ -19,8 +21,7 @@ class MethodTag extends AbstractTag
      */
     public function __construct(string $name, ?callable $fqsenConvertor = null)
     {
-        parent::__construct($name);
-
+        $this->name = $name;
         $this->fqsenConvertor = $fqsenConvertor;
     }
 
@@ -81,5 +82,10 @@ class MethodTag extends AbstractTag
         if (isset($param['default'])) {
             $param['default'] = trim($param['default'], '"\'');
         }
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\PhpdocException;
+use Jasny\PhpdocParser\Tag;
 use function Jasny\str_starts_with;
 
-abstract class AbstractArrayTag extends AbstractTag
+abstract class AbstractArrayTag implements Tag
 {
-    /**
-     * @var string
-     * @enum 'string', 'int', 'float'
-     */
+    /** @var string */
+    protected $name;
+    /** @var string */
     public $type;
 
     /**
@@ -22,11 +22,16 @@ abstract class AbstractArrayTag extends AbstractTag
     public function __construct(string $name, string $type = 'string')
     {
         if (in_array($type, ['string', 'int', 'float'], true)) {
-            parent::__construct($name);
+            $this->name = $name;
             $this->type = $type;
         } else {
             throw new \InvalidArgumentException("Invalid type '$type'");
         }
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     /**

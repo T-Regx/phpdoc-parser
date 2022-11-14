@@ -4,16 +4,24 @@ declare(strict_types=1);
 
 namespace Jasny\PhpdocParser\Tag;
 
-class CustomTag extends AbstractTag
+use Jasny\PhpdocParser\Tag;
+
+class CustomTag implements Tag
 {
+    /** @var string */
+    private $name;
     /** @var callable */
     protected $process;
 
     public function __construct(string $name, callable $process)
     {
-        parent::__construct($name);
-
+        $this->name = $name;
         $this->process = $process;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function process(array $notations, string $value): array

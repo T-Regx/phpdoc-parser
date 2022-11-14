@@ -5,11 +5,24 @@ declare(strict_types=1);
 namespace Jasny\PhpdocParser\Tag\PhpDocumentor;
 
 use Jasny\PhpdocParser\PhpdocException;
-use Jasny\PhpdocParser\Tag\AbstractTag;
+use Jasny\PhpdocParser\Tag;
 use function Jasny\array_only;
 
-class ExampleTag extends AbstractTag
+class ExampleTag implements Tag
 {
+    /** @var string */
+    protected $name;
+
+    public function __construct(string $tagName)
+    {
+        $this->name = $tagName;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
     public function process(array $notations, string $value): array
     {
         $regexp = '/^(?<location>(?:[^"]\S*|"[^"]+"))(?:\s*(?<start_line>\d+)'

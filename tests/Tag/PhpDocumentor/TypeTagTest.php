@@ -2,13 +2,12 @@
 
 namespace Jasny\PhpdocParser\Tests\Tag\PhpDocumentor;
 
-use Jasny\PhpdocParser\Tag\PhpDocumentor\TypeTag;
 use Jasny\PhpdocParser\PhpdocException;
+use Jasny\PhpdocParser\Tag\PhpDocumentor\TypeTag;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Jasny\PhpdocParser\Tag\PhpDocumentor\TypeTag
- * @covers \Jasny\PhpdocParser\Tag\AbstractTag
  */
 class TypeTagTest extends TestCase
 {

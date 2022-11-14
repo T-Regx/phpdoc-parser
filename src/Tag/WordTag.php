@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Jasny\PhpdocParser\Tag;
 
+use Jasny\PhpdocParser\Tag;
 use function Jasny\expect_type;
 use function Jasny\str_before;
 
 /**
  * Only use the first word after the tag, ignoring the rest
  */
-class WordTag extends AbstractTag
+class WordTag implements Tag
 {
+    /** @var string */
+    private $name;
     /** @var string|bool */
     protected $default;
 
@@ -21,7 +24,7 @@ class WordTag extends AbstractTag
      */
     public function __construct(string $name, $default = '')
     {
-        parent::__construct($name);
+        $this->name = $name;
 
         expect_type($default, ['string', 'bool']);
         $this->default = $default;
@@ -47,5 +50,10 @@ class WordTag extends AbstractTag
         $notations[$this->name] = $word;
 
         return $notations;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

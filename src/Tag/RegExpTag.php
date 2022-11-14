@@ -5,16 +5,18 @@ declare(strict_types=1);
 namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\PhpdocException;
+use Jasny\PhpdocParser\Tag;
 
-class RegExpTag extends AbstractTag
+class RegExpTag implements Tag
 {
+    /** @var string */
+    private $name;
     /** @var string */
     protected $regexp;
 
     public function __construct(string $name, string $regexp)
     {
-        parent::__construct($name);
-
+        $this->name = $name;
         $this->regexp = $regexp;
     }
 
@@ -30,5 +32,10 @@ class RegExpTag extends AbstractTag
         }
         $notations[$this->name] = $matches;
         return $notations;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

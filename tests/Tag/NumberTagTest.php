@@ -9,7 +9,6 @@ use TypeError;
 
 /**
  * @covers \Jasny\PhpdocParser\Tag\NumberTag
- * @covers \Jasny\PhpdocParser\Tag\AbstractTag
  */
 class NumberTagTest extends TestCase
 {

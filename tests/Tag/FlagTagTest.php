@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Jasny\PhpdocParser\Tag\FlagTag
- * @covers \Jasny\PhpdocParser\Tag\AbstractTag
  */
 class FlagTagTest extends TestCase
 {

@@ -2,13 +2,12 @@
 
 namespace Jasny\PhpdocParser\Tests\Tag;
 
-use PHPUnit\Framework\TestCase;
-use Jasny\PhpdocParser\Tag\RegExpTag;
 use Jasny\PhpdocParser\PhpdocException;
+use Jasny\PhpdocParser\Tag\RegExpTag;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Jasny\PhpdocParser\Tag\RegExpTag
- * @covers \Jasny\PhpdocParser\Tag\AbstractTag
  */
 class RegExpTagTest extends TestCase
 {

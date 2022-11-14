@@ -4,16 +4,10 @@ declare(strict_types=1);
 
 namespace Jasny\PhpdocParser\Tag;
 
-/**
- * General doc-block summery and description
- */
-class Summary extends AbstractTag
-{
-    public function __construct()
-    {
-        parent::__construct('summery');
-    }
+use Jasny\PhpdocParser\Tag;
 
+class Summary implements Tag
+{
     public function process(array $notations, string $value): array
     {
         preg_match_all('/^\s*(?:(?:\/\*)?\*\s*)?([^@\s\/*].*?)\r?$/m', $value, $matches, PREG_PATTERN_ORDER);
@@ -28,5 +22,10 @@ class Summary extends AbstractTag
         $notations['description'] = implode("\n", $matches);
 
         return $notations;
+    }
+
+    public function getName(): string
+    {
+        return 'summery';
     }
 }

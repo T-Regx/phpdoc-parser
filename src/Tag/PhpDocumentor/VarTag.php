@@ -4,56 +4,33 @@ declare(strict_types=1);
 
 namespace Jasny\PhpdocParser\Tag\PhpDocumentor;
 
-use Jasny\PhpdocParser\Tag\AbstractTag;
+use Jasny\PhpdocParser\Tag;
 use function Jasny\array_only;
 
 /**
  * Custom logic for PhpDocumentor 'var', 'param' and 'property' tag
  */
-class VarTag extends AbstractTag
+class VarTag implements Tag
 {
-    /**
-     * @var array
-     */
+    /** @var string */
+    private $name;
+    /** @var array */
     protected $additional;
-
-    /**
-     * @var callable|null
-     */
+    /** @var callable|null */
     protected $fqsenConvertor;
 
-    /**
-     * Class constructor.
-     *
-     * @param string        $name            Tag name
-     * @param callable|null $fqsenConvertor  Logic to convert class to FQCN
-     * @param array         $additional      Additional properties
-     */
-    public function __construct(string $name, ?callable $fqsenConvertor = null, array $additional = [])
+    public function __construct(string $tagName, ?callable $fqsenConvertor = null, array $additional = [])
     {
-        parent::__construct($name);
-
+        $this->name = $tagName;
         $this->fqsenConvertor = $fqsenConvertor;
         $this->additional = $additional;
     }
 
-    /**
-     * Get additional properties that are always applied.
-     *
-     * @return array
-     */
     public function getAdditionalProperties(): array
     {
         return $this->additional;
     }
 
-    /**
-     * Process a notation.
-     *
-     * @param array  $notations
-     * @param string $value
-     * @return array
-     */
     public function process(array $notations, string $value): array
     {
         $regexp = '/^(?:(?<type>[^$\s]+)\s*)?(?:\$(?<name>\w+)\s*)?(?:"(?<id>[^"]+)"\s*)?(?:(?<description>.+))?/';
@@ -72,11 +49,6 @@ class VarTag extends AbstractTag
         return $notations;
     }
 
-    /**
-     * Remove empty values from parsed data
-     *
-     * @param array $props
-     */
     protected function removeEmptyValues(array &$props): void
     {
         foreach (['type', 'name', 'id'] as $name) {
@@ -84,5 +56,10 @@ class VarTag extends AbstractTag
                 unset($props[$name]);
             }
         }
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

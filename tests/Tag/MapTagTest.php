@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 /**
  * @covers \Jasny\PhpdocParser\Tag\MapTag
  * @covers \Jasny\PhpdocParser\Tag\AbstractArrayTag
- * @covers \Jasny\PhpdocParser\Tag\AbstractTag
  */
 class MapTagTest extends TestCase
 {

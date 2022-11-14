@@ -7,12 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Jasny\PhpdocParser\Tag\PhpDocumentor\VarTag
- * @covers \Jasny\PhpdocParser\Tag\AbstractTag
  */
 class VarTagTest extends TestCase
 {
     /**
-     * Test 'getAdditionalProperties' method
+     * @test
      */
     public function testGetAdditionalProperties()
     {
@@ -23,12 +22,7 @@ class VarTagTest extends TestCase
         $this->assertSame($additional, $result);
     }
 
-    /**
-     * Provide data for testing 'process' method
-     *
-     * @return array
-     */
-    public function processProvider()
+    public function processProvider(): array
     {
         return [
             [
@@ -85,7 +79,7 @@ class VarTagTest extends TestCase
             ],
             [
                 'Foo $amount "some id" Some description here',
-                function($class) {
+                function ($class) {
                     return 'some_namespace\\' . $class;
                 },
                 ['any' => 'adds', 'little' => 'rats'],
@@ -105,8 +99,7 @@ class VarTagTest extends TestCase
     }
 
     /**
-     * Test 'process' method
-     *
+     * @test
      * @dataProvider processProvider
      */
     public function testProcess($value, $fqsenConvertor, $additional, $expected)

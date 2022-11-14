@@ -2,14 +2,13 @@
 
 namespace Jasny\PhpdocParser\Tests\Tag;
 
-use PHPUnit\Framework\TestCase;
-use Jasny\PhpdocParser\Tag\ArrayTag;
 use Jasny\PhpdocParser\PhpdocException;
+use Jasny\PhpdocParser\Tag\ArrayTag;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Jasny\PhpdocParser\Tag\ArrayTag
  * @covers \Jasny\PhpdocParser\Tag\AbstractArrayTag
- * @covers \Jasny\PhpdocParser\Tag\AbstractTag
  */
 class ArrayTagTest extends TestCase
 {

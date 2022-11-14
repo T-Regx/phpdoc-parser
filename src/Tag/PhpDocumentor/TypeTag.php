@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Jasny\PhpdocParser\Tag\PhpDocumentor;
 
 use Jasny\PhpdocParser\PhpdocException;
-use Jasny\PhpdocParser\Tag\AbstractTag;
+use Jasny\PhpdocParser\Tag;
 use function Jasny\array_only;
 
 /**
  * Use the first word of tag as type, the rest as desciption
  */
-class TypeTag extends AbstractTag
+class TypeTag implements Tag
 {
-    /**
-     * @var callable|null
-     */
+    /** @var string */
+    private $name;
+    /** @var callable|null */
     protected $fqsenConvertor;
 
     /**
@@ -24,7 +24,7 @@ class TypeTag extends AbstractTag
      */
     public function __construct(string $name, ?callable $fqsenConvertor = null)
     {
-        parent::__construct($name);
+        $this->name = $name;
 
         $this->fqsenConvertor = $fqsenConvertor;
     }
@@ -35,7 +35,7 @@ class TypeTag extends AbstractTag
             throw new PhpdocException("Failed to parse '@{$this->name}': tag value should not be empty");
         }
 
-        $match = preg_match('/^(?<type>\S+)(?:\s+(?<description>.*))?/', $value, $data); //regexp won't fail
+        preg_match('/^(?<type>\S+)(?:\s+(?<description>.*))?/', $value, $data); //regexp won't fail
 
         $this->processType($data);
         $data = array_only($data, ['type', 'description']);
@@ -50,5 +50,10 @@ class TypeTag extends AbstractTag
         if (isset($data['type']) && $this->fqsenConvertor !== null) {
             $data['type'] = call_user_func($this->fqsenConvertor, $data['type']);
         }
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

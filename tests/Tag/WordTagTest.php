@@ -7,7 +7,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Jasny\PhpdocParser\Tag\WordTag
- * @covers \Jasny\PhpdocParser\Tag\AbstractTag
  */
 class WordTagTest extends TestCase
 {
