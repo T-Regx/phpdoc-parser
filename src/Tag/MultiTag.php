@@ -7,13 +7,13 @@ use Jasny\PhpdocParser\Tag;
 class MultiTag implements Tag
 {
     /** @var string */
-    protected $key;
+    private $key;
 
     /** @var Tag */
-    protected $tag;
+    private $tag;
 
     /** @var string|null */
-    protected $index;
+    private $index;
 
     /**
      * @param string $notationKey
@@ -53,7 +53,7 @@ class MultiTag implements Tag
         return $notations;
     }
 
-    protected function addNotation(array &$notations, string $value, $item): void
+    private function addNotation(array &$notations, string $value, $item): void
     {
         if (!isset($this->index)) {
             $notations[$this->key][] = $item;

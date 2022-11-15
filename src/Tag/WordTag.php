@@ -13,7 +13,7 @@ class WordTag implements Tag
     /** @var string */
     private $name;
     /** @var string|bool */
-    protected $default;
+    private $default;
 
     /**
      * @param string $name

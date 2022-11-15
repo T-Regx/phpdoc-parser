@@ -7,7 +7,7 @@ use function Jasny\expect_type;
 class TagSet implements \IteratorAggregate, \ArrayAccess
 {
     /** @var Tag[] */
-    protected $tags = [];
+    private $tags = [];
 
     /**
      * @param iterable|Tag[] $tags

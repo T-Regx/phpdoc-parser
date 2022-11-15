@@ -11,7 +11,7 @@ use function Jasny\expect_type;
 class NumberTag implements Tag
 {
     /** @var string */
-    protected $name;
+    private $name;
     /** @var string */
     public $type;
     /** @var int|float */

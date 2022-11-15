@@ -8,7 +8,7 @@ class CustomTag implements Tag
     /** @var string */
     private $name;
     /** @var callable */
-    protected $process;
+    private $process;
 
     public function __construct(string $name, callable $process)
     {

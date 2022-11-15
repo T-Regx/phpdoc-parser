@@ -9,7 +9,7 @@ class RegExpTag implements Tag
     /** @var string */
     private $name;
     /** @var string */
-    protected $regexp;
+    private $regexp;
 
     public function __construct(string $name, string $regexp)
     {

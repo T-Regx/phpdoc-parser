@@ -73,7 +73,7 @@ abstract class AbstractArrayTag implements Tag
         return $notations;
     }
 
-    protected function stripParentheses(string $value): string
+    private function stripParentheses(string $value): string
     {
         if (str_starts_with($value, '(')) {
             return preg_replace('/^\(((?:"(?:[^"]++|\\\\.)*"|\'(?:[^\']++|\\\\.)*\'|[^\)]++|\))*)\).*$/', '$1', $value);
@@ -89,7 +89,7 @@ abstract class AbstractArrayTag implements Tag
      * @return string
      * @throws \UnexpectedValueException
      */
-    protected function getExtractValueRegex(): string
+    private function getExtractValueRegex(): string
     {
         switch ($this->type) {
             case 'string':
@@ -109,7 +109,7 @@ abstract class AbstractArrayTag implements Tag
      * @param array $items
      * @return array
      */
-    protected function toArray(array $items): array
+    private function toArray(array $items): array
     {
         $result = [];
 

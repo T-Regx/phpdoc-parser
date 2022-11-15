@@ -10,7 +10,7 @@ class MethodTag implements Tag
     /** @var string */
     private $name;
     /** @var callable|null */
-    protected $fqsenConvertor;
+    private $fqsenConvertor;
 
     /**
      * @param string $name Tag name
@@ -46,7 +46,7 @@ class MethodTag implements Tag
         return $notations;
     }
 
-    protected function processParams(string $value, string $parametersString): array
+    private function processParams(string $value, string $parametersString): array
     {
         $params = [];
         $rawParams = preg_split('/\s*,\s*/', $parametersString);
@@ -67,7 +67,7 @@ class MethodTag implements Tag
         return $params;
     }
 
-    protected function processParamTypeProperty(array &$param): void
+    private function processParamTypeProperty(array &$param): void
     {
         if (isset($param['type']) && $param['type'] === '') {
             unset($param['type']);
@@ -78,7 +78,7 @@ class MethodTag implements Tag
         }
     }
 
-    protected function processParamDefaultProperty(array &$param): void
+    private function processParamDefaultProperty(array &$param): void
     {
         if (isset($param['default'])) {
             $param['default'] = trim($param['default'], '"\'');

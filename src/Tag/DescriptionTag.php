@@ -6,7 +6,7 @@ use Jasny\PhpdocParser\Tag;
 class DescriptionTag implements Tag
 {
     /** @var string */
-    protected $name;
+    private $name;
 
     public function __construct(string $tagName)
     {

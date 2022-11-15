@@ -12,9 +12,9 @@ class VarTag implements Tag
     /** @var string */
     private $name;
     /** @var array */
-    protected $additional;
+    private $additional;
     /** @var callable|null */
-    protected $fqsenConvertor;
+    private $fqsenConvertor;
 
     public function __construct(string $tagName, ?callable $fqsenConvertor = null, array $additional = [])
     {
@@ -46,7 +46,7 @@ class VarTag implements Tag
         return $notations;
     }
 
-    protected function removeEmptyValues(array &$props): void
+    private function removeEmptyValues(array &$props): void
     {
         foreach (['type', 'name', 'id'] as $name) {
             if (isset($props[$name]) && $props[$name] === '') {

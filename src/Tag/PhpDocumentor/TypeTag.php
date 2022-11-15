@@ -13,7 +13,7 @@ class TypeTag implements Tag
     /** @var string */
     private $name;
     /** @var callable|null */
-    protected $fqsenConvertor;
+    private $fqsenConvertor;
 
     /**
      * @param string $name
@@ -42,7 +42,7 @@ class TypeTag implements Tag
         return $notations;
     }
 
-    protected function processType(array &$data): void
+    private function processType(array &$data): void
     {
         if (isset($data['type']) && $this->fqsenConvertor !== null) {
             $data['type'] = call_user_func($this->fqsenConvertor, $data['type']);

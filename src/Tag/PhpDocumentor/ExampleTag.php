@@ -8,7 +8,7 @@ use function Jasny\array_only;
 class ExampleTag implements Tag
 {
     /** @var string */
-    protected $name;
+    private $name;
 
     public function __construct(string $tagName)
     {
@@ -37,7 +37,7 @@ class ExampleTag implements Tag
         return $notations;
     }
 
-    protected function normalizeValues(array &$values): void
+    private function normalizeValues(array &$values): void
     {
         $values['location'] = trim($values['location'], '"');
 

@@ -6,9 +6,9 @@ use Jasny\PhpdocParser\Tag;
 class ModifyTag implements Tag
 {
     /** @var Tag */
-    protected $tag;
+    private $tag;
     /** @var callable */
-    protected $logic;
+    private $logic;
 
     public function __construct(Tag $tag, callable $logic)
     {
