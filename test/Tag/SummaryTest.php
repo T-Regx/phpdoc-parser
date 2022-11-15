@@ -38,13 +38,13 @@ class SummaryTest extends TestCase
     {
         $doc1 = <<<DOC
 /**
- * Have summery here.
+ * Have summary here.
  */
 DOC;
 
         $doc2 = <<<DOC
 /**
- * Have summery here.
+ * Have summary here.
  * And a description
  * for a few lines
  * of words.
@@ -53,7 +53,7 @@ DOC;
 
         $doc3 = <<<DOC
 /**
- * Have summery here.
+ * Have summary here.
  *
  * And a description
  * for a few lines
@@ -63,7 +63,7 @@ DOC;
 
         $doc4 = <<<DOC
 /**
- * Have summery here.
+ * Have summary here.
  *
  * And a description
  *  for a few lines
@@ -73,7 +73,7 @@ DOC;
 
         $doc5 = <<<DOC
 /**
- * Have summery here.
+ * Have summary here.
  *
  * And a description
  *  for a few lines
@@ -100,23 +100,23 @@ DOC;
         return [
             [
                 $doc1,
-                ['some' => 'value', 'summary' => 'Have summery here.', 'description' => "Have summery here."]
+                ['some' => 'value', 'summary' => 'Have summary here.', 'description' => "Have summary here."]
             ],
             [
                 $doc2,
-                ['some' => 'value', 'summary' => 'Have summery here.', 'description' => "Have summery here.\nAnd a description\nfor a few lines\nof words."]
+                ['some' => 'value', 'summary' => 'Have summary here.', 'description' => "Have summary here.\nAnd a description\nfor a few lines\nof words."]
             ],
             [
                 $doc3,
-                ['some' => 'value', 'summary' => 'Have summery here.', 'description' => "Have summery here.\nAnd a description\nfor a few lines\nof words."]
+                ['some' => 'value', 'summary' => 'Have summary here.', 'description' => "Have summary here.\nAnd a description\nfor a few lines\nof words."]
             ],
             [
                 $doc4,
-                ['some' => 'value', 'summary' => 'Have summery here.', 'description' => "Have summery here.\nAnd a description\nfor a few lines\nof words."]
+                ['some' => 'value', 'summary' => 'Have summary here.', 'description' => "Have summary here.\nAnd a description\nfor a few lines\nof words."]
             ],
             [
                 $doc5,
-                ['some' => 'value', 'summary' => 'Have summery here.', 'description' => "Have summery here.\nAnd a description\nfor a few lines\nof words."]
+                ['some' => 'value', 'summary' => 'Have summary here.', 'description' => "Have summary here.\nAnd a description\nfor a few lines\nof words."]
             ],
             [
                 $doc6,

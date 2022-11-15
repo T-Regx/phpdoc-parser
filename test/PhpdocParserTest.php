@@ -120,7 +120,7 @@ class PhpdocParserTest extends TestCase
     public function testSummary()
     {
         $doc = "/**
- * Some summery
+ * Some summary
  *
  * General description
  * spanning a few lines
@@ -131,9 +131,9 @@ class PhpdocParserTest extends TestCase
  * @ign
  */";
 
-        $expected = ['summary' => 'Some summery', 'description' => "Some summery\nGeneral description\nspanning a few lines\nof doc-comment."];
+        $expected = ['summary' => 'Some summary', 'description' => "Some summary\nGeneral description\nspanning a few lines\nof doc-comment."];
         $parser = new PhpdocParser(new TagSet([
-            'summery' => new EmptyNotationsTag($doc, $expected, 'summary')
+            'summary' => new EmptyNotationsTag($doc, $expected, 'summary')
         ]));
         // when
         $result = $parser->parse($doc);
@@ -179,7 +179,7 @@ class PhpdocParserTest extends TestCase
         ]));
         // when
         $result = $parser->parse("/**
- * Summery should be ignored.
+ * Summary should be ignored.
  *
  * General description
  *  spanning a few lines
