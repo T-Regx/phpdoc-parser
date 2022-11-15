@@ -29,12 +29,12 @@ class TagSet implements \IteratorAggregate, \ArrayAccess
     {
         $tagArray = $tags instanceof \Traversable ? iterator_to_array($tags, false) : $tags;
 
-        return new static(array_merge(array_values($this->tags), $tagArray));
+        return new TagSet(array_merge(array_values($this->tags), $tagArray));
     }
 
     public function without(string ...$tags): self
     {
-        return new static(array_without($this->tags, $tags));
+        return new TagSet(array_without($this->tags, $tags));
     }
 
     public function offsetExists($key): bool
