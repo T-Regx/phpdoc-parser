@@ -193,3 +193,14 @@ $parser = new PhpdocParser($tags);
 $doc = $reflection->getDocComment();
 $meta = $parser->parse($doc);
 ```
+
+## Current limitations
+
+- Certain tags aren't yet supported, such as `@license` or `@category`.
+- Annotations aren't supported, for example
+  ```php
+  /**
+   * @ORM\Entity(repositoryClass="MyProject\UserRepository")
+   */
+  ```
+- As far as I'm aware this project does not support parsing inline tags yet
