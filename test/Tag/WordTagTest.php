@@ -1,5 +1,4 @@
 <?php
-
 namespace Test\Tag;
 
 use Jasny\PhpdocParser\Tag\WordTag;

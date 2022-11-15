@@ -1,5 +1,4 @@
 <?php
-
 namespace Test\Tag\PhpDocumentor;
 
 use Jasny\PhpdocParser\Tag\PhpDocumentor\VarTag;
