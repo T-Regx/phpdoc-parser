@@ -1,13 +1,13 @@
 <?php
 
-namespace Jasny\PhpdocParser\Tests\Tag;
+namespace Test\Tag;
 
 use Jasny\PhpdocParser\Tag\ModifyTag;
-use Jasny\PhpdocParser\Tests\Fakes\ConstantNameTag;
-use Jasny\PhpdocParser\Tests\Fakes\EmptyNotationsTag;
-use Jasny\PhpdocParser\Tests\Fixtures\Functions;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\ConstantNameTag;
+use Test\Fakes\EmptyNotationsTag;
+use Test\Fixtures\Functions;
 
 /**
  * @covers \Jasny\PhpdocParser\Tag\ModifyTag

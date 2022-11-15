@@ -1,5 +1,5 @@
 <?php
-namespace Jasny\PhpdocParser\Tests\Fixtures;
+namespace Test\Fixtures;
 
 use PHPUnit\Framework\Assert;
 

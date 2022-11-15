@@ -24,7 +24,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Jasny\\PhpdocParser\\Tests\\": "tests/"
+      "Test\\": "tests/"
     }
   },
   "scripts": {

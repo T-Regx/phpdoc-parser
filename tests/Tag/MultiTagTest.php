@@ -1,12 +1,12 @@
 <?php
 
-namespace Jasny\PhpdocParser\Tests\Tag;
+namespace Test\Tag;
 
 use Jasny\PhpdocParser\PhpdocException;
 use Jasny\PhpdocParser\Tag\MultiTag;
-use Jasny\PhpdocParser\Tests\Fakes\ConstantNameTag;
-use Jasny\PhpdocParser\Tests\Fakes\EmptyNotationsTag;
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\ConstantNameTag;
+use Test\Fakes\EmptyNotationsTag;
 
 /**
  * @covers \Jasny\PhpdocParser\Tag\MultiTag

@@ -1,5 +1,5 @@
 <?php
-namespace Jasny\PhpdocParser\Tests\Fakes;
+namespace Test\Fakes;
 
 use Jasny\PhpdocParser\Tag;
 

@@ -1,15 +1,15 @@
 <?php
 
-namespace Jasny\PhpdocParser\Tests;
+namespace Test;
 
 use Jasny\PhpdocParser\PhpdocParser;
 use Jasny\PhpdocParser\TagSet;
-use Jasny\PhpdocParser\Tests\Fakes\ConsecutiveProcessTag;
-use Jasny\PhpdocParser\Tests\Fakes\ConstantNameTag;
-use Jasny\PhpdocParser\Tests\Fakes\EmptyNotationsTag;
-use Jasny\PhpdocParser\Tests\Fakes\NotationsTag;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\ConsecutiveProcessTag;
+use Test\Fakes\ConstantNameTag;
+use Test\Fakes\EmptyNotationsTag;
+use Test\Fakes\NotationsTag;
 
 /**
  * @covers \Jasny\PhpdocParser\PhpdocParser

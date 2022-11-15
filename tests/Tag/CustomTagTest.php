@@ -1,11 +1,11 @@
 <?php
 
-namespace Jasny\PhpdocParser\Tests\Tag;
+namespace Test\Tag;
 
 use Jasny\PhpdocParser\Tag\CustomTag;
-use Jasny\PhpdocParser\Tests\Fixtures\Functions;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Test\Fixtures\Functions;
 
 /**
  * @covers \Jasny\PhpdocParser\Tag\CustomTag

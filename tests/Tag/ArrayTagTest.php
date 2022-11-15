@@ -1,6 +1,6 @@
 <?php
 
-namespace Jasny\PhpdocParser\Tests\Tag;
+namespace Test\Tag;
 
 use Jasny\PhpdocParser\PhpdocException;
 use Jasny\PhpdocParser\Tag\ArrayTag;

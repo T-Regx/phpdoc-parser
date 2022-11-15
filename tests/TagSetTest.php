@@ -1,11 +1,11 @@
 <?php
 
-namespace Jasny\PhpdocParser\Tests;
+namespace Test;
 
 use Jasny\PhpdocParser\Tag;
 use Jasny\PhpdocParser\TagSet;
-use Jasny\PhpdocParser\Tests\Fakes\ConstantNameTag;
 use PHPUnit\Framework\TestCase;
+use Test\Fakes\ConstantNameTag;
 
 /**
  * @covers \Jasny\PhpdocParser\TagSet

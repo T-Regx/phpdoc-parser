@@ -1,6 +1,6 @@
 <?php
 
-namespace Jasny\PhpdocParser\Tests\Tag\PhpDocumentor;
+namespace Test\Tag\PhpDocumentor;
 
 use Jasny\PhpdocParser\Tag\PhpDocumentor\VarTag;
 use PHPUnit\Framework\TestCase;
