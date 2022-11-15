@@ -28,7 +28,7 @@ class Test extends TestCase
  * @param int             \$second  The second one
  * @return void
  * @throws InvalidArgumentException
- * @throws DoaminException if first argument is not found
+ * @throws DomainException if first argument is not found
  */";
         $parser = new PHPDocParser(PhpDocumentor::tags()->with([
             new Summary(),
@@ -60,7 +60,7 @@ class Test extends TestCase
             ],
             'throws' => [
                 ['type' => 'InvalidArgumentException'],
-                ['type' => 'DoaminException', 'description' => 'if first argument is not found'],
+                ['type' => 'DomainException', 'description' => 'if first argument is not found'],
             ],
             'summary' => "The description of foo. This function does a lot of thing",
             'description' => "The description of foo. This function does a lot of thing
