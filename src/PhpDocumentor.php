@@ -1,6 +1,7 @@
 <?php
 namespace Jasny\PhpdocParser;
 
+use Jasny\PhpdocParser\Tag\AuthorTag;
 use Jasny\PhpdocParser\Tag\DescriptionTag;
 use Jasny\PhpdocParser\Tag\FlagTag;
 use Jasny\PhpdocParser\Tag\ModifyTag;
@@ -9,7 +10,6 @@ use Jasny\PhpdocParser\Tag\PhpDocumentor\ExampleTag;
 use Jasny\PhpdocParser\Tag\PhpDocumentor\MethodTag;
 use Jasny\PhpdocParser\Tag\PhpDocumentor\TypeTag;
 use Jasny\PhpdocParser\Tag\PhpDocumentor\VarTag;
-use Jasny\PhpdocParser\Tag\RegExpTag;
 use Jasny\PhpdocParser\Tag\WordTag;
 
 class PhpDocumentor
@@ -18,7 +18,7 @@ class PhpDocumentor
     {
         return new TagSet([
             new FlagTag('api'),
-            new RegExpTag('author', '/^(?:(?<name>(?:[^\<]\S*\s+)*[^\<]\S*)?\s*)?(?:\<(?<email>[^\>]+)\>)?/'),
+            new AuthorTag('author'),
             new DescriptionTag('copyright'),
             new WordTag('deprecated', true),
             new ExampleTag('example'),
