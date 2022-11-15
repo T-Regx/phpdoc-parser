@@ -12,7 +12,7 @@ use Jasny\PhpdocParser\Tag\PhpDocumentor\VarTag;
 use Jasny\PhpdocParser\Tag\RegExpTag;
 use Jasny\PhpdocParser\Tag\WordTag;
 
-class PhpDocumentor implements PredefinedSetInterface
+class PhpDocumentor
 {
     public static function tags(?callable $fqsenConvertor = null): TagSet
     {
@@ -50,7 +50,7 @@ class PhpDocumentor implements PredefinedSetInterface
         ]);
     }
 
-    protected static function fqsen(Tag $tag, ?callable $fqsenConvertor): Tag
+    private static function fqsen(Tag $tag, ?callable $fqsenConvertor): Tag
     {
         return isset($fqsenConvertor) ? new ModifyTag($tag, $fqsenConvertor) : $tag;
     }
