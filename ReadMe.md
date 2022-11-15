@@ -1,7 +1,4 @@
-![jasny-banner](https://user-images.githubusercontent.com/100821/62123924-4c501c80-b2c9-11e9-9677-2ebc21d9b713.png)
-
-Jasny PHPDoc parser
-===
+# Jasny PHPDoc parser
 
 [![Build status](https://github.com/jasny/phpdoc-parser/actions/workflows/php.yml/badge.svg)](https://github.com/jasny/phpdoc-parser/actions/workflows/php.yml)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jasny/phpdoc-parser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jasny/phpdoc-parser/?branch=master)
@@ -17,13 +14,13 @@ place for the well known tag syntax using the `@` char.
 The PHPDoc parser allows you to configure tags including the method how to parse and extract information. This
 is inline with phpDocumentor style annotations and differs from for instance Doctrine type annotations.
 
-Installation
----
+## Installation
 
-    composer require jasny/phpdoc-parser
+```bash
+composer require jasny/phpdoc-parser
+```
 
-Usage
----
+## Usage
 
 ```php
 /**
@@ -67,7 +64,7 @@ $parser = new PHPDocParser($tags);
 $meta = $parser->parse($doc);
 ```
 
-The result will be the following:
+The result is the following:
 
 ```php
 [
@@ -91,8 +88,7 @@ The result will be the following:
 ]
 ```
 
-Tags
----
+## Tags
 
 The following tags are already included in `PhpDocumentor::tags()`:
 
@@ -129,25 +125,24 @@ $parser = new PhpdocParser($tags);
 $meta = $parser->parse($doc);
 ```
 
-Tags classes
----
+## Tag classes
 
 Here's a list of available tags classes, that should cover most of the use cases:
 
-* [Summery](https://www.jasny.net/phpdoc-parser/tags/summery.md)
-* [ArrayTag](https://www.jasny.net/phpdoc-parser/tags/array.md)
-* [CustomTag](https://www.jasny.net/phpdoc-parser/tags/custom.md)
-* [DescriptionTag](https://www.jasny.net/phpdoc-parser/tags/description.md)
-* [ExampleTag](https://www.jasny.net/phpdoc-parser/tags/example.md)
-* [FlagTag](https://www.jasny.net/phpdoc-parser/tags/flag.md)
-* [MapTag](https://www.jasny.net/phpdoc-parser/tags/map.md)
-* [MethodTag](https://www.jasny.net/phpdoc-parser/tags/method.md)
-* [ModifyTag](https://www.jasny.net/phpdoc-parser/tags/modify.md)
-* [MultiTag](https://www.jasny.net/phpdoc-parser/tags/multi.md)
-* [NumberTag](https://www.jasny.net/phpdoc-parser/tags/number.md)
-* [RegExpTag](https://www.jasny.net/phpdoc-parser/tags/regexp.md)
-* [VarTag](https://www.jasny.net/phpdoc-parser/tags/var.md)
-* [WordTag](https://www.jasny.net/phpdoc-parser/tags/word.md)
+* `Summery`
+* `ArrayTag`
+* `CustomTag`
+* `DescriptionTag`
+* `ExampleTag`
+* `FlagTag`
+* `MapTag`
+* `MethodTag`
+* `ModifyTag`
+* `MultiTag`
+* `NumberTag`
+* `RegExpTag`
+* `VarTag`
+* `WordTag`
 
 The following function is used in tags documentation, for short reference to parsing:
 
@@ -162,8 +157,7 @@ function getNotations(string $doc, array $tags = []) {
 }
 ```
 
-FQSEN Resolver
----
+## FQSEN Resolver
 
 FQSEN stands for `Fully Qualified Structural Element Name`. FQSEN convertor is used to expand class name or function name to fully unique name (so with full namespace). For example, `Foo` can be converted to `Zoo\\Foo\\Bar`.
 
