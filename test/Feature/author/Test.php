@@ -5,10 +5,13 @@ use Jasny\PhpdocParser\PhpdocException;
 use Jasny\PhpdocParser\PhpdocParser;
 use Jasny\PhpdocParser\PhpDocumentor;
 use PHPUnit\Framework\TestCase;
+use Test\Fixtures\ParseAssertion;
 use function Test\Fixture\resource;
 
 class Test extends TestCase
 {
+    use ParseAssertion;
+
     /**
      * @test
      */
@@ -46,14 +49,6 @@ class Test extends TestCase
                 'email' => 'my.name@example.com',
             ]
         ]);
-    }
-
-    private function assertParses(string $phpDoc, array $expected): void
-    {
-        // when
-        $parser = new PHPDocParser(PhpDocumentor::tags());
-        // then
-        $this->assertSame($expected, $parser->parse($phpDoc));
     }
 
     /**
