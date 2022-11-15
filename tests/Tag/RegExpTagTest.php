@@ -12,33 +12,20 @@ use PHPUnit\Framework\TestCase;
 class RegExpTagTest extends TestCase
 {
     /**
-     * Test 'getRegExp' method
+     * @test
      */
     public function testGetRegExp()
     {
+        // given
         $tag = new RegExpTag('foo', 'foo_regexp');
+        // when
         $result = $tag->getRegExp();
-
+        // then
         $this->assertSame('foo_regexp', $result);
     }
 
     /**
-     * Provide data for testing 'process' method
-     *
-     * @return array
-     */
-    public function processProvider()
-    {
-        return [
-            ['//', 'foo string to parse', ['some' => 'value', 'foo' => ['']]],
-            ['/.*/', 'foo string to parse', ['some' => 'value', 'foo' => ['foo string to parse']]],
-            ['/\s+(\S+)/', 'foo string to parse', ['some' => 'value', 'foo' => [' string', 'string']]],
-        ];
-    }
-
-    /**
-     * Test 'process' method
-     *
+     * @test
      * @dataProvider processProvider
      */
     public function testProcess($regexp, $value, $expected)
@@ -49,16 +36,26 @@ class RegExpTagTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    public function processProvider(): array
+    {
+        return [
+            ['//', 'foo string to parse', ['some' => 'value', 'foo' => ['']]],
+            ['/.*/', 'foo string to parse', ['some' => 'value', 'foo' => ['foo string to parse']]],
+            ['/\s+(\S+)/', 'foo string to parse', ['some' => 'value', 'foo' => [' string', 'string']]],
+        ];
+    }
+
     /**
-     * Test 'process' method, if exception should be thrown
+     * @test
      */
     public function testProcessException()
     {
+        // given
         $tag = new RegExpTag('foo', '/^abc/');
-        
+        // then
         $this->expectException(PhpdocException::class);
         $this->expectExceptionMessage("Failed to parse '@foo not-abc': invalid syntax");
-        
-        $result = $tag->process(['some' => 'value'], 'not-abc');
+        // when
+        $tag->process(['some' => 'value'], 'not-abc');
     }
 }

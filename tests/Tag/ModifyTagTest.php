@@ -2,10 +2,11 @@
 
 namespace Jasny\PhpdocParser\Tests\Tag;
 
-use Jasny\PhpdocParser\Tag;
 use Jasny\PhpdocParser\Tag\ModifyTag;
+use Jasny\PhpdocParser\Tests\Fakes\ConstantNameTag;
+use Jasny\PhpdocParser\Tests\Fakes\EmptyNotationsTag;
+use Jasny\PhpdocParser\Tests\Fixtures\Functions;
 use PHPUnit\Framework\Assert;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,29 +16,22 @@ class ModifyTagTest extends TestCase
 {
     public function testGetName()
     {
-        /** @var MockObject|Tag $mockTag */
-        $mockTag = $this->createConfiguredMock(Tag::class, ['getName' => 'foo']);
-
-        $tag = new ModifyTag($mockTag, function () {
-        });
-
+        // when
+        $tag = new ModifyTag(new ConstantNameTag('foo'), Functions::fail());
+        // then
         $this->assertEquals('foo', $tag->getName());
     }
 
     public function testProcess()
     {
-        /** @var MockObject|Tag $mockTag */
-        $mockTag = $this->createMock(Tag::class);
-        $mockTag->expects($this->once())->method('process')->with([], 'one two')
-            ->willReturn(['foo' => 42]);
-
-        $tag = new ModifyTag($mockTag, function (...$actual) {
+        // given
+        $tag = new ModifyTag(new EmptyNotationsTag('one two', ['foo' => 42]), function (...$actual) {
             Assert::assertSame([['bar' => 1], ['foo' => 42], 'one two'], $actual);
             return ['bar' => 2, 'foo' => 3];
         });
-
+        // when
         $result = $tag->process(['bar' => 1], 'one two');
-
+        // then
         $this->assertEquals(['bar' => 2, 'foo' => 3], $result);
     }
 }

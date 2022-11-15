@@ -12,62 +12,76 @@ class WordTagTest extends TestCase
 {
     public function testGetDefault()
     {
+        // given
         $tag = new WordTag('foo', true);
+        // when, then
         $this->assertSame(true, $tag->getDefault());
     }
 
     public function testGetDefaultUnspecified()
     {
+        // given
         $tag = new WordTag('foo');
+        // when, then
         $this->assertSame('', $tag->getDefault());
     }
 
     public function testGetName()
     {
+        // given
         $tag = new WordTag('foo');
+        // when, then
         $this->assertEquals('foo', $tag->getName());
     }
 
     public function testProcess()
     {
+        // given
         $tag = new WordTag('foo', true);
-
+        // when
         $result = $tag->process(['bar' => 1], 'hi');
+        // then
         $this->assertEquals(['bar' => 1, 'foo' => 'hi'], $result);
     }
 
     public function testProcessDefault()
     {
+        // given
         $tag = new WordTag('foo', true);
-
+        // when
         $result = $tag->process([], '');
+        // then
         $this->assertEquals(['foo' => true], $result);
     }
 
     public function testProcessSentence()
     {
+        // given
         $tag = new WordTag('foo');
-
+        // when
         $result = $tag->process([], 'hello sweet world');
+        // then
         $this->assertEquals(['foo' => 'hello'], $result);
     }
 
-    public function quoteProvider()
+    /**
+     * @dataProvider quotedWords
+     */
+    public function testProcessQuote($value)
+    {
+        // given
+        $tag = new WordTag('foo');
+        // when
+        $result = $tag->process([], $value);
+        // then
+        $this->assertEquals(['foo' => 'hello world'], $result);
+    }
+
+    public function quotedWords(): array
     {
         return [
             ['"hello world" This a sentence.'],
             ['\'hello world\' This a sentence.']
         ];
-    }
-
-    /**
-     * @dataProvider quoteProvider
-     */
-    public function testProcessQuote($value)
-    {
-        $tag = new WordTag('foo');
-
-        $result = $tag->process([], $value);
-        $this->assertEquals(['foo' => 'hello world'], $result);
     }
 }

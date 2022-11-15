@@ -44,11 +44,11 @@ class ArrayTagTest extends TestCase
 
     public function testGetTypeInvalid()
     {
+        // then
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Invalid type 'ton'");
-
-        $tag = new ArrayTag('foo', 'ton');
-        $tag->getType();
+        // when
+        new ArrayTag('foo', 'ton');
     }
 
     public function testProcess()

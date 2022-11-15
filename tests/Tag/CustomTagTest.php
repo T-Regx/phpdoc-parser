@@ -3,6 +3,7 @@
 namespace Jasny\PhpdocParser\Tests\Tag;
 
 use Jasny\PhpdocParser\Tag\CustomTag;
+use Jasny\PhpdocParser\Tests\Fixtures\Functions;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
@@ -14,8 +15,7 @@ class CustomTagTest extends TestCase
     public function testGetName()
     {
         // given
-        $tag = new CustomTag('foo', function () {
-        });
+        $tag = new CustomTag('foo', Functions::fail());
         // when, then
         $this->assertEquals('foo', $tag->getName());
     }

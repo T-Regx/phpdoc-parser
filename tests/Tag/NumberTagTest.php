@@ -13,11 +13,20 @@ use TypeError;
 class NumberTagTest extends TestCase
 {
     /**
-     * Provide data for testing '__construct' method
-     *
-     * @return array
+     * @test
+     * @dataProvider constructProvider
      */
-    public function constructProvider()
+    public function testConstruct($type, $min, $max)
+    {
+        $tag = new NumberTag('foo', $type, $min, $max);
+
+        $this->assertSame('foo', $tag->getName());
+        $this->assertSame($type, $tag->type);
+        $this->assertSame($min, $tag->min);
+        $this->assertSame($max, $tag->max);
+    }
+
+    public function constructProvider(): array
     {
         return [
             ['int', 0, 0],
@@ -43,26 +52,20 @@ class NumberTagTest extends TestCase
     }
 
     /**
-     * Test 'process' method
+     * Test 'construct' method, if exception should be thrown
      *
-     * @dataProvider constructProvider
+     * @dataProvider constructExceptionProvider
      */
-    public function testConstruct($type, $min, $max)
+    public function testConstructException($type, $min, $max, $exceptionClass, $exceptionMessage)
     {
-        $tag = new NumberTag('foo', $type, $min, $max);
-
-        $this->assertSame('foo', $tag->getName());
-        $this->assertSame($type, $tag->type);
-        $this->assertSame($min, $tag->min);
-        $this->assertSame($max, $tag->max);
+        // then
+        $this->expectException($exceptionClass);
+        $this->expectExceptionMessage($exceptionMessage);
+        // when
+        new NumberTag('foo', $type, $min, $max);
     }
 
-    /**
-     * Provide data for testing 'construct' method, in case when exception should be thrown
-     *
-     * @return array
-     */
-    public function constructExceptionProvider()
+    public function constructExceptionProvider(): array
     {
         return [
             ['string', 0, 1, PhpdocException::class, 'NumberTag should be of type int or float, string given'],
@@ -73,24 +76,20 @@ class NumberTagTest extends TestCase
     }
 
     /**
-     * Test 'construct' method, if exception should be thrown
-     *
-     * @dataProvider constructExceptionProvider
+     * @test
+     * @dataProvider processProvider
      */
-    public function testConstructException($type, $min, $max, $exceptionClass, $exceptionMessage)
+    public function testProcess($type, $value, $expected)
     {
-        $this->expectException($exceptionClass);
-        $this->expectExceptionMessage($exceptionMessage);
-
-        $tag = new NumberTag('foo', $type, $min, $max);
+        // given
+        $tag = new NumberTag('foo', $type, -10);
+        // when
+        $result = $tag->process(['some' => 'value'], $value);
+        // then
+        $this->assertSame($expected, $result);
     }
 
-    /**
-     * Provide data for testing 'process' method
-     *
-     * @return array
-     */
-    public function processProvider()
+    public function processProvider(): array
     {
         return [
             ['int', '2 is a big number', ['some' => 'value', 'foo' => 2]],
@@ -102,24 +101,21 @@ class NumberTagTest extends TestCase
     }
 
     /**
-     * Test 'process' method
-     *
-     * @dataProvider processProvider
+     * @test
+     * @dataProvider processExceptionProvider
      */
-    public function testProcess($type, $value, $expected)
+    public function testProcessException($type, $min, $max, $value, $exceptionMessage)
     {
-        $tag = new NumberTag('foo', $type, -10);
-        $result = $tag->process(['some' => 'value'], $value);
-
-        $this->assertSame($expected, $result);
+        // given
+        $tag = new NumberTag('foo', $type, $min, $max);
+        // then
+        $this->expectException(PhpdocException::class);
+        $this->expectExceptionMessage($exceptionMessage);
+        // when
+        $tag->process(['some' => 'value'], $value);
     }
 
-    /**
-     * Provide data for testing 'process' method, if exception should be thrown
-     *
-     * @return array
-     */
-    public function processExceptionProvider()
+    public function processExceptionProvider(): array
     {
         return [
             ['int', 0, INF, '"2" is a big number', "Failed to parse '@foo \"2\"': not a number"],
@@ -128,19 +124,5 @@ class NumberTagTest extends TestCase
             ['int', 0, 3, '4 is a big number', "Parsed value 4 should be less then max value 3"],
             ['int', 0, 3, '-1 is a big number', "Parsed value -1 should be greater then min value 0"],
         ];
-    }
-
-    /**
-     * Test 'process' method, if exception should be thrown
-     *
-     * @dataProvider processExceptionProvider
-     */
-    public function testProcessException($type, $min, $max, $value, $exceptionMessage)
-    {
-        $this->expectException(PhpdocException::class);
-        $this->expectExceptionMessage($exceptionMessage);
-
-        $tag = new NumberTag('foo', $type, $min, $max);
-        $tag->process(['some' => 'value'], $value);
     }
 }

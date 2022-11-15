@@ -12,28 +12,30 @@ use PHPUnit\Framework\TestCase;
  */
 class MapTagTest extends TestCase
 {
+    /**
+     * @test
+     */
     public function testGetName()
     {
+        // given
         $tag = new MapTag('foo');
+        // when, then
         $this->assertEquals('foo', $tag->getName());
     }
 
+    /**
+     * @test
+     */
     public function testGetTypeDefault()
     {
+        // given
         $tag = new MapTag('foo');
+        // when, then
         $this->assertEquals('string', $tag->getType());
     }
 
-    public function typeProvider()
-    {
-        return [
-            ['string'],
-            ['int'],
-            ['float']
-        ];
-    }
-
     /**
+     * @test
      * @dataProvider typeProvider
      */
     public function testGetType(string $type)
@@ -42,35 +44,50 @@ class MapTagTest extends TestCase
         $this->assertEquals($type, $tag->getType());
     }
 
+    public function typeProvider(): array
+    {
+        return [['string'], ['int'], ['float']];
+    }
+
+    /**
+     * @test
+     */
     public function testGetTypeInvalid()
     {
+        // then
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Invalid type 'ton'");
-
+        // when
         new MapTag('foo', 'ton');
     }
 
     public function testProcess()
     {
+        // given
         $tag = new MapTag('foo');
-
+        // when
         $result = $tag->process(['bar' => 1], 'red=good, green = better, blue =  best');
+        // then
         $this->assertEquals(['bar' => 1, 'foo' => ['red' => 'good', 'green' => 'better', 'blue' => 'best']], $result);
     }
 
     public function testProcessParenthesis()
     {
+        // given
         $tag = new MapTag('foo');
-
+        // when
         $result = $tag->process([], '(red=good, green=better, blue=best) to be ignored');
+        // then
         $this->assertEquals(['foo' => ['red' => 'good', 'green' => 'better', 'blue' => 'best']], $result);
     }
 
-    public function testProcessEmpy()
+    public function testProcessEmpty()
     {
+        // given
         $tag = new MapTag('foo');
-
+        // when
         $result = $tag->process([], '');
+        // then
         $this->assertEquals(['foo' => []], $result);
     }
 

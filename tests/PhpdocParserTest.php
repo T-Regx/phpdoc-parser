@@ -3,10 +3,12 @@
 namespace Jasny\PhpdocParser\Tests;
 
 use Jasny\PhpdocParser\PhpdocParser;
-use Jasny\PhpdocParser\Tag;
 use Jasny\PhpdocParser\TagSet;
+use Jasny\PhpdocParser\Tests\Fakes\ConsecutiveProcessTag;
+use Jasny\PhpdocParser\Tests\Fakes\ConstantNameTag;
+use Jasny\PhpdocParser\Tests\Fakes\EmptyNotationsTag;
+use Jasny\PhpdocParser\Tests\Fakes\NotationsTag;
 use PHPUnit\Framework\Assert;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,160 +17,110 @@ use PHPUnit\Framework\TestCase;
 class PhpdocParserTest extends TestCase
 {
     /**
-     * @var Tag[]|MockObject[]
+     * @test
      */
-    protected $tags;
-
-    /**
-     * @var PhpdocParser
-     */
-    protected $parser;
-
-    public function setUp(): void
-    {
-        $tags = [
-            'foo' => $this->createConfiguredMock(Tag::class, ['getName' => 'foo']),
-            'bar' => $this->createConfiguredMock(Tag::class, ['getName' => 'bar']),
-            'qux' => $this->createConfiguredMock(Tag::class, ['getName' => 'qux']),
-        ];
-
-        $tagset = $this->createMock(TagSet::class);
-        $tagset->expects($this->any())
-            ->method('offsetExists')
-            ->willReturnCallback(function ($key) use ($tags) {
-                return isset($tags[$key]);
-            });
-        $tagset->expects($this->any())
-            ->method('offsetGet')
-            ->willReturnCallback(function ($key) use ($tags) {
-                if (!isset($tags[$key])) {
-                    throw new \OutOfRangeException("Unknown tag '@{$key}'");
-                }
-                return $tags[$key];
-            });
-
-        $this->tags = $tags;
-        $this->parser = new PhpdocParser($tagset);
-    }
-
     public function testParseFlag()
     {
-        $this->tags['foo']->expects($this->once())->method('process')
-            ->with([], '')->willReturn(['foo' => true]);
-
-        $doc = <<<DOC
-/**
- * @foo
- */
-DOC;
-
-        $result = $this->parser->parse($doc);
-
+        // given
+        $parser = new PhpdocParser(new TagSet([
+            'foo' => new EmptyNotationsTag('', ['foo' => true], 'foo'),
+            'bar' => new ConstantNameTag('bar'),
+            'qux' => new ConstantNameTag('qux'),
+        ]));
+        // when
+        $result = $parser->parse("/**\n * @foo\n */");
+        // then
         $this->assertEquals(['foo' => true], $result);
     }
 
+    /**
+     * @test
+     */
     public function testParseFlagSeveral()
     {
-        $this->tags['foo']
-            ->expects($this->once())
-            ->method('process')
-            ->with([], '')
-            ->willReturn(['foo' => true]);
-
-        $this->tags['bar']->expects($this->once())
-            ->method('process')
-            ->with(['foo' => true], '')
-            ->willReturn(['foo' => true, 'bar' => true]);
-
-        $doc = <<<DOC
-/**
- * @foo
- * @bar
- */
-DOC;
-
-        $result = $this->parser->parse($doc);
-
+        // given
+        $parser = new PhpdocParser(new TagSet([
+            'foo' => new EmptyNotationsTag('', ['foo' => true], 'foo'),
+            'bar' => new NotationsTag(['foo' => true], '', ['foo' => true, 'bar' => true], 'bar'),
+            'qux' => new ConstantNameTag('qux'),
+        ]));
+        // when
+        $result = $parser->parse("/**\n * @foo\n * @bar\n */");
+        // then
         $this->assertEquals(['foo' => true, 'bar' => true], $result);
     }
 
+    /**
+     * @test
+     */
     public function testParseValue()
     {
-        $this->tags['foo']
-            ->expects($this->once())
-            ->method('process')
-            ->with([], 'hello')
-            ->willReturn(['foo' => 'HELLO!']);
-
-        $doc = <<<DOC
-/**
- * @foo hello
- */
-DOC;
-
-        $result = $this->parser->parse($doc);
-
+        // given
+        $parser = new PhpdocParser(new TagSet([
+            'foo' => new EmptyNotationsTag('hello', ['foo' => 'HELLO!'], 'foo'),
+            'bar' => new ConstantNameTag('bar'),
+            'qux' => new ConstantNameTag('qux'),
+        ]));
+        // when
+        $result = $parser->parse("/**\n * @foo hello\n */");
+        // then
         $this->assertSame(['foo' => 'HELLO!'], $result);
     }
 
+    /**
+     * @test
+     */
     public function testParseMultiple()
     {
-        $this->tags['foo']
-            ->expects($this->exactly(3))
-            ->method('process')
-            ->withConsecutive([[], ''], [['foo' => 1], ''], [['foo' => 2], ''])
-            ->willReturnOnConsecutiveCalls(['foo' => 1], ['foo' => 2], ['foo' => 3]);
-
-        $doc = <<<DOC
-/**
- * @foo
- * @foo
- * @foo
- */
-DOC;
-
-        $result = $this->parser->parse($doc);
-
+        // given
+        $parser = new PhpdocParser(new TagSet([
+            'foo' => new ConsecutiveProcessTag('foo', [
+                new EmptyNotationsTag('', ['foo' => 1]),
+                new NotationsTag(['foo' => 1], '', ['foo' => 2]),
+                new NotationsTag(['foo' => 2], '', ['foo' => 3])
+            ]),
+            'bar' => new ConstantNameTag('bar'),
+            'qux' => new ConstantNameTag('qux'),
+        ]));
+        // when
+        $result = $parser->parse("/**\n * @foo\n * @foo\n * @foo\n */");
+        // then
         $this->assertSame(['foo' => 3], $result);
     }
 
+    /**
+     * @test
+     */
     public function testParseFull()
     {
-        $this->tags['foo']
-            ->expects($this->exactly(2))
-            ->method('process')
-            ->withConsecutive([[], 'hi'], [['foo' => ['hi'], 'bar' => true], 'bye'])
-            ->willReturnOnConsecutiveCalls(['foo' => ['hi']], ['foo' => ['hi', 'bye'], 'bar' => true]);
-
-        $this->tags['bar']
-            ->expects($this->once())
-            ->method('process')
-            ->with(['foo' => ['hi']], '')
-            ->willReturn(['foo' => ['hi'], 'bar' => true]);
-
-        $doc = <<<DOC
-/**
+        // given
+        $parser = new PhpdocParser(new TagSet([
+            'foo' => new ConsecutiveProcessTag('foo', [
+                new EmptyNotationsTag('hi', ['foo' => ['hi']]),
+                new NotationsTag(['foo' => ['hi'], 'bar' => true], 'bye', ['foo' => ['hi', 'bye'], 'bar' => true]),
+            ]),
+            'bar' => new NotationsTag(['foo' => ['hi']], '', ['foo' => ['hi'], 'bar' => true], 'bar'),
+            'qux' => new ConstantNameTag('qux'),
+        ]));
+        // when
+        $result = $parser->parse("/**
  * This should be ignored, so should {@qux this}
  *
  * @foo hi
  * @bar
  * @foo bye
  * @ign
- */
-DOC;
-
-        $result = $this->parser->parse($doc);
-
+ */");
+        // then
         $this->assertEquals(['foo' => ['hi', 'bye'], 'bar' => true], $result);
     }
 
     /**
-     * Test using summery tag
+     * @test
      */
-    public function testSummery()
+    public function testSummary()
     {
-        $doc = <<<DOC
-/**
+        $doc = "/**
  * Some summery
  *
  * General description
@@ -178,72 +130,56 @@ DOC;
  * @bar
  * @foo bye
  * @ign
- */
-DOC;
+ */";
 
         $expected = ['summery' => 'Some summery', 'description' => "Some summery\nGeneral description\nspanning a few lines\nof doc-comment."];
-
-        $tags = [
-            'summery' => $this->createConfiguredMock(Tag::class, ['getName' => 'summery']),
-        ];
-
-        $tagset = $this->createMock(TagSet::class);
-        $tagset->expects($this->any())
-            ->method('offsetExists')
-            ->willReturnCallback(function ($key) use ($tags) {
-                return isset($tags[$key]);
-            });
-
-        $tagset->expects($this->any())
-            ->method('offsetGet')
-            ->willReturnCallback(function ($key) use ($tags) {
-                return $tags[$key];
-            });
-
-        $tags['summery']
-            ->expects($this->once())
-            ->method('process')
-            ->with([], $doc)
-            ->willReturn($expected);
-
-        $parser = new PhpdocParser($tagset);
-        $result = $parser->parse($doc);
-
-        $this->assertSame($expected, $result);
-    }
-
-    /**
-     * Test using callback after parsing
-     */
-    public function testCallback()
-    {
-        $doc = "/**\n * @bar Some value\n */";
-
-        $expected = ['value after callback'];
-
-        $this->tags['bar']
-            ->expects($this->once())
-            ->method('process')
-            ->with([], 'Some value')
-            ->willReturn(['bar' => 'Some value']);
-
-        $callback = function ($argument) use ($expected) {
-            Assert::assertSame(['bar' => 'Some value'], $argument);
-            return $expected;
-        };
+        $parser = new PhpdocParser(new TagSet([
+            'summery' => new EmptyNotationsTag($doc, $expected, 'summery')
+        ]));
         // when
-        $result = $this->parser->parse($doc, $callback);
+        $result = $parser->parse($doc);
         // then
         $this->assertSame($expected, $result);
     }
 
     /**
-     * Test processing multiline tags
+     * @test
+     */
+    public function testCallback()
+    {
+        // given
+        $parser = new PhpdocParser(new TagSet([
+            'foo' => new ConstantNameTag('foo'),
+            'bar' => new EmptyNotationsTag('Some value', ['bar' => 'Some value'], 'bar'),
+            'qux' => new ConstantNameTag('qux'),
+        ]));
+        // when
+        $result = $parser->parse("/**\n * @bar Some value\n */", function ($argument) {
+            Assert::assertSame(['bar' => 'Some value'], $argument);
+            return ['value after callback'];
+        });
+        // then
+        $this->assertSame(['value after callback'], $result);
+    }
+
+    /**
+     * @test
      */
     public function testMultiline()
     {
-        $doc = <<<DOC
-/**
+        // given
+        $expected = [
+            'bar' => 'Some bar value.',
+            'foo' => 'This one also has multiline value.',
+            'qux' => 'Single line value'
+        ];
+        $parser = new PhpdocParser(new TagSet([
+            'foo' => new NotationsTag(['bar' => 'Some bar value.'], 'This one also has multiline value.', ['bar' => 'Some bar value.', 'foo' => 'This one also has multiline value.'], 'foo'),
+            'bar' => new EmptyNotationsTag('Some bar value.', ['bar' => 'Some bar value.'], 'bar'),
+            'qux' => new NotationsTag(['bar' => 'Some bar value.', 'foo' => 'This one also has multiline value.'], 'Single line value', $expected, 'qux'),
+        ]));
+        // when
+        $result = $parser->parse("/**
  * Summery should be ignored.
  *
  * General description
@@ -256,30 +192,8 @@ DOC;
  *  also has multiline
  *  value.
  * @qux Single line value
- */
-DOC;
-        $expected = [
-            'bar' => 'Some bar value.',
-            'foo' => 'This one also has multiline value.',
-            'qux' => 'Single line value'
-        ];
-
-        $this->tags['bar']->expects($this->once())->method('process')->with([], 'Some bar value.')->willReturn(['bar' => 'Some bar value.']);
-        $this->tags['foo']->expects($this->once())->method('process')->with(['bar' => 'Some bar value.'], 'This one also has multiline value.')->willReturn([
-            'bar' => 'Some bar value.',
-            'foo' => 'This one also has multiline value.'
-        ]);
-        $this->tags['qux']
-            ->expects($this->once())
-            ->method('process')
-            ->with([
-                'bar' => 'Some bar value.',
-                'foo' => 'This one also has multiline value.'
-            ], 'Single line value')
-            ->willReturn($expected);
-
-        $result = $this->parser->parse($doc);
-
+ */");
+        // then
         $this->assertSame($expected, $result);
     }
 
@@ -289,11 +203,13 @@ DOC;
     public function test()
     {
         // given
-        $this->tags['bar']->expects($this->never())->method('process');
-        $this->tags['foo']->expects($this->never())->method('process');
-        $this->tags['qux']->expects($this->never())->method('process');
+        $parser = new PhpdocParser(new TagSet([
+            'foo' => new ConstantNameTag('foo'),
+            'bar' => new ConstantNameTag('bar'),
+            'qux' => new ConstantNameTag('qux'),
+        ]));
         // when
-        $result = $this->parser->parse("/**\n * Just some description. Should be ignored.\n */");
+        $result = $parser->parse("/**\n * Just some description. Should be ignored.\n */");
         // then
         $this->assertSame([], $result);
     }

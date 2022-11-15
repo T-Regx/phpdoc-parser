@@ -20,10 +20,6 @@ use Jasny\PhpdocParser\TagSet;
 
 class PhpDocumentor implements PredefinedSetInterface
 {
-    /**
-     * @param callable|null $fqsenConvertor Logic to convert class to FQCN
-     * @return TagSet
-     */
     public static function tags(?callable $fqsenConvertor = null): TagSet
     {
         return new TagSet([
