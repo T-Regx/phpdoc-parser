@@ -23,8 +23,12 @@
     }
   },
   "autoload-dev": {
+    "files": [
+      "test/Fixtures/resource.php"
+    ],
     "psr-4": {
       "Test\\": "test/",
+      "Test\\Feature\\": "test/Feature/",
       "Test\\ReadMe\\": "test/ReadMe/"
     }
   },

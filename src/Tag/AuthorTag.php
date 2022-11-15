@@ -14,20 +14,29 @@ class AuthorTag implements Tag
     public function __construct(string $name)
     {
         $this->name = $name;
-        $this->regexp = '/^(?:(?<name>(?:[^\<]\S*\s+)*[^\<]\S*)?\s*)?(?:\<(?<email>[^\>]+)\>)?/';
-    }
-
-    public function process(array $notations, string $value): array
-    {
-        if (!preg_match($this->regexp, $value, $matches)) {
-            throw new PhpdocException("Failed to parse '@{$this->name} $value': invalid syntax");
-        }
-        $notations[$this->name] = $matches;
-        return $notations;
+        $this->regexp = '/^(?<name>[^<>]*?)\s*(?:<(?<email>\S*)>)?$/';
     }
 
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function process(array $notations, string $value): array
+    {
+        $notations[$this->name] = $this->processed($value);
+        return $notations;
+    }
+
+    private function processed(string $tagSourceCode): array
+    {
+        if (!preg_match($this->regexp, $tagSourceCode, $match)) {
+            throw new PhpdocException("Failed to parse '@{$this->name} $tagSourceCode': invalid syntax");
+        }
+        $author = ['name' => $match['name']];
+        if (\array_key_exists('email', $match)) {
+            $author['email'] = $match['email'];
+        }
+        return $author;
     }
 }
