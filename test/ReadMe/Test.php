@@ -4,7 +4,7 @@ namespace Test\ReadMe;
 use Jasny\PHPDocParser\PHPDocParser;
 use Jasny\PhpdocParser\PhpDocumentor;
 use Jasny\PhpdocParser\Tag\FlagTag;
-use Jasny\PhpdocParser\Tag\Summary;
+use Jasny\PhpdocParser\Tag\SummaryAndDescription;
 use PHPUnit\Framework\TestCase;
 
 class Test extends TestCase
@@ -31,7 +31,7 @@ class Test extends TestCase
  * @throws DomainException if first argument is not found
  */";
         $parser = new PHPDocParser(PhpDocumentor::tags()->with([
-            new Summary(),
+            new SummaryAndDescription(),
             new FlagTag('important')
         ]));
         // when

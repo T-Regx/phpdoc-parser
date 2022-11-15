@@ -3,7 +3,7 @@ namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\Tag;
 
-class Summary implements Tag
+class SummaryAndDescription implements Tag
 {
     public function process(array $notations, string $value): array
     {

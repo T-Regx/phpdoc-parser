@@ -1,11 +1,11 @@
 <?php
 namespace Test\Tag;
 
-use Jasny\PhpdocParser\Tag\Summary;
+use Jasny\PhpdocParser\Tag\SummaryAndDescription;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Jasny\PhpdocParser\Tag\Summary
+ * @covers \Jasny\PhpdocParser\Tag\SummaryAndDescription
  */
 class SummaryTest extends TestCase
 {
@@ -15,7 +15,7 @@ class SummaryTest extends TestCase
     public function testGetName()
     {
         // given
-        $tag = new Summary();
+        $tag = new SummaryAndDescription();
         // when, then
         $this->assertSame('summary', $tag->getName());
     }
@@ -27,7 +27,7 @@ class SummaryTest extends TestCase
     public function testProcess(string $doc, array $expected)
     {
         // given
-        $tag = new Summary();
+        $tag = new SummaryAndDescription();
         // when
         $result = $tag->process(['some' => 'value'], $doc);
         // then
