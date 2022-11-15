@@ -15,10 +15,11 @@ class NumberTagTest extends TestCase
      * @test
      * @dataProvider constructProvider
      */
-    public function testConstruct($type, $min, $max)
+    public function testConstruct(string $type, $min, $max)
     {
+        // given
         $tag = new NumberTag('foo', $type, $min, $max);
-
+        // then
         $this->assertSame('foo', $tag->getName());
         $this->assertSame($type, $tag->type);
         $this->assertSame($min, $tag->min);
@@ -51,11 +52,10 @@ class NumberTagTest extends TestCase
     }
 
     /**
-     * Test 'construct' method, if exception should be thrown
-     *
+     * @test
      * @dataProvider constructExceptionProvider
      */
-    public function testConstructException($type, $min, $max, $exceptionClass, $exceptionMessage)
+    public function testConstructException(string $type, $min, $max, string $exceptionClass, string $exceptionMessage)
     {
         // then
         $this->expectException($exceptionClass);
@@ -78,7 +78,7 @@ class NumberTagTest extends TestCase
      * @test
      * @dataProvider processProvider
      */
-    public function testProcess($type, $value, $expected)
+    public function testProcess(string $type, string $value, array $expected)
     {
         // given
         $tag = new NumberTag('foo', $type, -10);
@@ -103,7 +103,7 @@ class NumberTagTest extends TestCase
      * @test
      * @dataProvider processExceptionProvider
      */
-    public function testProcessException($type, $min, $max, $value, $exceptionMessage)
+    public function testProcessException(string $type, $min, $max, string $value, string $exceptionMessage)
     {
         // given
         $tag = new NumberTag('foo', $type, $min, $max);

@@ -11,11 +11,20 @@ use PHPUnit\Framework\TestCase;
 class ExampleTagTest extends TestCase
 {
     /**
-     * Provide data for testing 'process' method
-     *
-     * @return array
+     * @test
+     * @dataProvider processProvider
      */
-    public function processProvider()
+    public function testProcess(string $value, array $expected)
+    {
+        // given
+        $tag = new ExampleTag('foo');
+        // when
+        $result = $tag->process(['some' => 'value'], $value);
+        // then
+        $this->assertSame($expected, $result);
+    }
+
+    public function processProvider(): array
     {
         return [
             '@example some_dir/and_file.php' => [
@@ -96,43 +105,25 @@ class ExampleTagTest extends TestCase
     }
 
     /**
-     * Test 'process' method
-     *
-     * @dataProvider processProvider
+     * @test
+     * @dataProvider processExceptionProvider
      */
-    public function testProcess($value, $expected)
+    public function testProcessException(string $value)
     {
+        // given
         $tag = new ExampleTag('foo');
-        $result = $tag->process(['some' => 'value'], $value);
-
-        $this->assertSame($expected, $result);
+        // then
+        $this->expectException(PhpdocException::class);
+        $this->expectExceptionMessageMatches("/Failed to parse '@foo .*?': invalid syntax/");
+        // when
+        $tag->process(['some' => 'value'], $value);
     }
 
-    /**
-     * Provide data for testing 'process' method, in case when exception should be thrown
-     *
-     * @return array
-     */
-    public function processExceptionProvider()
+    public function processExceptionProvider(): array
     {
         return [
             'blank' => [''],
             'unclosed quote' => ['"some dir/and file.php'],
         ];
-    }
-
-    /**
-     * Test 'process' method, if exception should be thrown
-     *
-     * @dataProvider processExceptionProvider
-     */
-    public function testProcessException($value)
-    {
-        $tag = new ExampleTag('foo');
-        
-        $this->expectException(PhpdocException::class);
-        $this->expectExceptionMessageMatches("/Failed to parse '@foo .*?': invalid syntax/");
-    
-        $result = $tag->process(['some' => 'value'], $value);
     }
 }

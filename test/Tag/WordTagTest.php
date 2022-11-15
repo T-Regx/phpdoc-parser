@@ -66,7 +66,7 @@ class WordTagTest extends TestCase
     /**
      * @dataProvider quotedWords
      */
-    public function testProcessQuote($value)
+    public function testProcessQuote(string $value)
     {
         // given
         $tag = new WordTag('foo');

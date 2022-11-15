@@ -11,11 +11,25 @@ use PHPUnit\Framework\TestCase;
 class MethodTagTest extends TestCase
 {
     /**
+     * @test
+     * @dataProvider processProvider
+     */
+    public function testProcess(string $value, ?callable $fqsenConvertor, array $expected)
+    {
+        // given
+        $tag = new MethodTag('foo', $fqsenConvertor);
+        // when
+        $result = $tag->process(['some' => 'value'], $value);
+        // then
+        $this->assertSame($expected, $result);
+    }
+
+    /**
      * Provide data for testing 'process' method
      *
      * @return array
      */
-    public function processProvider()
+    public function processProvider(): array
     {
         return [
             [
@@ -61,7 +75,7 @@ class MethodTagTest extends TestCase
             ],
             [
                 'Zoo someMethod($one, Foo $two, Bar\\Bars $three = null) Some method description here',
-                function($class) {
+                function ($class) {
                     return 'any_namespace\\' . $class;
                 },
                 [
@@ -91,43 +105,25 @@ class MethodTagTest extends TestCase
     }
 
     /**
-     * Test 'process' method
-     *
-     * @dataProvider processProvider
+     * @test
+     * @dataProvider processExceptionProvider
      */
-    public function testProcess($value, $fqsenConvertor, $expected)
+    public function testProcessException(string $value)
     {
-        $tag = new MethodTag('foo', $fqsenConvertor);
-        $result = $tag->process(['some' => 'value'], $value);
-
-        $this->assertSame($expected, $result);
+        // given
+        $tag = new MethodTag('foo');
+        // then
+        $this->expectException(PhpdocException::class);
+        $this->expectExceptionMessageMatches("/Failed to parse '@foo .*?': invalid syntax/");
+        // when
+        $tag->process(['some' => 'value'], $value);
     }
 
-    /**
-     * Provide data for testing 'process' method, in case when exception should be thrown
-     *
-     * @return array
-     */
-    public function processExceptionProvider()
+    public function processExceptionProvider(): array
     {
         return [
             ['Zoo $someMethod($one, Foo $two, Bar\\Bars $three = null) Some method description here'],
             ['Zoo someMethod(one, Foo $two, Bar\\Bars $three = test) Some method description here'],
         ];
-    }
-
-    /**
-     * Test 'process' method, if exception should be thrown
-     *
-     * @dataProvider processExceptionProvider
-     */
-    public function testProcessException($value)
-    {
-        $tag = new MethodTag('foo');
-        
-        $this->expectException(PhpdocException::class);
-        $this->expectExceptionMessageMatches("/Failed to parse '@foo .*?': invalid syntax/");
-    
-        $result = $tag->process(['some' => 'value'], $value);
     }
 }

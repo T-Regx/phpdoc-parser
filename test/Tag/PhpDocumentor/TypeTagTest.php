@@ -11,11 +11,18 @@ use PHPUnit\Framework\TestCase;
 class TypeTagTest extends TestCase
 {
     /**
-     * Provide data for testing 'process' method
-     *
-     * @return array
+     * @test
+     * @dataProvider processProvider
      */
-    public function processProvider()
+    public function testProcess(string $value, ?callable $fqsenConvertor, array $expected)
+    {
+        $tag = new TypeTag('foo', $fqsenConvertor);
+        $result = $tag->process(['some' => 'value'], $value);
+
+        $this->assertSame($expected, $result);
+    }
+
+    public function processProvider(): array
     {
         return [
             [
@@ -40,7 +47,7 @@ class TypeTagTest extends TestCase
             ],
             [
                 'FooType Some description here',
-                function($class) {
+                function ($class) {
                     return 'Bar\\' . $class;
                 },
                 ['some' => 'value', 'foo' => ['type' => 'Bar\\FooType', 'description' => 'Some description here']]
@@ -49,28 +56,16 @@ class TypeTagTest extends TestCase
     }
 
     /**
-     * Test 'process' method
-     *
-     * @dataProvider processProvider
-     */
-    public function testProcess($value, $fqsenConvertor, $expected)
-    {
-        $tag = new TypeTag('foo', $fqsenConvertor);
-        $result = $tag->process(['some' => 'value'], $value);
-
-        $this->assertSame($expected, $result);
-    }
-
-    /**
-     * Test 'process' method, if exception should be thrown
+     * @test
      */
     public function testProcessEmptyValue()
     {
+        // given
         $tag = new TypeTag('foo');
-        
+        // then
         $this->expectException(PhpdocException::class);
         $this->expectExceptionMessageMatches("/Failed to parse '@foo': tag value should not be empty/");
-    
-        $result = $tag->process(['some' => 'value'], '');
+        // when
+        $tag->process(['some' => 'value'], '');
     }
 }

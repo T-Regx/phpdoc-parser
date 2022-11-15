@@ -27,11 +27,13 @@ class RegExpTagTest extends TestCase
      * @test
      * @dataProvider processProvider
      */
-    public function testProcess($regexp, $value, $expected)
+    public function testProcess(string $regexp, string $value, array $expected)
     {
+        // given
         $tag = new RegExpTag('foo', $regexp);
+        // when
         $result = $tag->process(['some' => 'value'], $value);
-
+        // then
         $this->assertSame($expected, $result);
     }
 

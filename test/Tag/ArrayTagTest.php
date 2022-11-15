@@ -11,34 +11,24 @@ use PHPUnit\Framework\TestCase;
  */
 class ArrayTagTest extends TestCase
 {
-    public function testConstruct()
+    /**
+     * @dataProvider typeProvider
+     */
+    public function testGetType(string $type)
     {
-        $tag = new ArrayTag('foo');
-        $this->assertEquals('foo', $tag->getName());
+        // given
+        $tag = new ArrayTag('foo', $type);
+        // when, then
+        $this->assertEquals($type, $tag->getType());
     }
 
-    public function testGetTypeDefault()
-    {
-        $tag = new ArrayTag('foo');
-        $this->assertEquals('string', $tag->getType());
-    }
-
-    public function typeProvider()
+    public function typeProvider(): array
     {
         return [
             ['string'],
             ['int'],
             ['float']
         ];
-    }
-
-    /**
-     * @dataProvider typeProvider
-     */
-    public function testGetType(string $type)
-    {
-        $tag = new ArrayTag('foo', $type);
-        $this->assertEquals($type, $tag->getType());
     }
 
     public function testGetTypeInvalid()
@@ -52,105 +42,125 @@ class ArrayTagTest extends TestCase
 
     public function testProcess()
     {
+        // given
         $tag = new ArrayTag('foo');
-
+        // when
         $result = $tag->process(['bar' => true], 'red, green, blue');
+        // then
         $this->assertEquals(['bar' => true, 'foo' => ['red', 'green', 'blue']], $result);
     }
 
     public function testProcessParenthesis()
     {
+        // given
         $tag = new ArrayTag('foo');
-
+        // when
         $result = $tag->process(['bar' => true], '(red, green, blue) to be ignored');
+        // then
         $this->assertEquals(['bar' => true, 'foo' => ['red', 'green', 'blue']], $result);
     }
 
-    public function testProcessEmpy()
+    public function testProcessEmpty()
     {
+        // given
         $tag = new ArrayTag('foo');
-
+        // when
         $result = $tag->process([], '');
+        // then
         $this->assertEquals(['foo' => []], $result);
     }
 
     public function testProcessQuoted()
     {
-        $value = '"hello, world", greetings, \'bye, bye\', this is "also, quoted", o\'reilly, o\'kay';
+        // given
         $tag = new ArrayTag('foo');
-
-        $result = $tag->process([], $value);
-
+        // when
+        $result = $tag->process([], '"hello, world", greetings, \'bye, bye\', this is "also, quoted", o\'reilly, o\'kay');
+        // then
         $expected = ['hello, world', 'greetings', 'bye, bye', 'this is "also, quoted"', 'o\'reilly', 'o\'kay'];
         $this->assertEquals(['foo' => $expected], $result);
     }
 
     public function testProcessQuotedParenthesis()
     {
-        $value = '("not (here)", one = two, greetings)';
+        // given
         $tag = new ArrayTag('foo');
-
-        $result = $tag->process([], $value);
+        // when
+        $result = $tag->process([], '("not (here)", one = two, greetings)');
+        // then
         $this->assertEquals(['foo' => ['not (here)', 'one = two', 'greetings']], $result);
     }
 
     public function testProcessSkip()
     {
+        // given
         $tag = new ArrayTag('foo');
-
+        // when
         $result = $tag->process([], 'hi, , bye');
+        // then
         $this->assertSame(['foo' => ['hi', '', 'bye']], $result);
     }
 
     public function testProcessString()
     {
+        // given
         $tag = new ArrayTag('foo', 'string');
-
+        // when
         $result = $tag->process([], 'hi, 42, bye');
+        // then
         $this->assertSame(['foo' => ['hi', '42', 'bye']], $result);
     }
 
     public function testProcessInt()
     {
+        // given
         $tag = new ArrayTag('foo', 'int');
-
+        // when
         $result = $tag->process([], '3, 5, 11, 17, 31, -1, +2');
+        // then
         $this->assertSame(['foo' => [3, 5, 11, 17, 31, -1, 2]], $result);
     }
 
     public function testProcessFloat()
     {
+        // given
         $tag = new ArrayTag('foo', 'float');
-
+        // when
         $result = $tag->process([], '3.14, 7, 10e4, 1.41429, -1.2');
+        // then
         $this->assertSame(['foo' => [3.14, 7.0, 10e4, 1.41429, -1.2]], $result);
     }
 
     public function testProcessInvalidInt()
     {
+        // given
+        $tag = new ArrayTag('foo', 'int');
+        // then
         $this->expectException(PhpdocException::class);
         $this->expectExceptionMessage("Failed to parse '@foo 10, 33.2, 20': invalid value '33.2'");
-
-        $tag = new ArrayTag('foo', 'int');
+        // when
         $tag->process([], '10, 33.2, 20');
     }
 
     public function testProcessInvalidFloat()
     {
+        // given
+        $tag = new ArrayTag('foo', 'float');
+        // then
         $this->expectException(PhpdocException::class);
         $this->expectExceptionMessage("Failed to parse '@foo 10, 33.., 20': invalid value '33..'");
-
-        $tag = new ArrayTag('foo', 'float');
+        // when
         $tag->process([], '10, 33.., 20');
     }
 
     public function testProcessInvalidType()
     {
-        $this->expectException(\UnexpectedValueException::class);
-
+        // given
         $tag = new ArrayTag('foo');
         $tag->type = 'abc';
-
+        // then
+        $this->expectException(\UnexpectedValueException::class);
+        // when
         $tag->process([], 'a');
     }
 }

@@ -24,7 +24,7 @@ class SummaryTest extends TestCase
      * @test
      * @dataProvider processProvider
      */
-    public function testProcess($doc, $expected)
+    public function testProcess(string $doc, array $expected)
     {
         // given
         $tag = new Summary();
@@ -36,66 +36,13 @@ class SummaryTest extends TestCase
 
     public function processProvider(): array
     {
-        $doc1 = <<<DOC
-/**
- * Have summary here.
- */
-DOC;
-
-        $doc2 = <<<DOC
-/**
- * Have summary here.
- * And a description
- * for a few lines
- * of words.
- */
-DOC;
-
-        $doc3 = <<<DOC
-/**
- * Have summary here.
- *
- * And a description
- * for a few lines
- * of words.
- */
-DOC;
-
-        $doc4 = <<<DOC
-/**
- * Have summary here.
- *
- * And a description
- *  for a few lines
- *  of words.
- */
-DOC;
-
-        $doc5 = <<<DOC
-/**
- * Have summary here.
- *
- * And a description
- *  for a few lines
- *  of words.
- *
- * @param int
- * @return Foo
- */
-DOC;
-
-        $doc6 = <<<DOC
-/**
- *
- */
-DOC;
-
-        $doc7 = <<<DOC
-/**
- * @param int
- * @return Foo
- */
-DOC;
+        $doc1 = "/**\n * Have summary here.\n */";
+        $doc2 = "/**\n * Have summary here.\n * And a description\n * for a few lines\n * of words.\n */";
+        $doc3 = "/**\n * Have summary here.\n *\n * And a description\n * for a few lines\n * of words.\n */";
+        $doc4 = "/**\n * Have summary here.\n *\n * And a description\n *  for a few lines\n *  of words.\n */";
+        $doc5 = "/**\n * Have summary here.\n *\n * And a description\n *  for a few lines\n *  of words.\n *\n * @param int\n * @return Foo\n */";
+        $doc6 = "/**\n *\n */";
+        $doc7 = "/**\n * @param int\n * @return Foo\n */";
 
         return [
             [

@@ -14,11 +14,24 @@ class VarTagTest extends TestCase
      */
     public function testGetAdditionalProperties()
     {
-        $additional = ['bar' => 'baz'];
-        $tag = new VarTag('foo', null, $additional);
+        // given
+        $tag = new VarTag('foo', null, ['bar' => 'baz']);
+        // when
         $result = $tag->getAdditionalProperties();
+        // then
+        $this->assertSame(['bar' => 'baz'], $result);
+    }
 
-        $this->assertSame($additional, $result);
+    /**
+     * @test
+     * @dataProvider processProvider
+     */
+    public function testProcess(string $value, ?callable $fqsenConvertor, array $additional, array $expected)
+    {
+        $tag = new VarTag('foo', $fqsenConvertor, $additional);
+        $result = $tag->process(['some' => 'value'], $value);
+
+        $this->assertSame($expected, $result);
     }
 
     public function processProvider(): array
@@ -95,17 +108,5 @@ class VarTagTest extends TestCase
                 ]
             ],
         ];
-    }
-
-    /**
-     * @test
-     * @dataProvider processProvider
-     */
-    public function testProcess($value, $fqsenConvertor, $additional, $expected)
-    {
-        $tag = new VarTag('foo', $fqsenConvertor, $additional);
-        $result = $tag->process(['some' => 'value'], $value);
-
-        $this->assertSame($expected, $result);
     }
 }
