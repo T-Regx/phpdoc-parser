@@ -53,7 +53,7 @@ Parse annotations
 
 ```php
 use Jasny\PHPDocParser\PHPDocParser;
-use Jasny\PHPDocParser\Set\PhpDocumentor;
+use Jasny\PhpdocParser\PhpDocumentor;
 use Jasny\PHPDocParser\Tag\FlagTag;
 
 $doc = (new ReflectionFunction('foo'))->getDocComment();

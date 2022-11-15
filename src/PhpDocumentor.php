@@ -1,8 +1,6 @@
 <?php
-namespace Jasny\PhpdocParser\Set;
+namespace Jasny\PhpdocParser;
 
-use Jasny\PhpdocParser\PredefinedSetInterface;
-use Jasny\PhpdocParser\Tag;
 use Jasny\PhpdocParser\Tag\DescriptionTag;
 use Jasny\PhpdocParser\Tag\FlagTag;
 use Jasny\PhpdocParser\Tag\ModifyTag;
@@ -13,7 +11,6 @@ use Jasny\PhpdocParser\Tag\PhpDocumentor\TypeTag;
 use Jasny\PhpdocParser\Tag\PhpDocumentor\VarTag;
 use Jasny\PhpdocParser\Tag\RegExpTag;
 use Jasny\PhpdocParser\Tag\WordTag;
-use Jasny\PhpdocParser\TagSet;
 
 class PhpDocumentor implements PredefinedSetInterface
 {
