@@ -44,7 +44,10 @@ class PhpdocParser
         $tagContinue = '(?:\040){2}(?<multiline_value>\S.*?)';
         $regex = '/^\s*(?:(?:\/\*)?\*)?(?:' . $tag . '|' . $tagContinue . ')(?:\s*\*\*\/)?\r?$/m';
 
-        return preg_match_all($regex, $doc, $matches, PREG_SET_ORDER) ? $matches : [];
+        if (preg_match_all($regex, $doc, $matches, PREG_SET_ORDER)) {
+            return $matches;
+        }
+        return [];
     }
 
     protected function joinMultilineNotations(array $rawNotations): array

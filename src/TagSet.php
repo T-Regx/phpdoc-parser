@@ -27,7 +27,11 @@ class TagSet implements \IteratorAggregate, \ArrayAccess
 
     public function with(iterable $tags): TagSet
     {
-        $tagArray = $tags instanceof \Traversable ? iterator_to_array($tags, false) : $tags;
+        if ($tags instanceof \Traversable) {
+            $tagArray = iterator_to_array($tags, false);
+        } else {
+            $tagArray = $tags;
+        }
 
         return new TagSet(array_merge(array_values($this->tags), $tagArray));
     }

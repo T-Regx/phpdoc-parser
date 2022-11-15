@@ -52,6 +52,9 @@ class PhpDocumentor
 
     private static function fqsen(Tag $tag, ?callable $fqsenConvertor): Tag
     {
-        return isset($fqsenConvertor) ? new ModifyTag($tag, $fqsenConvertor) : $tag;
+        if (isset($fqsenConvertor)) {
+            return new ModifyTag($tag, $fqsenConvertor);
+        }
+        return $tag;
     }
 }

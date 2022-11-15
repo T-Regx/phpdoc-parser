@@ -75,9 +75,10 @@ abstract class AbstractArrayTag implements Tag
 
     protected function stripParentheses(string $value): string
     {
-        return str_starts_with($value, '(')
-            ? preg_replace('/^\(((?:"(?:[^"]++|\\\\.)*"|\'(?:[^\']++|\\\\.)*\'|[^\)]++|\))*)\).*$/', '$1', $value)
-            : $value;
+        if (str_starts_with($value, '(')) {
+            return preg_replace('/^\(((?:"(?:[^"]++|\\\\.)*"|\'(?:[^\']++|\\\\.)*\'|[^\)]++|\))*)\).*$/', '$1', $value);
+        }
+        return $value;
     }
 
     abstract protected function splitValue(string $value): array;

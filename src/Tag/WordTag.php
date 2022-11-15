@@ -43,7 +43,11 @@ class WordTag implements Tag
         $quoted = in_array($value[0], ['"', '\''], true) &&
             preg_match('/^(?|"((?:[^"]+|\\\\.)*)"|\'((?:[^\']+|\\\\.)*)\')/', $value, $matches);
 
-        $word = $quoted ? $matches[1] : str_before($value, ' ');
+        if ($quoted) {
+            $word = $matches[1];
+        } else {
+            $word = str_before($value, ' ');
+        }
         $notations[$this->name] = $word;
 
         return $notations;

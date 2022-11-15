@@ -34,7 +34,11 @@ class MethodTag implements Tag
             $method['return_type'] = call_user_func($this->fqsenConvertor, $method['return_type']);
         }
 
-        $method['params'] = isset($method['params']) ? $this->processParams($value, $method['params']) : [];
+        if (isset($method['params'])) {
+            $method['params'] = $this->processParams($value, $method['params']);
+        } else {
+            $method['params'] = [];
+        }
         $method = array_only($method, ['return_type', 'name', 'params', 'description']);
 
         $notations[$this->name] = $method;
