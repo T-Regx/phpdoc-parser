@@ -17,7 +17,7 @@ class SummaryTest extends TestCase
         // given
         $tag = new Summary();
         // when, then
-        $this->assertSame('summery', $tag->getName());
+        $this->assertSame('summary', $tag->getName());
     }
 
     /**
@@ -100,23 +100,23 @@ DOC;
         return [
             [
                 $doc1,
-                ['some' => 'value', 'summery' => 'Have summery here.', 'description' => "Have summery here."]
+                ['some' => 'value', 'summary' => 'Have summery here.', 'description' => "Have summery here."]
             ],
             [
                 $doc2,
-                ['some' => 'value', 'summery' => 'Have summery here.', 'description' => "Have summery here.\nAnd a description\nfor a few lines\nof words."]
+                ['some' => 'value', 'summary' => 'Have summery here.', 'description' => "Have summery here.\nAnd a description\nfor a few lines\nof words."]
             ],
             [
                 $doc3,
-                ['some' => 'value', 'summery' => 'Have summery here.', 'description' => "Have summery here.\nAnd a description\nfor a few lines\nof words."]
+                ['some' => 'value', 'summary' => 'Have summery here.', 'description' => "Have summery here.\nAnd a description\nfor a few lines\nof words."]
             ],
             [
                 $doc4,
-                ['some' => 'value', 'summery' => 'Have summery here.', 'description' => "Have summery here.\nAnd a description\nfor a few lines\nof words."]
+                ['some' => 'value', 'summary' => 'Have summery here.', 'description' => "Have summery here.\nAnd a description\nfor a few lines\nof words."]
             ],
             [
                 $doc5,
-                ['some' => 'value', 'summery' => 'Have summery here.', 'description' => "Have summery here.\nAnd a description\nfor a few lines\nof words."]
+                ['some' => 'value', 'summary' => 'Have summery here.', 'description' => "Have summery here.\nAnd a description\nfor a few lines\nof words."]
             ],
             [
                 $doc6,

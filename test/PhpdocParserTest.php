@@ -131,9 +131,9 @@ class PhpdocParserTest extends TestCase
  * @ign
  */";
 
-        $expected = ['summery' => 'Some summery', 'description' => "Some summery\nGeneral description\nspanning a few lines\nof doc-comment."];
+        $expected = ['summary' => 'Some summery', 'description' => "Some summery\nGeneral description\nspanning a few lines\nof doc-comment."];
         $parser = new PhpdocParser(new TagSet([
-            'summery' => new EmptyNotationsTag($doc, $expected, 'summery')
+            'summery' => new EmptyNotationsTag($doc, $expected, 'summary')
         ]));
         // when
         $result = $parser->parse($doc);

@@ -15,7 +15,7 @@ class Summary implements Tag
 
         $matches = $matches[1];
 
-        $notations['summery'] = reset($matches);
+        $notations['summary'] = reset($matches);
         $notations['description'] = implode("\n", $matches);
 
         return $notations;
@@ -23,6 +23,6 @@ class Summary implements Tag
 
     public function getName(): string
     {
-        return 'summery';
+        return 'summary';
     }
 }

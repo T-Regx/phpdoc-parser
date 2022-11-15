@@ -62,7 +62,7 @@ class Test extends TestCase
                 ['type' => 'InvalidArgumentException'],
                 ['type' => 'DoaminException', 'description' => 'if first argument is not found'],
             ],
-            'summery' => "The description of foo. This function does a lot of thing",
+            'summary' => "The description of foo. This function does a lot of thing",
             'description' => "The description of foo. This function does a lot of thing
 which are described here.
 Some more text here.",

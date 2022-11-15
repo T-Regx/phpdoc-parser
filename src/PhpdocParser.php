@@ -25,8 +25,8 @@ class PhpdocParser
             $notations = $this->tags[$item['tag']]->process($notations, $item['value'] ?? '');
         }
 
-        if (isset($this->tags['summery'])) {
-            $notations = $this->tags['summery']->process($notations, $doc);
+        if (isset($this->tags['summary'])) {
+            $notations = $this->tags['summary']->process($notations, $doc);
         }
 
         if ($callback !== null) {
