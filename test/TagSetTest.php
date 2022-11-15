@@ -33,7 +33,6 @@ class TagSetTest extends TestCase
 
         foreach ($this->tagSet as $key => $tag) {
             $this->assertIsString($key);
-            $this->assertInstanceOf(Tag::class, $tag);
 
             $this->assertArrayHasKey($key, $this->tagSet);
             $this->assertSame($this->tagSet[$key], $tag);
@@ -55,7 +54,6 @@ class TagSetTest extends TestCase
 
         $combined = $this->tagSet->with($new);
 
-        $this->assertInstanceOf(TagSet::class, $combined);
         $this->assertEquals(['foo', 'bar', 'qux', 'red', 'blue', 'green'], array_keys(iterator_to_array($combined)));
         $this->assertSame($this->tags + $newTags, iterator_to_array($combined));
 
@@ -88,7 +86,6 @@ class TagSetTest extends TestCase
     {
         $filtered = $this->tagSet->without('bar');
 
-        $this->assertInstanceOf(TagSet::class, $filtered);
         $this->assertNotSame($this->tagSet, $filtered);
 
         $this->assertEquals(['foo', 'qux'], array_keys(iterator_to_array($filtered)));
@@ -99,7 +96,6 @@ class TagSetTest extends TestCase
     {
         $filtered = $this->tagSet->without('foo', 'bar');
 
-        $this->assertInstanceOf(TagSet::class, $filtered);
         $this->assertNotSame($this->tagSet, $filtered);
 
         $this->assertEquals(['qux'], array_keys(iterator_to_array($filtered)));
