@@ -4,6 +4,7 @@ namespace Jasny\PhpdocParser\Tag;
 use Jasny\PhpdocParser\PhpdocException;
 use Jasny\PhpdocParser\Tag;
 use function Jasny\array_only;
+use function trim;
 
 class ExampleTag implements Tag
 {
@@ -22,35 +23,23 @@ class ExampleTag implements Tag
 
     public function process(array $notations, string $value): array
     {
-        $regexp = '/^(?<location>(?:[^"]\S*|"[^"]+"))(?:\s*(?<start_line>\d+)'
-            . '(?:\s*(?<number_of_lines>\d+))?)?(?:\s*(?<description>.+))?/';
-
+        $regexp = '/^(?<location>(?:[^"]\S*|"[^"]+"))(?:\s*(?<start_line>\d+)(?:\s*(?<number_of_lines>\d+))?)?(?:\s*(?<description>.+))?/';
         if (!preg_match($regexp, $value, $matches)) {
             throw new PhpdocException("Failed to parse '@{$this->name} $value': invalid syntax");
         }
-
-        $this->normalizeValues($matches);
-        $matches = array_only($matches, ['location', 'start_line', 'number_of_lines', 'description']);
-
-        $notations[$this->name] = $matches;
-
-        return $notations;
-    }
-
-    private function normalizeValues(array &$values): void
-    {
-        $values['location'] = trim($values['location'], '"');
-
+        $matches['location'] = trim($matches['location'], '"');
         foreach (['start_line', 'number_of_lines'] as $name) {
-            if (!isset($values[$name])) {
+            if (!isset($matches[$name])) {
                 continue;
             }
-
-            if ($values[$name] === '') {
-                unset($values[$name]);
+            if ($matches[$name] === '') {
+                unset($matches[$name]);
             } else {
-                $values[$name] = (int)$values[$name];
+                $matches[$name] = (int)$matches[$name];
             }
         }
+        $matches = array_only($matches, ['location', 'start_line', 'number_of_lines', 'description']);
+        $notations[$this->name] = $matches;
+        return $notations;
     }
 }

@@ -3,7 +3,9 @@ namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\PhpdocException;
 use Jasny\PhpdocParser\Tag;
+use function call_user_func;
 use function Jasny\array_only as array_only;
+use function trim;
 
 class MethodTag implements Tag
 {
@@ -12,14 +14,15 @@ class MethodTag implements Tag
     /** @var callable|null */
     private $fqsenConvertor;
 
-    /**
-     * @param string $name Tag name
-     * @param callable|null $fqsenConvertor Logic to convert class to FQCN
-     */
     public function __construct(string $name, ?callable $fqsenConvertor = null)
     {
         $this->name = $name;
         $this->fqsenConvertor = $fqsenConvertor;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function process(array $notations, string $value): array
@@ -42,7 +45,6 @@ class MethodTag implements Tag
         $method = array_only($method, ['return_type', 'name', 'params', 'description']);
 
         $notations[$this->name] = $method;
-
         return $notations;
     }
 
@@ -57,36 +59,18 @@ class MethodTag implements Tag
             if (!preg_match($regexp, $rawParam, $param)) {
                 throw new PhpdocException("Failed to parse '@{$this->name} {$value}': invalid syntax");
             }
-
-            $this->processParamTypeProperty($param);
-            $this->processParamDefaultProperty($param);
-
+            if (isset($param['type']) && $param['type'] === '') {
+                unset($param['type']);
+            }
+            if (isset($param['type']) && isset($this->fqsenConvertor)) {
+                $param['type'] = call_user_func($this->fqsenConvertor, $param['type']);
+            }
+            if (isset($param['default'])) {
+                $param['default'] = trim($param['default'], '"\'');
+            }
             $params[$param['name']] = array_only($param, ['type', 'name', 'default']);
         }
 
         return $params;
-    }
-
-    private function processParamTypeProperty(array &$param): void
-    {
-        if (isset($param['type']) && $param['type'] === '') {
-            unset($param['type']);
-        }
-
-        if (isset($param['type']) && isset($this->fqsenConvertor)) {
-            $param['type'] = call_user_func($this->fqsenConvertor, $param['type']);
-        }
-    }
-
-    private function processParamDefaultProperty(array &$param): void
-    {
-        if (isset($param['default'])) {
-            $param['default'] = trim($param['default'], '"\'');
-        }
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
     }
 }

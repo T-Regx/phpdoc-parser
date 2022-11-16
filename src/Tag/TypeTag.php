@@ -3,11 +3,9 @@ namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\PhpdocException;
 use Jasny\PhpdocParser\Tag;
+use function call_user_func;
 use function Jasny\array_only;
 
-/**
- * Use the first word of tag as type, the rest as desciption
- */
 class TypeTag implements Tag
 {
     /** @var string */
@@ -15,15 +13,15 @@ class TypeTag implements Tag
     /** @var callable|null */
     private $fqsenConvertor;
 
-    /**
-     * @param string $name
-     * @param callable|null $fqsenConvertor Logic to convert class to FQCN
-     */
     public function __construct(string $name, ?callable $fqsenConvertor = null)
     {
         $this->name = $name;
-
         $this->fqsenConvertor = $fqsenConvertor;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function process(array $notations, string $value): array
@@ -31,26 +29,12 @@ class TypeTag implements Tag
         if ($value === '') {
             throw new PhpdocException("Failed to parse '@{$this->name}': tag value should not be empty");
         }
-
         preg_match('/^(?<type>\S+)(?:\s+(?<description>.*))?/', $value, $data); //regexp won't fail
-
-        $this->processType($data);
-        $data = array_only($data, ['type', 'description']);
-
-        $notations[$this->name] = $data;
-
-        return $notations;
-    }
-
-    private function processType(array &$data): void
-    {
         if (isset($data['type']) && $this->fqsenConvertor !== null) {
             $data['type'] = call_user_func($this->fqsenConvertor, $data['type']);
         }
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
+        $data = array_only($data, ['type', 'description']);
+        $notations[$this->name] = $data;
+        return $notations;
     }
 }
