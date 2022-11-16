@@ -3,14 +3,14 @@ namespace Jasny\PhpdocParser;
 
 use Jasny\PhpdocParser\Tag\AuthorTag;
 use Jasny\PhpdocParser\Tag\DescriptionTag;
+use Jasny\PhpdocParser\Tag\ExampleTag;
 use Jasny\PhpdocParser\Tag\FlagTag;
+use Jasny\PhpdocParser\Tag\MethodTag;
 use Jasny\PhpdocParser\Tag\ModifyTag;
 use Jasny\PhpdocParser\Tag\MultiTag;
-use Jasny\PhpdocParser\Tag\PhpDocumentor\ExampleTag;
-use Jasny\PhpdocParser\Tag\PhpDocumentor\MethodTag;
-use Jasny\PhpdocParser\Tag\PhpDocumentor\TypeTag;
-use Jasny\PhpdocParser\Tag\PhpDocumentor\VarTag;
 use Jasny\PhpdocParser\Tag\SummaryAndDescription;
+use Jasny\PhpdocParser\Tag\TypeTag;
+use Jasny\PhpdocParser\Tag\VarTag;
 use Jasny\PhpdocParser\Tag\WordTag;
 
 class PhpDocumentor

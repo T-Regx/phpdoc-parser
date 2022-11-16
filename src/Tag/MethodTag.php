@@ -1,5 +1,5 @@
 <?php
-namespace Jasny\PhpdocParser\Tag\PhpDocumentor;
+namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\PhpdocException;
 use Jasny\PhpdocParser\Tag;
