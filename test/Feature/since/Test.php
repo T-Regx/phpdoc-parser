@@ -15,7 +15,7 @@ class Test extends TestCase
     public function shouldParseSince()
     {
         // when, then
-        $this->assertParses(resource('since.txt'), ['since' => '1.0.0']);
+        $this->assertParses(resource('tags/since.txt'), ['since' => '1.0.0']);
     }
 
     /**
@@ -25,7 +25,7 @@ class Test extends TestCase
     {
         $this->markTestIncomplete();
         // when, then
-        $this->assertParses(resource('since.description.txt'), [
+        $this->assertParses(resource('tags/since.description.txt'), [
             'since'       => '1.0.2',
             'description' => 'Added the $b argument.'
         ]);

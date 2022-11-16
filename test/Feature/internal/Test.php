@@ -15,6 +15,6 @@ class Test extends TestCase
     public function shouldParseInternal()
     {
         // when, then
-        $this->assertParses(resource('internal.txt'), ['internal' => true]);
+        $this->assertParses(resource('tags/internal.txt'), ['internal' => true]);
     }
 }

@@ -20,7 +20,7 @@ class Test extends TestCase
     public function shouldParseUses()
     {
         // when, then
-        $this->assertParses(resource('uses.txt'), ['uses' => ['type' => 'MyClass::$items']]);
+        $this->assertParses(resource('tags/uses.txt'), ['uses' => ['type' => 'MyClass::$items']]);
     }
 
     /**
@@ -29,7 +29,7 @@ class Test extends TestCase
     public function shouldParseUsedBy()
     {
         // when, then
-        $this->assertParses(resource('used-by.txt'), ['used-by' => ['type' => 'MyClass::$items']]);
+        $this->assertParses(resource('tags/used-by.txt'), ['used-by' => ['type' => 'MyClass::$items']]);
     }
 
     /**
@@ -38,7 +38,7 @@ class Test extends TestCase
     public function shouldParseUsesDescription()
     {
         // when, then
-        $this->assertParses(resource('uses.description.txt'), [
+        $this->assertParses(resource('tags/uses.description.txt'), [
             'uses' => [
                 'type'        => 'MyClass::$items',
                 'description' => 'to retrieve the count from.'

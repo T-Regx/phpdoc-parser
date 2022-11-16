@@ -15,7 +15,7 @@ class Test extends TestCase
     public function shouldParseReturn()
     {
         // when, then
-        $this->assertParses(resource('return.txt'), [
+        $this->assertParses(resource('tags/return.txt'), [
             'return' => [
                 'type'        => 'string|null',
                 'description' => "The label's text or null if none provided."

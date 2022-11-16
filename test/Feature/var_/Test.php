@@ -19,7 +19,7 @@ class Test extends TestCase
     public function shouldParseVariable()
     {
         // when, then
-        $this->assertParses(resource('var.txt'), [
+        $this->assertParses(resource('tags/var.txt'), [
             'var' => [
                 'type'        => 'string',
                 'name'        => 'name',

@@ -15,6 +15,6 @@ class Test extends TestCase
     public function shouldParsePackage()
     {
         // when, then
-        $this->assertParses(resource('package.txt'), ['package' => 'PSR\Documentation\API']);
+        $this->assertParses(resource('tags/package.txt'), ['package' => 'PSR\Documentation\API']);
     }
 }

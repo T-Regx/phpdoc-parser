@@ -15,7 +15,7 @@ class Test extends TestCase
     public function shouldParseDeprecated()
     {
         // when, then
-        $this->assertParses(resource('deprecated.txt'), ['deprecated' => true]);
+        $this->assertParses(resource('tags/deprecated.txt'), ['deprecated' => true]);
     }
 
     /**
@@ -24,7 +24,7 @@ class Test extends TestCase
     public function shouldParseDeprecatedVersionDescription()
     {
         // when, then
-        $this->assertParses(resource('deprecated.version.txt'), [
+        $this->assertParses(resource('tags/deprecated.version.txt'), [
             'deprecated' => '1.0.0'
         ]);
     }
@@ -36,7 +36,7 @@ class Test extends TestCase
     {
         $this->markTestIncomplete();
         // when, then
-        $this->assertParses(resource('deprecated.version.description.txt'), [
+        $this->assertParses(resource('tags/deprecated.version.description.txt'), [
             'deprecated'  => '1.0.0',
             'description' => 'No longer used by internal code and not recommended.'
         ]);

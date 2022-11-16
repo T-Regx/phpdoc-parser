@@ -15,6 +15,6 @@ class Test extends TestCase
     public function shouldParseIgnore()
     {
         // when, then
-        $this->assertParses(resource('ignore.txt'), ['ignore' => true]);
+        $this->assertParses(resource('tags/ignore.txt'), ['ignore' => true]);
     }
 }

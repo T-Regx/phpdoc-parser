@@ -15,7 +15,7 @@ class Test extends TestCase
     public function shouldParseCopyright()
     {
         // when, then
-        $this->assertParses(resource('copyright.txt'), [
+        $this->assertParses(resource('tags/copyright.txt'), [
             'copyright' => '1997-2005 The PHP Group'
         ]);
     }

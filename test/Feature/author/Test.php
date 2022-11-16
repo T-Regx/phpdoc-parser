@@ -18,7 +18,7 @@ class Test extends TestCase
     public function shouldParseAuthor()
     {
         // when, then
-        $this->assertParses(resource('author.name.txt'), [
+        $this->assertParses(resource('tags/author.name.txt'), [
             'author' => ['name' => 'My Name',]
         ]);
     }
@@ -29,9 +29,9 @@ class Test extends TestCase
     public function shouldParseAuthorEmail()
     {
         // when, then
-        $this->assertParses(resource('author.name.email.txt'), [
+        $this->assertParses(resource('tags/author.name.email.txt'), [
             'author' => [
-                'name' => 'My Name',
+                'name'  => 'My Name',
                 'email' => 'my.name@example.com',
             ]
         ]);
@@ -43,9 +43,9 @@ class Test extends TestCase
     public function shouldParseAuthorEmailNoName()
     {
         // when, then
-        $this->assertParses(resource('author.email.txt'), [
+        $this->assertParses(resource('tags/author.email.txt'), [
             'author' => [
-                'name' => '',
+                'name'  => '',
                 'email' => 'my.name@example.com',
             ]
         ]);
@@ -62,6 +62,6 @@ class Test extends TestCase
         $this->expectException(PhpdocException::class);
         $this->expectExceptionMessage("Failed to parse '@author name <opening': invalid syntax");
         // when
-        $parser->parse(resource('author.malformed.txt'));
+        $parser->parse(resource('tags/author.malformed.txt'));
     }
 }

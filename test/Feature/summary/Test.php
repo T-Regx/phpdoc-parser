@@ -15,7 +15,7 @@ class Test extends TestCase
     public function shouldParseSimpleSummary()
     {
         // when, then
-        $this->assertParses(resource('summary.txt'), [
+        $this->assertParses(resource('tags/summary.txt'), [
             'summary' => 'Simple sentence'
         ]);
     }
@@ -26,7 +26,7 @@ class Test extends TestCase
     public function shouldParseSimpleSummaryWithPeriod()
     {
         // when, then
-        $this->assertParses(resource('summary.period.txt'), [
+        $this->assertParses(resource('tags/summary.period.txt'), [
             'summary' => 'Simple sentence.'
         ]);
     }
@@ -37,7 +37,7 @@ class Test extends TestCase
     public function shouldParseSimpleSummaryAndDescription()
     {
         // when, then
-        $this->assertParses(resource('summary.twoSentences.txt'), [
+        $this->assertParses(resource('tags/summary.twoSentences.txt'), [
             'summary'     => 'This is the first sentence.',
             'description' => 'This is the second sentence'
         ]);
@@ -49,7 +49,7 @@ class Test extends TestCase
     public function shouldParseSummaryInTwoLines()
     {
         // when, then
-        $this->assertParses(resource('summary.twoLines.txt'), [
+        $this->assertParses(resource('tags/summary.twoLines.txt'), [
             'summary' => 'Simple sentence',
         ]);
     }
@@ -60,7 +60,7 @@ class Test extends TestCase
     public function shouldParseSummaryInThreeLines()
     {
         // when, then
-        $this->assertParses(resource('summary.threeLines.txt'), [
+        $this->assertParses(resource('tags/summary.threeLines.txt'), [
             'summary'     => 'Very simple sentence',
             'description' => 'Description',
         ]);
@@ -72,7 +72,7 @@ class Test extends TestCase
     public function shouldParseSummaryInTwoLinesWithPadding()
     {
         // when, then
-        $this->assertParses(resource('summary.twoLines.padding.txt'), [
+        $this->assertParses(resource('tags/summary.twoLines.padding.txt'), [
             'summary' => 'Simple sentence',
         ]);
     }
@@ -83,7 +83,7 @@ class Test extends TestCase
     public function shouldParseSummaryAndDescriptionInTheNextLine()
     {
         // when, then
-        $this->assertParses(resource('summary.description.txt'), [
+        $this->assertParses(resource('tags/summary.description.txt'), [
             'summary'     => 'This is the first sentence',
             'description' => 'This is the second sentence'
         ]);
@@ -95,7 +95,7 @@ class Test extends TestCase
     public function shouldParseSummaryPeriodAndDescriptionInTheNextLine()
     {
         // when, then
-        $this->assertParses(resource('summary.description.period.txt'), [
+        $this->assertParses(resource('tags/summary.description.period.txt'), [
             'summary'     => 'This is the first sentence.',
             'description' => 'This is the second sentence.'
         ]);

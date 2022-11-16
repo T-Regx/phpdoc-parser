@@ -18,7 +18,7 @@ class Test extends TestCase
     public function shouldParseExampleFile()
     {
         // when, then
-        $this->assertParses(resource('example.file.txt'), [
+        $this->assertParses(resource('tags/example.file.txt'), [
             'example' => [
                 'location'    => 'example1.php',
                 'description' => 'Counting in action.'
@@ -32,7 +32,7 @@ class Test extends TestCase
     public function shouldParseExampleLink()
     {
         // when, then
-        $this->assertParses(resource('example.link.txt'), [
+        $this->assertParses(resource('tags/example.link.txt'), [
             'example' => [
                 'location'    => 'https://example.com/example2.phps',
                 'description' => 'Counting in action by a 3rd party.'
@@ -46,7 +46,7 @@ class Test extends TestCase
     public function shouldParseExampleString()
     {
         // when, then
-        $this->assertParses(resource('example.string.txt'), [
+        $this->assertParses(resource('tags/example.string.txt'), [
             'example' => [
                 'location'    => 'My Own Example.php',
                 'description' => 'My counting.'

@@ -15,7 +15,7 @@ class Test extends TestCase
     public function shouldParseVersion()
     {
         // when, then
-        $this->assertParses(resource('version.txt'), ['version' => '1.5.0']);
+        $this->assertParses(resource('tags/version.txt'), ['version' => '1.5.0']);
     }
 
     /**
@@ -25,7 +25,7 @@ class Test extends TestCase
     {
         $this->markTestIncomplete();
         // when, then
-        $this->assertParses(resource('version.description.txt'), [
+        $this->assertParses(resource('tags/version.description.txt'), [
             'version'     => '1.0.2',
             'description' => 'Added the $b argument.'
         ]);

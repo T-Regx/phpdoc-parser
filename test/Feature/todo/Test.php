@@ -15,7 +15,7 @@ class Test extends TestCase
     public function shouldParseTodo()
     {
         // when, then
-        $this->assertParses(resource('todo.txt'), [
+        $this->assertParses(resource('tags/todo.txt'), [
             'todo' => 'Add an array parameter to count.'
         ]);
     }

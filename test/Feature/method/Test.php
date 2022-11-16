@@ -19,7 +19,7 @@ class Test extends TestCase
     public function shouldParseMethods()
     {
         // when, then
-        $this->assertParses(resource('method.many.txt'), [
+        $this->assertParses(resource('tags/method.many.txt'), [
             'methods' => [
                 [
                     'return_type' => 'string',
@@ -46,7 +46,7 @@ class Test extends TestCase
     public function shouldParseMethodsDuplicate()
     {
         // when, then
-        $this->assertParses(resource('method.duplicate.txt'), [
+        $this->assertParses(resource('tags/method.duplicate.txt'), [
             'methods' => [
                 [
                     'return_type' => '',

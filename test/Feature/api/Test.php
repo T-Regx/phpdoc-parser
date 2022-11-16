@@ -15,6 +15,6 @@ class Test extends TestCase
     public function shouldParseApi()
     {
         // when, then
-        $this->assertParses(resource('api.txt'), ['api' => true]);
+        $this->assertParses(resource('tags/api.txt'), ['api' => true]);
     }
 }

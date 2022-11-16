@@ -15,7 +15,7 @@ class Test extends TestCase
     public function shouldParseParams()
     {
         // when, then
-        $this->assertParses(resource('param.many.txt'), [
+        $this->assertParses(resource('tags/param.many.txt'), [
             'params' => [
                 [
                     'type'        => 'mixed[]',
@@ -37,7 +37,7 @@ class Test extends TestCase
     {
         $this->markTestIncomplete();
         // when, then
-        $this->assertParses(resource('param.multiline.txt'), [
+        $this->assertParses(resource('tags/param.multiline.txt'), [
             'params' => [
                 'recursive' => [
                     'type'        => 'bool',

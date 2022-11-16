@@ -15,7 +15,7 @@ class Test extends TestCase
     public function shouldParseSeeField()
     {
         // when, then
-        $this->assertParses(resource('see.field.txt'), ['see' => 'MyClass::$items']);
+        $this->assertParses(resource('tags/see.field.txt'), ['see' => 'MyClass::$items']);
     }
 
     /**
@@ -24,7 +24,7 @@ class Test extends TestCase
     public function shouldParseSeeMethod()
     {
         // when, then
-        $this->assertParses(resource('see.method.txt'), ['see' => 'MyClass::setItems()']);
+        $this->assertParses(resource('tags/see.method.txt'), ['see' => 'MyClass::setItems()']);
     }
 
     /**
@@ -33,7 +33,7 @@ class Test extends TestCase
     public function shouldParseSeeFunction()
     {
         // when, then
-        $this->assertParses(resource('see.function.txt'), ['see' => 'number_of()']);
+        $this->assertParses(resource('tags/see.function.txt'), ['see' => 'number_of()']);
     }
 
     /**
@@ -42,7 +42,7 @@ class Test extends TestCase
     public function shouldParseSeeUrl()
     {
         // when, then
-        $this->assertParses(resource('see.url.txt'), ['see' => 'https://example.com/my/bar']);
+        $this->assertParses(resource('tags/see.url.txt'), ['see' => 'https://example.com/my/bar']);
     }
 
     /**
@@ -52,7 +52,7 @@ class Test extends TestCase
     {
         $this->markTestIncomplete();
         // when, then
-        $this->assertParses(resource('see.many.txt'), [
+        $this->assertParses(resource('tags/see.many.txt'), [
             'see' => 'https://example.com/my/bar'
         ]);
     }

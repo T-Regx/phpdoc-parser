@@ -14,7 +14,7 @@ class Test extends TestCase
      */
     public function shouldParseEmpty()
     {
-        // given
+        // when, then
         $this->assertParses(resource('empty.txt'), []);
     }
 }

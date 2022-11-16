@@ -15,7 +15,7 @@ class Test extends TestCase
     public function shouldParseLink()
     {
         // when, then
-        $this->assertParses(resource('link.txt'), ['link' => 'https://example.com/my/bar']);
+        $this->assertParses(resource('tags/link.txt'), ['link' => 'https://example.com/my/bar']);
     }
 
     /**
@@ -25,7 +25,7 @@ class Test extends TestCase
     {
         $this->markTestIncomplete();
         // when, then
-        $this->assertParses(resource('link.description.txt'), [
+        $this->assertParses(resource('tags/link.description.txt'), [
             'link'        => 'https://example.com/my/bar',
             'description' => 'Documentation of Foo.'
         ]);
