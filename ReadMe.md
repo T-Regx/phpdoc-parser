@@ -207,9 +207,9 @@ $meta = $parser->parse($doc);
    */
   ```
 - As far as I'm aware this project does not support parsing inline tags yet
-- No support for `@version` tag.
 - Tag `@see` is only parsed once, instead of all occurrences
 - Tag `@since` ignores description
+- Tag `@version` ignores description
 
 ## Fixed from the original
 
@@ -219,3 +219,4 @@ Features fixed and improved so far:
 
 - Typo `"summery"` to `"summary"`
 - Improper parsing summary in multiple lines
+- Added support for `@version` tag

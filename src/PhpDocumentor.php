@@ -48,7 +48,8 @@ class PhpDocumentor
             new DescriptionTag('todo'),
             new TypeTag('uses', $fqsenConvertor),
             new TypeTag('used-by', $fqsenConvertor),
-            new VarTag('var', $fqsenConvertor)
+            new VarTag('var', $fqsenConvertor),
+            new WordTag('version'),
         ]);
     }
 
