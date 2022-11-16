@@ -1,0 +1,3 @@
+/**
+ * @example https://example.com/example2.phps Counting in action by a 3rd party.
+ */
