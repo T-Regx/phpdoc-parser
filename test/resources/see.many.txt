@@ -1,0 +1,6 @@
+/**
+ * @see number_of()                Alias.
+ * @see MyClass::$items            For the property whose items are counted.
+ * @see MyClass::setItems()        To set the items for this collection.
+ * @see https://example.com/my/bar Documentation of Foo.
+ */

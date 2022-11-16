@@ -1,0 +1,3 @@
+/**
+ * @see MyClass::setItems()        To set the items for this collection.
+ */

@@ -1,0 +1,3 @@
+/**
+ * @see https://example.com/my/bar Documentation of Foo.
+ */

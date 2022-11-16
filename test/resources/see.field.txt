@@ -1,0 +1,3 @@
+/**
+ * @see MyClass::$items            For the property whose items are counted.
+ */

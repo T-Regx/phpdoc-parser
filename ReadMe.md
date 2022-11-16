@@ -207,6 +207,8 @@ $meta = $parser->parse($doc);
    */
   ```
 - As far as I'm aware this project does not support parsing inline tags yet
+- No support for `@version` tag.
+- Tag `@see` is only parsed once, instead of all occurrences
 
 ## Fixed from the original
 
