@@ -215,6 +215,7 @@ $meta = $parser->parse($doc);
 - Tag `@deprecated` ignores description
 - `CustomTag` is not extensible enough, perhaps a new implementation is needed
 - `@method` doesn't interpret `static` properly
+- Tags aren't properly parsed as multiline
 
 ## Fixed from the original
 
