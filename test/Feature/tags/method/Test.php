@@ -67,10 +67,15 @@ class Test extends TestCase
      */
     public function shouldParseMethodStatic()
     {
-        $this->markTestIncomplete();
         // when, then
-        $this->assertParses(resource('method.static.txt'), [
-            'link' => 'https://example.com/my/bar'
+        $this->assertParses(resource('tags/method.static.txt'), [
+            'methods' => [
+                [
+                    'return_type' => 'string',
+                    'name'        => 'staticGetter',
+                    'params'      => []
+                ]
+            ]
         ]);
     }
 

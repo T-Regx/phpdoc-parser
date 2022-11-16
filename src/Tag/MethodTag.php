@@ -27,7 +27,15 @@ class MethodTag implements Tag
 
     public function process(array $notations, string $value): array
     {
-        $regexp = '/^(?:(?<return_type>\S+)\s+)?(?<name>\w+)\((?<params>[^\)]+)?\)(?:\s+(?<description>.*))?/';
+        $regexp = '/^
+          \s*
+          (static\s+)?
+          (?:(?<return_type>\S+)\s+)?
+          (?<name>\w+)
+          \(
+          (?<params>[^\)]+)?
+          \)
+          (?:\s+(?<description>.*))?/x';
 
         if (!preg_match($regexp, $value, $method)) {
             throw new PhpdocException("Failed to parse '@{$this->name} $value': invalid syntax");

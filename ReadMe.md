@@ -214,7 +214,6 @@ $meta = $parser->parse($doc);
 - Tag `@link` ignores description
 - Tag `@deprecated` ignores description
 - `CustomTag` is not extensible enough, perhaps a new implementation is needed
-- `@method` doesn't interpret `static` properly
 - Tags aren't properly parsed as multiline
 
 ## Fixed from the original
@@ -226,3 +225,4 @@ Features fixed and improved so far:
 - Typo `"summery"` to `"summary"`
 - Improper parsing summary in multiple lines
 - Added support for `@version` tag
+- `@method` interprets `static` properly
