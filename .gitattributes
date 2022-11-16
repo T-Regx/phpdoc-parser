@@ -3,3 +3,4 @@
 /.gitignore export-ignore
 /phpunit.xml.dist export-ignore
 /README.md export-ignore
+/t.regx.png export-ignore

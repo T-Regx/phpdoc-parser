@@ -1,23 +1,41 @@
-# Jasny PHPDoc parser
+<p align="center"><a href="https://t-regx.com/"><img src="t.regx.png"></a></p>
 
-[![Build status](https://github.com/jasny/phpdoc-parser/actions/workflows/php.yml/badge.svg)](https://github.com/jasny/phpdoc-parser/actions/workflows/php.yml)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jasny/phpdoc-parser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jasny/phpdoc-parser/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/jasny/phpdoc-parser/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/jasny/phpdoc-parser/?branch=master)
-[![Packagist Stable Version](https://img.shields.io/packagist/v/jasny/phpdoc-parser.svg)](https://packagist.org/packages/jasny/phpdoc-parser)
-[![Packagist License](https://img.shields.io/packagist/l/jasny/phpdoc-parser.svg)](https://packagist.org/packages/jasny/phpdoc-parser)
+# PhpDoc parser
 
-Configurable DocBlock parser from PHP.
+Lightweight parser of PhpDoc.
 
-Annotations aren't implemented in PHP itself which is why this component offers a way to use the PHP doc-blocks as a
-place for the well known tag syntax using the `@` char.
+[![Build Status](https://github.com/T-Regx/phpdoc-parser/workflows/build/badge.svg?branch=master)](https://github.com/T-Regx/phpdoc-parser/actions/)
+[![Coverage Status](https://coveralls.io/repos/github/T-Regx/phpdoc-parser/badge.svg?branch=master)](https://coveralls.io/github/T-Regx/phpdoc-parser?branch=master)
+[![Repository Size](https://github-size-badge.herokuapp.com/T-Regx/phpdoc-parser.svg)](https://github.com/T-Regx/phpdoc-parser)
+[![License](https://img.shields.io/github/license/T-Regx/phpdoc-parser.svg)](https://github.com/T-Regx/phpdoc-parser/blob/master/LICENSE)
+[![Composer lock](https://img.shields.io/badge/.lock-uncommited-green.svg)](https://github.com/T-Regx/phpdoc-parser)
 
-The PHPDoc parser allows you to configure tags including the method how to parse and extract information. This
-is inline with phpDocumentor style annotations and differs from for instance Doctrine type annotations.
+[![PHP Version](https://img.shields.io/badge/PHP-7.1-blue.svg)][1]
+[![PHP Version](https://img.shields.io/badge/PHP-7.2-blue.svg)][1]
+[![PHP Version](https://img.shields.io/badge/PHP-7.3-blue.svg)][1]
+[![PHP Version](https://img.shields.io/badge/PHP-7.4-blue.svg)][1]
+[![PHP Version](https://img.shields.io/badge/PHP-8.0-blue.svg)][1]
+[![PHP Version](https://img.shields.io/badge/PHP-8.1-blue.svg)][1]
 
-## Installation
+[1]: https://github.com/T-Regx/phpdoc-parser/runs/2375602376
+
+[![PRs Welcome](https://img.shields.io/badge/PR-welcome-brightgreen.svg?style=popout)](http://makeapullrequest.com)
+
+1. [Installation](#installation)
+    * [Composer](#installation)
+2. [Usage](#usage)
+3. [Tags](#tags)
+4. [Tag classes](#tag-classes)
+5. [FQSEN Resolve](#fqsen-resolver)
+6. [Current limitations](#current-limitations)
+7. [Fixed from the original](#fixed-from-the-original)
+
+# Installation
+
+Installation for PHP 7.1 and later:
 
 ```bash
-composer require jasny/phpdoc-parser
+composer require rawr/phpdoc-parser
 ```
 
 ## Usage
@@ -214,7 +232,6 @@ $meta = $parser->parse($doc);
 - Tag `@link` ignores description
 - Tag `@deprecated` ignores description
 - `CustomTag` is not extensible enough, perhaps a new implementation is needed
-- Tags aren't properly parsed as multiline
 
 ## Fixed from the original
 
