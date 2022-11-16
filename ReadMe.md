@@ -212,6 +212,7 @@ $meta = $parser->parse($doc);
 - Tag `@version` ignores description
 - Tag `@link` ignores description
 - Tag `@deprecated` ignores description
+- `CustomTag` is not extensible enough, perhaps a new implementation is needed
 
 ## Fixed from the original
 
