@@ -16,7 +16,7 @@ class VarTag implements Tag
     /** @var callable|null */
     private $fqsenConvertor;
 
-    public function __construct(string $tagName, ?callable $fqsenConvertor = null, array $additional = [])
+    public function __construct(string $tagName, ?callable $fqsenConvertor, array $additional)
     {
         $this->name = $tagName;
         $this->fqsenConvertor = $fqsenConvertor;

@@ -4,7 +4,7 @@ namespace Jasny\PhpdocParser\Tag;
 use Jasny\PhpdocParser\PhpdocException;
 use Jasny\PhpdocParser\Tag;
 use function call_user_func;
-use function Jasny\array_only as array_only;
+use function Jasny\array_only;
 use function trim;
 
 class MethodTag implements Tag
@@ -14,7 +14,7 @@ class MethodTag implements Tag
     /** @var callable|null */
     private $fqsenConvertor;
 
-    public function __construct(string $name, ?callable $fqsenConvertor = null)
+    public function __construct(string $name, ?callable $fqsenConvertor)
     {
         $this->name = $name;
         $this->fqsenConvertor = $fqsenConvertor;
@@ -51,7 +51,7 @@ class MethodTag implements Tag
     private function processParams(string $value, string $parametersString): array
     {
         $params = [];
-        $rawParams = preg_split('/\s*,\s*/', $parametersString);
+        $rawParams = \preg_split('/\s*,\s*/', $parametersString);
 
         $regexp = '/^(?:(?<type>[^$]+)\s+)?\$(?<name>\w+)(?:\s*=\s*(?<default>"[^"]+"|\[[^\]]+\]|[^,]+))?$/';
 

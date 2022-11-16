@@ -13,7 +13,7 @@ class TypeTag implements Tag
     /** @var callable|null */
     private $fqsenConvertor;
 
-    public function __construct(string $name, ?callable $fqsenConvertor = null)
+    public function __construct(string $name, ?callable $fqsenConvertor)
     {
         $this->name = $name;
         $this->fqsenConvertor = $fqsenConvertor;

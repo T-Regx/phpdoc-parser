@@ -29,8 +29,8 @@ class PhpDocumentor
             new WordTag('link'),
             new MultiTag('methods', new MethodTag('method', $fqsenConvertor), 'name'),
             new WordTag('package'),
-            new MultiTag('params', new VarTag('param', $fqsenConvertor), 'name'),
-            new MultiTag('properties', new VarTag('property', $fqsenConvertor), 'name'),
+            new MultiTag('params', new VarTag('param', $fqsenConvertor, []), 'name'),
+            new MultiTag('properties', new VarTag('property', $fqsenConvertor, []), 'name'),
             new MultiTag(
                 'properties',
                 new VarTag('property-read', $fqsenConvertor, ['read_only' => true]),
@@ -48,7 +48,7 @@ class PhpDocumentor
             new DescriptionTag('todo'),
             new TypeTag('uses', $fqsenConvertor),
             new TypeTag('used-by', $fqsenConvertor),
-            new VarTag('var', $fqsenConvertor),
+            new VarTag('var', $fqsenConvertor, []),
             new WordTag('version'),
         ]);
     }
