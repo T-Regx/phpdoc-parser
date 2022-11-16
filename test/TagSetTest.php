@@ -34,8 +34,8 @@ class TagSetTest extends TestCase
         foreach ($this->tagSet as $key => $tag) {
             $this->assertIsString($key);
 
-            $this->assertArrayHasKey($key, $this->tagSet);
-            $this->assertSame($this->tagSet[$key], $tag);
+            $this->assertTrue($this->tagSet->tagExists($key));
+            $this->assertSame($this->tagSet->tagByName($key), $tag);
 
             $keys[] = $key;
         }
@@ -46,8 +46,8 @@ class TagSetTest extends TestCase
     public function testWithTagSet()
     {
         $newTags = [
-            'red' => new ConstantNameTag('red'),
-            'blue' => new ConstantNameTag('blue'),
+            'red'   => new ConstantNameTag('red'),
+            'blue'  => new ConstantNameTag('blue'),
             'green' => new ConstantNameTag('green')
         ];
         $new = new TagSet(array_values($newTags));
@@ -67,8 +67,8 @@ class TagSetTest extends TestCase
     public function testWithArray()
     {
         $newTags = [
-            'red' => new ConstantNameTag('red'),
-            'blue' => new ConstantNameTag('blue'),
+            'red'   => new ConstantNameTag('red'),
+            'blue'  => new ConstantNameTag('blue'),
             'green' => new ConstantNameTag('green')
         ];
         $new = array_values($newTags);
@@ -80,39 +80,5 @@ class TagSetTest extends TestCase
 
         $this->assertNotSame($this->tagSet, $combined);
         $this->assertEquals(['foo', 'bar', 'qux'], array_keys(iterator_to_array($this->tagSet)));
-    }
-
-    public function testOffsetExists()
-    {
-        $this->assertTrue(isset($this->tagSet['foo']));
-        $this->assertFalse(isset($this->tagSet['non-existent']));
-    }
-
-    public function testOffsetGet()
-    {
-        $this->assertSame($this->tags['foo'], $this->tagSet['foo']);
-        $this->assertSame($this->tags['bar'], $this->tagSet['bar']);
-    }
-
-    public function testOffsetGetNonExistent()
-    {
-        $this->expectException(\OutOfBoundsException::class);
-        $this->expectExceptionMessage("Unknown tag '@non-existent'; Use isset to see if tag is defined");
-
-        $this->tagSet['non-existent'];
-    }
-
-    public function testOffsetSet()
-    {
-        $this->expectException(\BadMethodCallException::class);
-
-        $this->tagSet['shape'] = 'round';
-    }
-
-    public function testOffsetUnset()
-    {
-        $this->expectException(\BadMethodCallException::class);
-
-        unset($this->tagSet['foo']);
     }
 }

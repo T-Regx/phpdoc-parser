@@ -3,7 +3,7 @@ namespace Jasny\PhpdocParser;
 
 use function Jasny\expect_type;
 
-class TagSet implements \IteratorAggregate, \ArrayAccess
+class TagSet implements \IteratorAggregate
 {
     /** @var Tag[] */
     private $tags = [];
@@ -35,27 +35,13 @@ class TagSet implements \IteratorAggregate, \ArrayAccess
         return new TagSet(array_merge(array_values($this->tags), $tagArray));
     }
 
-    public function offsetExists($key): bool
+    public function tagByName(string $tagName): Tag
     {
-        return isset($this->tags[$key]);
+        return $this->tags[$tagName];
     }
 
-    public function offsetGet($key): Tag
+    public function tagExists(string $tagName): bool
     {
-        if (!isset($this->tags[$key])) {
-            throw new \OutOfBoundsException("Unknown tag '@{$key}'; Use isset to see if tag is defined.");
-        }
-
-        return $this->tags[$key];
-    }
-
-    public function offsetSet($key, $tag): void
-    {
-        throw new \BadMethodCallException("A tagset is immutable; Use `with()` instead.");
-    }
-
-    public function offsetUnset($key): void
-    {
-        throw new \BadMethodCallException("A tagset is immutable; Use `without()` instead.");
+        return \array_key_exists($tagName, $this->tags);
     }
 }

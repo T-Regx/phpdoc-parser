@@ -18,15 +18,16 @@ class PhpdocParser
         $rawNotations = $this->joinMultilineNotations($rawNotations);
 
         foreach ($rawNotations as $item) {
-            if (!isset($this->tags[$item['tag']])) {
+            $key = $item['tag'];
+            if (!$this->tags->tagExists($key)) {
                 continue;
             }
 
-            $notations = $this->tags[$item['tag']]->process($notations, $item['value'] ?? '');
+            $notations = $this->tags->tagByName($key)->process($notations, $item['value'] ?? '');
         }
 
-        if (isset($this->tags['summary'])) {
-            $notations = $this->tags['summary']->process($notations, $doc);
+        if ($this->tags->tagExists('summary')) {
+            $notations = $this->tags->tagByName('summary')->process($notations, $doc);
         }
 
         if ($callback !== null) {
