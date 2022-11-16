@@ -1,5 +1,5 @@
 {
-  "name": "jasny/phpdoc-parser",
+  "name": "rawr/phpdoc-parser",
   "description": "Jasny skeleton library",
   "license": "MIT",
   "type": "library",
@@ -8,6 +8,10 @@
       "name": "Arnold Daniels",
       "email": "arnold@jasny.net",
       "homepage": "http://www.jasny.net"
+    },
+    {
+      "name": "Daniel Wilkowski",
+      "homepage": "https://t-regx.com/"
     }
   ],
   "require": {
