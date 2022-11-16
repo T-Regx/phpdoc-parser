@@ -1,6 +1,7 @@
 <?php
 namespace Jasny\PhpdocParser\Tag;
 
+use Jasny\PhpdocParser\ClassName\ClassName;
 use Jasny\PhpdocParser\Tag;
 use function Jasny\array_only;
 
@@ -13,14 +14,14 @@ class VarTag implements Tag
     private $name;
     /** @var array */
     private $additional;
-    /** @var callable|null */
-    private $fqsenConvertor;
+    /** @var ClassName */
+    private $className;
 
-    public function __construct(string $tagName, ?callable $fqsenConvertor, array $additional)
+    public function __construct(string $tagName, array $additional, ClassName $className)
     {
         $this->name = $tagName;
-        $this->fqsenConvertor = $fqsenConvertor;
         $this->additional = $additional;
+        $this->className = $className;
     }
 
     public function getName(): string
@@ -37,8 +38,8 @@ class VarTag implements Tag
                 unset($props[$name]);
             }
         }
-        if (isset($props['type']) && isset($this->fqsenConvertor)) {
-            $props['type'] = call_user_func($this->fqsenConvertor, $props['type']);
+        if (isset($props['type'])) {
+            $props['type'] = $this->className->apply($props['type']);
         }
         $props = array_only($props, ['type', 'name', 'id', 'description']);
         $notations[$this->name] = $props + $this->additional;

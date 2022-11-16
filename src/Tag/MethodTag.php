@@ -1,9 +1,9 @@
 <?php
 namespace Jasny\PhpdocParser\Tag;
 
+use Jasny\PhpdocParser\ClassName\ClassName;
 use Jasny\PhpdocParser\PhpdocException;
 use Jasny\PhpdocParser\Tag;
-use function call_user_func;
 use function Jasny\array_only;
 use function trim;
 
@@ -11,13 +11,13 @@ class MethodTag implements Tag
 {
     /** @var string */
     private $name;
-    /** @var callable|null */
-    private $fqsenConvertor;
+    /** @var ClassName */
+    private $className;
 
-    public function __construct(string $name, ?callable $fqsenConvertor)
+    public function __construct(string $name, ClassName $className)
     {
         $this->name = $name;
-        $this->fqsenConvertor = $fqsenConvertor;
+        $this->className = $className;
     }
 
     public function getName(): string
@@ -33,8 +33,8 @@ class MethodTag implements Tag
             throw new PhpdocException("Failed to parse '@{$this->name} $value': invalid syntax");
         }
 
-        if (isset($method['return_type']) && isset($this->fqsenConvertor)) {
-            $method['return_type'] = call_user_func($this->fqsenConvertor, $method['return_type']);
+        if (isset($method['return_type'])) {
+            $method['return_type'] = $this->className->apply($method['return_type']);
         }
 
         if (isset($method['params'])) {
@@ -62,8 +62,8 @@ class MethodTag implements Tag
             if (isset($param['type']) && $param['type'] === '') {
                 unset($param['type']);
             }
-            if (isset($param['type']) && isset($this->fqsenConvertor)) {
-                $param['type'] = call_user_func($this->fqsenConvertor, $param['type']);
+            if (isset($param['type'])) {
+                $param['type'] = $this->className->apply($param['type']);
             }
             if (isset($param['default'])) {
                 $param['default'] = trim($param['default'], '"\'');
