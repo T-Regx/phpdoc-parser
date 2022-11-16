@@ -1,0 +1,3 @@
+/**
+ * @since 1.0.2 Added the $b argument.
+ */
