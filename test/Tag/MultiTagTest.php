@@ -4,7 +4,6 @@ namespace Test\Tag;
 use Jasny\PhpdocParser\PhpdocException;
 use Jasny\PhpdocParser\Tag\MultiTag;
 use PHPUnit\Framework\TestCase;
-use Test\Fakes\ConstantNameTag;
 use Test\Fakes\EmptyNotationsTag;
 
 /**
@@ -12,27 +11,10 @@ use Test\Fakes\EmptyNotationsTag;
  */
 class MultiTagTest extends TestCase
 {
-    public function testGetName()
-    {
-        // given
-        $tag = new MultiTag('foos', new ConstantNameTag('foo'));
-        // when, then
-        $this->assertEquals('foo', $tag->getName());
-    }
-
-    public function testGetKey()
-    {
-        // given
-        $tag = new MultiTag('foos', new ConstantNameTag('foo'));
-        // when, then
-        $this->assertEquals('foos', $tag->getKey());
-    }
-
     public function testProcess()
     {
         // given
-        $processedTag = new EmptyNotationsTag('three', ['foo' => '3'], 'name');
-        $tag = new MultiTag('foos', $processedTag);
+        $tag = new MultiTag('foos', new EmptyNotationsTag('three', ['foo' => '3'], 'name'));
         // when
         $result = $tag->process(['foos' => ['one', 'two']], 'three');
         // then
@@ -53,8 +35,7 @@ class MultiTagTest extends TestCase
     public function testProcessKey()
     {
         // given
-        $processedTag = new EmptyNotationsTag('goodbye', ['foo' => ['name' => 'two', 'desc' => 'bye']], 'name');
-        $tag = new MultiTag('foos', $processedTag, 'name');
+        $tag = new MultiTag('foos', new EmptyNotationsTag('goodbye', ['foo' => ['name' => 'two', 'desc' => 'bye']], 'name'), 'name');
         // when
         $result = $tag->process(['foos' => ['one' => ['name' => 'one', 'desc' => 'hi']]], 'goodbye');
         // then
@@ -70,8 +51,7 @@ class MultiTagTest extends TestCase
     public function testProcessKeyUnknown()
     {
         // given
-        $processedTag = new EmptyNotationsTag('goodbye', ['foo' => ['desc' => 'bye']], 'foo');
-        $tag = new MultiTag('foos', $processedTag, 'name');
+        $tag = new MultiTag('foos', new EmptyNotationsTag('goodbye', ['foo' => ['desc' => 'bye']], 'foo'), 'name');
         // then
         $this->expectException(PhpdocException::class);
         $this->expectExceptionMessage("Unable to add '@foo goodbye' tag: No name");
@@ -82,8 +62,7 @@ class MultiTagTest extends TestCase
     public function testProcessKeyDuplicate()
     {
         // given
-        $processedTag = new EmptyNotationsTag('goodbye', ['foo' => ['name' => 'one', 'desc' => 'bye']], 'foo');
-        $tag = new MultiTag('foos', $processedTag, 'name');
+        $tag = new MultiTag('foos', new EmptyNotationsTag('goodbye', ['foo' => ['name' => 'one', 'desc' => 'bye']], 'foo'), 'name');
         // then
         $this->expectException(PhpdocException::class);
         $this->expectExceptionMessage("Unable to add '@foo goodbye' tag: Duplicate name 'one'");
