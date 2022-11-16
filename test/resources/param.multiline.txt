@@ -1,0 +1,5 @@
+/**
+ * @param bool    $recursive Optional. Whether or not to recursively
+ *                           count elements in nested arrays.
+ *                           Defaults to `false`.
+ */

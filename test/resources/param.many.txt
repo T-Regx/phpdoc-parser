@@ -1,0 +1,4 @@
+/**
+ * @param mixed[] $items     Array structure to count the elements of.
+ * @param bool    $recursive Optional.
+ */
