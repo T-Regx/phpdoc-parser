@@ -210,6 +210,8 @@ $meta = $parser->parse($doc);
 - Tag `@see` is only parsed once, instead of all occurrences
 - Tag `@since` ignores description
 - Tag `@version` ignores description
+- Tag `@link` ignores description
+- Tag `@deprecated` ignores description
 
 ## Fixed from the original
 
