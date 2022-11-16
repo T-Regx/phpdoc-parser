@@ -76,7 +76,6 @@ class Test extends TestCase
      */
     public function testProcess2(string $value, array $expected)
     {
-        $this->markTestIncomplete();
         // when, then
         $this->assertParses("/** @var $value */", $expected);
     }
@@ -87,7 +86,6 @@ class Test extends TestCase
      */
     public function testProcess3(string $value, array $expected)
     {
-        $this->markTestIncomplete();
         // when, then
         $this->assertParses("/** @var $value \n*/", $expected);
     }

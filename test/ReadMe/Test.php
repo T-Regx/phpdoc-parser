@@ -1,10 +1,9 @@
 <?php
 namespace Test\ReadMe;
 
-use Jasny\PHPDocParser\PHPDocParser;
+use Jasny\PhpdocParser\PhpdocParser;
 use Jasny\PhpdocParser\PhpDocumentor;
 use Jasny\PhpdocParser\Tag\FlagTag;
-use Jasny\PhpdocParser\Tag\SummaryAndDescription;
 use PHPUnit\Framework\TestCase;
 
 class Test extends TestCase
@@ -30,14 +29,13 @@ class Test extends TestCase
  * @throws InvalidArgumentException
  * @throws DomainException if first argument is not found
  */";
-        $parser = new PHPDocParser(PhpDocumentor::tags()->with([
-            new SummaryAndDescription(),
-            new FlagTag('important')
-        ]));
+        $parser = new PHPDocParser(PhpDocumentor::tags()->with([new FlagTag('important')]));
         // when
         $meta = $parser->parse($readMeExample);
         // then
         $expected = [
+            'summary'     => 'The description of foo.',
+            'description' => "This function does a lot of thing\nwhich are described here.\n\nSome more text here.",
             'important'   => true,
             'uses'        => [
                 'type' => 'FooReader'
@@ -62,8 +60,6 @@ class Test extends TestCase
                 ['type' => 'InvalidArgumentException'],
                 ['type' => 'DomainException', 'description' => 'if first argument is not found'],
             ],
-            'summary'     => 'The description of foo.',
-            'description' => "This function does a lot of thing\nwhich are described here.\n\nSome more text here.",
         ];
         $this->assertSame($expected, $meta);
     }

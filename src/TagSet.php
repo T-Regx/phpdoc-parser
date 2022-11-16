@@ -34,11 +34,9 @@ class TagSet implements \IteratorAggregate
 
     public function tagByName(string $tagName): Tag
     {
-        return $this->tags[$tagName];
-    }
-
-    public function tagExists(string $tagName): bool
-    {
-        return \array_key_exists($tagName, $this->tags);
+        if (\array_key_exists($tagName, $this->tags)) {
+            return $this->tags[$tagName];
+        }
+        throw new \RuntimeException("Tag @$tagName not supported");
     }
 }

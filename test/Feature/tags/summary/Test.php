@@ -1,6 +1,8 @@
 <?php
 namespace Test\Feature\tags\summary;
 
+use Jasny\PhpdocParser\PhpdocParser;
+use Jasny\PhpdocParser\TagSet;
 use PHPUnit\Framework\TestCase;
 use Test\Fixtures\ParseAssertion;
 use function Test\Fixture\resource;
@@ -146,5 +148,23 @@ class Test extends TestCase
                 []
             ],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function testMultiline()
+    {
+        // given
+        $parser = new PhpdocParser(new TagSet([
+        ]));
+        // when
+        $result = $parser->parse(resource('standard/description.txt'));
+        // then
+        $expected = [
+            'summary'     => 'Summary should be ignored.',
+            'description' => "General description\nspanning a few lines\nof doc-comment. Should be ignored."
+        ];
+        $this->assertSame($expected, $result);
     }
 }

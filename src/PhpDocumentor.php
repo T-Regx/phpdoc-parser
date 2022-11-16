@@ -8,7 +8,6 @@ use Jasny\PhpdocParser\Tag\ExampleTag;
 use Jasny\PhpdocParser\Tag\FlagTag;
 use Jasny\PhpdocParser\Tag\MethodTag;
 use Jasny\PhpdocParser\Tag\MultiTag;
-use Jasny\PhpdocParser\Tag\SummaryAndDescription;
 use Jasny\PhpdocParser\Tag\TypeTag;
 use Jasny\PhpdocParser\Tag\VarTag;
 use Jasny\PhpdocParser\Tag\WordTag;
@@ -23,7 +22,6 @@ class PhpDocumentor
     private static function tagsWithClassName(ClassName $className): TagSet
     {
         return new TagSet([
-            new SummaryAndDescription(),
             new FlagTag('api'),
             new AuthorTag('author'),
             new DescriptionTag('copyright'),

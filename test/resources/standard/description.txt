@@ -1,0 +1,7 @@
+/**
+ * Summary should be ignored.
+ *
+ * General description
+ *  spanning a few lines
+ *  of doc-comment. Should be ignored.
+ */

@@ -99,7 +99,6 @@ class Test extends TestCase
      */
     public function testWhitespaceBeforeNewLine(string $value, array $expected)
     {
-        $this->markTestIncomplete();
         // when, then
         $this->assertParses("/** @example $value \n*/", $expected);
     }
@@ -110,7 +109,6 @@ class Test extends TestCase
      */
     public function testWhitespace(string $value, array $expected)
     {
-        $this->markTestIncomplete();
         // when, then
         $this->assertParses("/** @example $value */", $expected);
     }

@@ -68,8 +68,8 @@ The result is the following:
 
 ```php
 [
-    'summery' => "The description of foo",
-    'description' => "The description of foo. This function does a lot of thing which are described here.\n\nSome more text.",
+    'summery' => "The description of foo.",
+    'description' => "This function does a lot of thing which are described here.\n\nSome more text.",
     'important' => true,
     'uses' => 'FooReader',
     'internal' => "Why this isn't part of the API. Mutlti-line is supported",

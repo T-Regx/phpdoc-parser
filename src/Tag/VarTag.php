@@ -31,7 +31,7 @@ class VarTag implements Tag
 
     public function process(array $notations, string $value): array
     {
-        $regexp = '/^(?:(?<type>[^$\s]+)\s*)?(?:\$(?<name>\w+)\s*)?(?:"(?<id>[^"]+)"\s*)?(?:(?<description>.+))?/';
+        $regexp = '/^(?:(?<type>[^$\s]+)\s*)?(?:\$(?<name>\w+)\s*)?(?:"(?<id>[^"]+)"\s*)?(?:(?<description>.+))?/s';
         preg_match($regexp, $value, $props); //regexp won't fail
         foreach (['type', 'name', 'id'] as $name) {
             if (isset($props[$name]) && $props[$name] === '') {
@@ -41,6 +41,11 @@ class VarTag implements Tag
         if (isset($props['type'])) {
             $props['type'] = $this->className->apply($props['type']);
         }
+
+        if (\array_key_exists('description', $props)) {
+            $props['description'] = trim($props['description']);
+        }
+
         $props = array_only($props, ['type', 'name', 'id', 'description']);
         $notations[$this->name] = $props + $this->additional;
         return $notations;
