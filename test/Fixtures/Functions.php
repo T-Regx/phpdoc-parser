@@ -11,4 +11,11 @@ class Functions
             Assert::fail($message);
         };
     }
+
+    public static function prepend(string $prefix): callable
+    {
+        return function (string $value) use ($prefix): string {
+            return $prefix . $value;
+        };
+    }
 }

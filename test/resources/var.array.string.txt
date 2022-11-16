@@ -1,0 +1,3 @@
+/**
+  * @var string[] $name An array of string objects.
+  */

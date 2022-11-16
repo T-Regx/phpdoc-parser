@@ -1,0 +1,3 @@
+/**
+  * @var \DateTime[] $name An array of DateTime objects.
+  */

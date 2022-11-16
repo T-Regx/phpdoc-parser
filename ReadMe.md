@@ -210,6 +210,7 @@ $meta = $parser->parse($doc);
 - Tag `@see` is only parsed once, instead of all occurrences
 - Tag `@since` ignores description
 - Tag `@version` ignores description
+- Tag `@var` doesn't allow for ignoring variable name
 - Tag `@link` ignores description
 - Tag `@deprecated` ignores description
 - `CustomTag` is not extensible enough, perhaps a new implementation is needed
