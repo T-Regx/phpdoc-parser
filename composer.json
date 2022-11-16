@@ -16,7 +16,6 @@
   ],
   "require": {
     "php": "~8.0.0 | >=7.1.0",
-    "jasny/php-functions": "3.2",
     "rawr/t-regx": "^0.39.0"
   },
   "require-dev": {
