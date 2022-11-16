@@ -18,30 +18,12 @@ class PhpdocParserTest extends TestCase
     /**
      * @test
      */
-    public function testParseFlag()
-    {
-        // given
-        $parser = new PhpdocParser(new TagSet([
-            'foo' => new EmptyNotationsTag('', ['foo' => true], 'foo'),
-            'bar' => new ConstantNameTag('bar'),
-            'qux' => new ConstantNameTag('qux'),
-        ]));
-        // when
-        $result = $parser->parse("/**\n * @foo\n */");
-        // then
-        $this->assertEquals(['foo' => true], $result);
-    }
-
-    /**
-     * @test
-     */
     public function testParseFlagSeveral()
     {
         // given
         $parser = new PhpdocParser(new TagSet([
             'foo' => new EmptyNotationsTag('', ['foo' => true], 'foo'),
-            'bar' => new NotationsTag(['foo' => true], '', ['foo' => true, 'bar' => true], 'bar'),
-            'qux' => new ConstantNameTag('qux'),
+            'bar' => new NotationsTag(['foo' => true], '', ['foo' => true, 'bar' => true], 'bar')
         ]));
         // when
         $result = $parser->parse("/**\n * @foo\n * @bar\n */");
@@ -57,8 +39,6 @@ class PhpdocParserTest extends TestCase
         // given
         $parser = new PhpdocParser(new TagSet([
             'foo' => new EmptyNotationsTag('hello', ['foo' => 'HELLO!'], 'foo'),
-            'bar' => new ConstantNameTag('bar'),
-            'qux' => new ConstantNameTag('qux'),
         ]));
         // when
         $result = $parser->parse("/**\n * @foo hello\n */");
@@ -78,8 +58,6 @@ class PhpdocParserTest extends TestCase
                 new NotationsTag(['foo' => 1], '', ['foo' => 2]),
                 new NotationsTag(['foo' => 2], '', ['foo' => 3])
             ]),
-            'bar' => new ConstantNameTag('bar'),
-            'qux' => new ConstantNameTag('qux'),
         ]));
         // when
         $result = $parser->parse("/**\n * @foo\n * @foo\n * @foo\n */");
@@ -194,22 +172,5 @@ class PhpdocParserTest extends TestCase
  */");
         // then
         $this->assertSame($expected, $result);
-    }
-
-    /**
-     * @test
-     */
-    public function test()
-    {
-        // given
-        $parser = new PhpdocParser(new TagSet([
-            'foo' => new ConstantNameTag('foo'),
-            'bar' => new ConstantNameTag('bar'),
-            'qux' => new ConstantNameTag('qux'),
-        ]));
-        // when
-        $result = $parser->parse("/**\n * Just some description. Should be ignored.\n */");
-        // then
-        $this->assertSame([], $result);
     }
 }
