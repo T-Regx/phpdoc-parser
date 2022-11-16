@@ -3,7 +3,6 @@ namespace Test;
 
 use Jasny\PhpdocParser\PhpdocParser;
 use Jasny\PhpdocParser\TagSet;
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Test\Fakes\ConsecutiveProcessTag;
 use Test\Fakes\ConstantNameTag;
@@ -117,26 +116,6 @@ class PhpdocParserTest extends TestCase
         $result = $parser->parse($doc);
         // then
         $this->assertSame($expected, $result);
-    }
-
-    /**
-     * @test
-     */
-    public function testCallback()
-    {
-        // given
-        $parser = new PhpdocParser(new TagSet([
-            'foo' => new ConstantNameTag('foo'),
-            'bar' => new EmptyNotationsTag('Some value', ['bar' => 'Some value'], 'bar'),
-            'qux' => new ConstantNameTag('qux'),
-        ]));
-        // when
-        $result = $parser->parse("/**\n * @bar Some value\n */", function ($argument) {
-            Assert::assertSame(['bar' => 'Some value'], $argument);
-            return ['value after callback'];
-        });
-        // then
-        $this->assertSame(['value after callback'], $result);
     }
 
     /**

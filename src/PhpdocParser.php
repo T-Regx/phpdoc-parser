@@ -4,34 +4,27 @@ namespace Jasny\PhpdocParser;
 class PhpdocParser
 {
     /** @var TagSet */
-    private $tags;
+    private $tagSet;
 
-    public function __construct(TagSet $tags)
+    public function __construct(TagSet $tagSet)
     {
-        $this->tags = $tags;
+        $this->tagSet = $tagSet;
     }
 
-    public function parse(string $doc, ?callable $callback = null): array
+    public function parse(string $docBlock): array
     {
         $notations = [];
-        $rawNotations = $this->extractNotations($doc);
+        $rawNotations = $this->extractNotations($docBlock);
         $rawNotations = $this->joinMultilineNotations($rawNotations);
 
         foreach ($rawNotations as $item) {
-            $key = $item['tag'];
-            if (!$this->tags->tagExists($key)) {
-                continue;
+            if ($this->tagSet->tagExists($item['tag'])) {
+                $notations = $this->tagSet->tagByName($item['tag'])->process($notations, $item['value'] ?? '');
             }
-
-            $notations = $this->tags->tagByName($key)->process($notations, $item['value'] ?? '');
         }
 
-        if ($this->tags->tagExists('summary')) {
-            $notations = $this->tags->tagByName('summary')->process($notations, $doc);
-        }
-
-        if ($callback !== null) {
-            $notations = $callback($notations);
+        if ($this->tagSet->tagExists('summary')) {
+            $notations = $this->tagSet->tagByName('summary')->process($notations, $docBlock);
         }
 
         return $notations;
