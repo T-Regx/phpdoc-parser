@@ -32,8 +32,11 @@ class PhpdocParser
 
     private function summaryLinesAndTagList(string $docBlock): array
     {
-        [$summaryLines, $joinedBatches] = $this->summaryLinesAndTagLines($this->tagsAndLines($docBlock));
-        return [$summaryLines, $this->tagList($joinedBatches)];
+        if (\strPos($docBlock, '*/') === false) {
+            [$summaryLines, $joinedBatches] = $this->summaryLinesAndTagLines($this->tagsAndLines($docBlock));
+            return [$summaryLines, $this->tagList($joinedBatches)];
+        }
+        throw new PhpdocException("Failed to parse");
     }
 
     private function tagsAndLines(string $docBlock): array

@@ -94,6 +94,8 @@ or textual references.',
             [' test */'],
             ['* test */'],
             ['/* test */'],
+
+            ['/** test */ test */ '],
         ];
     }
 }
