@@ -1,8 +1,6 @@
 <?php
 namespace Jasny\PhpdocParser;
 
-use function Jasny\expect_type;
-
 class TagSet implements \IteratorAggregate
 {
     /** @var Tag[] */
@@ -14,7 +12,6 @@ class TagSet implements \IteratorAggregate
     public function __construct(iterable $tags)
     {
         foreach ($tags as $tag) {
-            expect_type($tag, Tag::class);
             $this->tags[$tag->getName()] = $tag;
         }
     }

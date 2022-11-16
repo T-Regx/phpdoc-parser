@@ -2,7 +2,6 @@
 namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\Tag;
-use function Jasny\expect_type;
 use function Jasny\str_before;
 
 /**
@@ -18,8 +17,6 @@ class WordTag implements Tag
     public function __construct(string $name, $default = '')
     {
         $this->name = $name;
-
-        expect_type($default, ['string', 'bool']);
         $this->default = $default;
     }
 
