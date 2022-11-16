@@ -2,6 +2,7 @@
 namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\Tag;
+use TRegx\CleanRegex\Pattern;
 use function Jasny\str_before;
 
 /**
@@ -32,9 +33,10 @@ class WordTag implements Tag
             return $notations;
         }
 
-        $matches = [];
-        if (in_array($value[0], ['"', "'"], true) && preg_match('/^(?|"((?:[^"]+|\\\\.)*)"|\'((?:[^\']+|\\\\.)*)\')/', $value, $matches)) {
-            $word = $matches[1];
+        $pattern = Pattern::of('^(?|"((?:[^"]+|\\\\.)*)"|\'((?:[^\']+|\\\\.)*)\')');
+        $matcher = $pattern->match($value);
+        if (in_array($value[0], ['"', "'"], true) && $matcher->test()) {
+            $word = $matcher->first()->get(1);
         } else {
             $word = str_before($value, ' ');
         }

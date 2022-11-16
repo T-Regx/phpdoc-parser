@@ -22,19 +22,18 @@ class Test extends TestCase
         $this->assertParses(resource('tags/method.many.txt'), [
             'methods' => [
                 [
-                    'return_type' => 'string',
                     'name'        => 'getString',
+                    'return_type' => 'string',
                     'params'      => [],
                 ],
                 [
-                    'return_type' => 'void',
                     'name'        => 'setInteger',
-                    'params'      => ['integer' => ['type' => 'int', 'name' => 'integer']]
+                    'return_type' => 'void',
+                    'params'      => ['integer' => ['name' => 'integer', 'type' => 'int']]
                 ],
                 [
-                    'return_type' => '',
                     'name'        => 'setString',
-                    'params'      => ['integer' => ['type' => 'int', 'name' => 'integer']]
+                    'params' => ['integer' => ['name' => 'integer', 'type' => 'int']]
                 ]
             ]
         ]);
@@ -49,14 +48,12 @@ class Test extends TestCase
         $this->assertParses(resource('tags/method.duplicate.txt'), [
             'methods' => [
                 [
-                    'return_type' => '',
                     'name'        => 'setString',
                     'params'      => [],
                 ],
                 [
-                    'return_type' => '',
                     'name'        => 'setString',
-                    'params'      => ['argument' => ['type' => 'int', 'name' => 'argument']]
+                    'params' => ['argument' => ['name' => 'argument', 'type' => 'int']]
                 ]
             ]
         ]);
@@ -71,8 +68,8 @@ class Test extends TestCase
         $this->assertParses(resource('tags/method.static.txt'), [
             'methods' => [
                 [
-                    'return_type' => 'string',
                     'name'        => 'staticGetter',
+                    'return_type' => 'string',
                     'params'      => []
                 ]
             ]
@@ -113,34 +110,34 @@ class Test extends TestCase
         $this->assertParses("/** @method $docBlock\n*/", [
             'methods' => [
                 [
-                    'return_type' => 'string',
                     'name'        => 'someMethod',
+                    'return_type' => 'string',
                     'params'      => [
                         'one'   => [
                             'name' => 'one'
                         ],
                         'two'   => [
-                            'type' => 'Foo',
                             'name' => 'two',
+                            'type' => 'Foo',
                         ],
                         'three' => [
-                            'type'    => 'int',
                             'name'    => 'three',
+                            'type'    => 'int',
                             'default' => '12'
                         ],
                         'four'  => [
-                            'type'    => 'string',
                             'name'    => 'four',
+                            'type'    => 'string',
                             'default' => 'bar'
                         ],
                         'five'  => [
-                            'type'    => 'string',
                             'name'    => 'five',
+                            'type'    => 'string',
                             'default' => 'zoo'
                         ],
                         'six'   => [
-                            'type'    => 'array',
                             'name'    => 'six',
+                            'type'    => 'array',
                             'default' => '["test"]'
                         ],
                     ],
@@ -164,19 +161,19 @@ class Test extends TestCase
         $expected = [
             'methods' => [
                 [
-                    'return_type' => 'any_namespace\Zoo',
                     'name'        => 'someMethod',
+                    'return_type' => 'any_namespace\Zoo',
                     'params'      => [
                         'one'   => [
                             'name' => 'one'
                         ],
                         'two'   => [
-                            'type' => 'any_namespace\Foo',
                             'name' => 'two',
+                            'type' => 'any_namespace\Foo',
                         ],
                         'three' => [
-                            'type'    => 'any_namespace\Bar\Bars',
                             'name'    => 'three',
+                            'type'    => 'any_namespace\Bar\Bars',
                             'default' => 'null'
                         ]
                     ],

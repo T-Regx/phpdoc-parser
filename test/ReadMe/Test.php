@@ -43,13 +43,13 @@ class Test extends TestCase
             'internal'    => true,
             'params'      => [
                 [
-                    'type'        => "string|callable",
                     'name'        => "first",
+                    'type'        => "string|callable",
                     'description' => "This is the first param"
                 ],
                 [
-                    'type'        => "int",
                     'name'        => "second",
+                    'type'        => "int",
                     'description' => 'The second one',
                 ]
             ],

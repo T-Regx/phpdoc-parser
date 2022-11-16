@@ -3,7 +3,7 @@ namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\ClassName\ClassName;
 use Jasny\PhpdocParser\Tag;
-use function Jasny\array_only;
+use TRegx\CleanRegex\Pattern;
 
 /**
  * Custom logic for PhpDocumentor 'var', 'param' and 'property' tag
@@ -16,12 +16,15 @@ class VarTag implements Tag
     private $additional;
     /** @var ClassName */
     private $className;
+    /** @var Pattern */
+    private $variablePattern;
 
     public function __construct(string $tagName, array $additional, ClassName $className)
     {
         $this->name = $tagName;
         $this->additional = $additional;
         $this->className = $className;
+        $this->variablePattern = Pattern::of('^(?:(?<type>[^$\s]+)\s*)?(?:\$(?<name>\w+)\s*)?(?:"(?<id>[^"]+)"\s*)?(?:(?<description>.+))?', 's');
     }
 
     public function getName(): string
@@ -31,23 +34,24 @@ class VarTag implements Tag
 
     public function process(array $notations, string $value): array
     {
-        $regexp = '/^(?:(?<type>[^$\s]+)\s*)?(?:\$(?<name>\w+)\s*)?(?:"(?<id>[^"]+)"\s*)?(?:(?<description>.+))?/s';
-        preg_match($regexp, $value, $props); //regexp won't fail
-        foreach (['type', 'name', 'id'] as $name) {
-            if (isset($props[$name]) && $props[$name] === '') {
-                unset($props[$name]);
-            }
+        $variableTag = $this->variablePattern->match($value)->first();
+
+        $variable = [];
+
+        if ($variableTag->matched('name')) {
+            $variable['name'] = $variableTag->get('name');
         }
-        if (isset($props['type'])) {
-            $props['type'] = $this->className->apply($props['type']);
+        if ($variableTag->matched('type') && $variableTag->get('type') !== '') {
+            $variable['type'] = $this->className->apply($variableTag->get('type'));
+        }
+        if ($variableTag->matched('id')) {
+            $variable['id'] = $variableTag->get('id');
+        }
+        if ($variableTag->matched('description')) {
+            $variable['description'] = trim($variableTag->get('description'));
         }
 
-        if (\array_key_exists('description', $props)) {
-            $props['description'] = trim($props['description']);
-        }
-
-        $props = array_only($props, ['type', 'name', 'id', 'description']);
-        $notations[$this->name] = $props + $this->additional;
+        $notations[$this->name] = $variable + $this->additional;
         return $notations;
     }
 }

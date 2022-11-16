@@ -21,8 +21,8 @@ class Test extends TestCase
         // when, then
         $this->assertParses(resource('tags/var.txt'), [
             'var' => [
-                'type'        => 'string',
                 'name'        => 'name',
+                'type'        => 'string',
                 'description' => 'Should contain a description',
             ]
         ]);
@@ -115,8 +115,8 @@ class Test extends TestCase
                 'int $amount "some id"',
                 [
                     'var' => [
-                        'type' => 'int',
                         'name' => 'amount',
+                        'type' => 'int',
                         'id'   => 'some id'
                     ]
                 ]
@@ -125,8 +125,8 @@ class Test extends TestCase
                 'int|string|Foo\Bar|null $amount "some id"',
                 [
                     'var' => [
-                        'type' => 'int|string|Foo\Bar|null',
                         'name' => 'amount',
+                        'type' => 'int|string|Foo\Bar|null',
                         'id'   => 'some id',
                     ]
                 ]
@@ -146,8 +146,8 @@ class Test extends TestCase
         // then
         $expected = [
             'var' => [
-                'type'        => 'some_namespace\Foo',
                 'name'        => 'amount',
+                'type'        => 'some_namespace\Foo',
                 'id'          => 'some id',
                 'description' => 'Some description here'
             ]

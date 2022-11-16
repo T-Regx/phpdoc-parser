@@ -4,8 +4,7 @@ namespace Jasny\PhpdocParser\Tag;
 use Jasny\PhpdocParser\ClassName\ClassName;
 use Jasny\PhpdocParser\PhpdocException;
 use Jasny\PhpdocParser\Tag;
-use function Jasny\array_only;
-use function trim;
+use TRegx\CleanRegex\Pattern;
 
 class MethodTag implements Tag
 {
@@ -13,11 +12,22 @@ class MethodTag implements Tag
     private $name;
     /** @var ClassName */
     private $className;
+    /** @var Pattern */
+    private $methodPattern;
 
     public function __construct(string $name, ClassName $className)
     {
         $this->name = $name;
         $this->className = $className;
+        $this->methodPattern = Pattern::of('^
+          \s*
+          (static\s+)?
+          (?:(?<return_type>\S+)\s+)?
+          (?<name>\w+)
+          \(
+          (?<params>[^\)]+)?
+          \)
+          (?:\s+(?<description>.*))?', 'x');
     }
 
     public function getName(): string
@@ -27,30 +37,25 @@ class MethodTag implements Tag
 
     public function process(array $notations, string $value): array
     {
-        $regexp = '/^
-          \s*
-          (static\s+)?
-          (?:(?<return_type>\S+)\s+)?
-          (?<name>\w+)
-          \(
-          (?<params>[^\)]+)?
-          \)
-          (?:\s+(?<description>.*))?/x';
-
-        if (!preg_match($regexp, $value, $method)) {
-            throw new PhpdocException("Failed to parse '@{$this->name} $value': invalid syntax");
+        $matcher = $this->methodPattern->match($value);
+        if ($matcher->fails()) {
+            throw new PhpdocException("Failed to parse '@$this->name $value': invalid syntax");
         }
 
-        if (isset($method['return_type'])) {
-            $method['return_type'] = $this->className->apply($method['return_type']);
+        $methodTag = $matcher->first();
+        $method = ['name' => $methodTag->get('name')];
+        if ($methodTag->matched('return_type')) {
+            $method['return_type'] = $this->className->apply($methodTag->get('return_type'));
         }
-
-        if (isset($method['params'])) {
-            $method['params'] = $this->processParams($value, $method['params']);
+        if ($methodTag->matched('params')) {
+            $method['params'] = $this->processParams($value, $methodTag->get('params'));
         } else {
             $method['params'] = [];
         }
-        $method = array_only($method, ['return_type', 'name', 'params', 'description']);
+
+        if ($methodTag->matched('description')) {
+            $method['description'] = $methodTag->get('description');
+        }
 
         $notations[$this->name] = $method;
         return $notations;
@@ -59,26 +64,26 @@ class MethodTag implements Tag
     private function processParams(string $value, string $parametersString): array
     {
         $params = [];
-        $rawParams = \preg_split('/\s*,\s*/', $parametersString);
-
-        $regexp = '/^(?:(?<type>[^$]+)\s+)?\$(?<name>\w+)(?:\s*=\s*(?<default>"[^"]+"|\[[^\]]+\]|[^,]+))?$/';
+        $rawParams = Pattern::of('\s*,\s*')->split($parametersString);
+        $methodPattern = Pattern::of('^(?:(?<type>[^$]+)\s+)?\$(?<name>\w+)(?:\s*=\s*(?<default>"[^"]+"|\[[^\]]+\]|[^,]+))?$');
 
         foreach ($rawParams as $rawParam) {
-            if (!preg_match($regexp, $rawParam, $param)) {
-                throw new PhpdocException("Failed to parse '@{$this->name} {$value}': invalid syntax");
-            }
-            if (isset($param['type']) && $param['type'] === '') {
-                unset($param['type']);
-            }
-            if (isset($param['type'])) {
-                $param['type'] = $this->className->apply($param['type']);
-            }
-            if (isset($param['default'])) {
-                $param['default'] = trim($param['default'], '"\'');
-            }
-            $params[$param['name']] = array_only($param, ['type', 'name', 'default']);
-        }
+            $matcher = $methodPattern->match($rawParam);
+            if ($matcher->test()) {
+                $argument = $matcher->first();
 
+                $methodArgument = ['name' => $argument->get('name')];
+                if ($argument->matched('type') && $argument->get('type') !== '') {
+                    $methodArgument['type'] = $this->className->apply($argument->get('type'));
+                }
+                if ($argument->matched('default')) {
+                    $methodArgument['default'] = \trim($argument->get('default'), '"\'');
+                }
+                $params[$argument->get('name')] = $methodArgument;
+            } else {
+                throw new PhpdocException("Failed to parse '@$this->name $value': invalid syntax");
+            }
+        }
         return $params;
     }
 }

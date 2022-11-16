@@ -1,6 +1,8 @@
 <?php
 namespace Jasny\PhpdocParser;
 
+use TRegx\CleanRegex\Pattern;
+
 class PhpdocParser
 {
     /** @var TagSet */
@@ -29,12 +31,9 @@ class PhpdocParser
 
     private function tagsAndLines(string $docBlock): array
     {
-        $regex = '/^
+        $regex = Pattern::of('^
               \s*
-              (?:
-                (?:\/\*)?
-                \*
-              )
+              (?:\/\*)?\*
               (?:
                 \s*?
                 @(?<tag>\S+)
@@ -43,41 +42,32 @@ class PhpdocParser
                   |
                   \h*
                 )
-               |
+                |
                 \ *?
                 (?<multiline>\S?.*?)
               )
               (?:\s*\*?\*\/)?
-            $/xm';
+            $', 'xm');
 
-        if (preg_match_all($regex, $docBlock, $matches, PREG_SET_ORDER | PREG_OFFSET_CAPTURE) === 0) {
+        $matcher = $regex->match($docBlock);
+
+        if ($matcher->fails()) {
             throw new \RuntimeException("Failed to parse");
         }
 
         $result = [];
-
-        foreach ($matches as $match) {
-            $tag = $this->match($match['tag']);
-            $value = $this->match($match['value'] ?? ['', -1]);
-            $multiline = $this->match($match['multiline'] ?? ['', -1]);
-
-            if ($tag !== null) {
-                $result[] = ['tag' => $tag, 'value' => $value];
+        foreach ($matcher as $match) {
+            if ($match->matched('tag')) {
+                $result[] = [
+                    'tag'   => $match->get('tag'),
+                    'value' => $match->group('value')->or('')
+                ];
             }
-
-            if ($multiline !== null) {
-                $result[] = ['text' => trim($multiline)];
+            if ($match->matched('multiline')) {
+                $result[] = ['text' => \trim($match->get('multiline'))];
             }
         }
         return $result;
-    }
-
-    private function match(array $match): ?string
-    {
-        if ($match[1] === -1) {
-            return null;
-        }
-        return $match[0];
     }
 
     private function summaryLinesAndTagLines(array $tagsAndLines): array
@@ -112,10 +102,11 @@ class PhpdocParser
         if ($summaryAndDescription === '') {
             return [];
         }
-        $splitElements = \preg_split('/(\.|\n\n)/', $summaryAndDescription, 2, PREG_SPLIT_DELIM_CAPTURE);
+        $pattern = Pattern::of('(\.|\n\n)');
+        $splitElements = $pattern->splitStart($summaryAndDescription, 1);
         if (\count($splitElements) === 3) {
             [$summary, $delimiter, $description] = $splitElements;
-            $cleanSummary = \trim(\preg_replace('/\s+/', ' ', $summary . $delimiter));
+            $cleanSummary = $this->oneLineSummary($summary . $delimiter);
             if ($description === '') {
                 return ['summary' => $cleanSummary];
             }
@@ -125,8 +116,13 @@ class PhpdocParser
             ];
         }
         return [
-            'summary' => trim(\preg_replace('/\s+/', ' ', $splitElements[0]))
+            'summary' => $this->oneLineSummary($splitElements[0])
         ];
+    }
+
+    private function oneLineSummary(string $summary): string
+    {
+        return \trim(\pattern('\s+')->replace($summary)->with(' '));
     }
 
     private function tagList(array $joinedBatches): array
@@ -167,4 +163,5 @@ class PhpdocParser
         }
         return $batches;
     }
+
 }

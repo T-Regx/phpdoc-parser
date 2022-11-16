@@ -18,13 +18,13 @@ class Test extends TestCase
         $this->assertParses(resource('tags/param.many.txt'), [
             'params' => [
                 [
-                    'type'        => 'mixed[]',
                     'name'        => 'items',
+                    'type'        => 'mixed[]',
                     'description' => "Array structure to count the elements of."
                 ],
                 [
-                    'type'        => 'bool',
                     'name'        => 'recursive',
+                    'type'        => 'bool',
                     'description' => "Optional."
                 ]
             ]]);

@@ -3,18 +3,19 @@ namespace Jasny\PhpdocParser\Tag;
 
 use Jasny\PhpdocParser\PhpdocException;
 use Jasny\PhpdocParser\Tag;
+use TRegx\CleanRegex\Pattern;
 
 class AuthorTag implements Tag
 {
     /** @var string */
     private $name;
-    /** @var string */
-    private $regexp;
+    /** @var Pattern */
+    private $authorPattern;
 
     public function __construct(string $name)
     {
         $this->name = $name;
-        $this->regexp = '/^(?<name>[^<>]*?)\s*(?:<(?<email>\S*)>)?$/';
+        $this->authorPattern = Pattern::of('^(?<name>[^<>]*?)\s*(?:<(?<email>\S*)>)?$');
     }
 
     public function getName(): string
@@ -30,13 +31,15 @@ class AuthorTag implements Tag
 
     private function processed(string $tagSourceCode): array
     {
-        if (!preg_match($this->regexp, $tagSourceCode, $match)) {
-            throw new PhpdocException("Failed to parse '@{$this->name} $tagSourceCode': invalid syntax");
+        $matcher = $this->authorPattern->match($tagSourceCode);
+        if ($matcher->test()) {
+            $match = $matcher->first();
+            $author = ['name' => $match->get('name')];
+            if ($match->matched('email')) {
+                $author['email'] = $match->get('email');
+            }
+            return $author;
         }
-        $author = ['name' => $match['name']];
-        if (\array_key_exists('email', $match)) {
-            $author['email'] = $match['email'];
-        }
-        return $author;
+        throw new PhpdocException("Failed to parse '@$this->name $tagSourceCode': invalid syntax");
     }
 }

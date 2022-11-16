@@ -27,8 +27,8 @@ class Test extends TestCase
         $this->assertParses(resource('standard/simple.txt'), [
             'params' => [
                 0 => [
-                    'type' => 'string|int',
-                    'name' => 'nameOrIndex'
+                    'name' => 'nameOrIndex',
+                    'type' => 'string|int'
                 ]
             ],
             'return' => [
@@ -50,8 +50,8 @@ the details of this element and to provide some background information
 or textual references.',
             'params'      => [
                 [
-                    'type'        => 'string',
                     'name'        => 'myArgument',
+                    'type'        => 'string',
                     'description' => "With a *description* of this argument,\nthese may also span multiple lines."
                 ]
             ],
