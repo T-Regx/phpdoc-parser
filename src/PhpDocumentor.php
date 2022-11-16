@@ -10,6 +10,7 @@ use Jasny\PhpdocParser\Tag\PhpDocumentor\ExampleTag;
 use Jasny\PhpdocParser\Tag\PhpDocumentor\MethodTag;
 use Jasny\PhpdocParser\Tag\PhpDocumentor\TypeTag;
 use Jasny\PhpdocParser\Tag\PhpDocumentor\VarTag;
+use Jasny\PhpdocParser\Tag\SummaryAndDescription;
 use Jasny\PhpdocParser\Tag\WordTag;
 
 class PhpDocumentor
@@ -17,6 +18,7 @@ class PhpDocumentor
     public static function tags(?callable $fqsenConvertor = null): TagSet
     {
         return new TagSet([
+            new SummaryAndDescription(),
             new FlagTag('api'),
             new AuthorTag('author'),
             new DescriptionTag('copyright'),
