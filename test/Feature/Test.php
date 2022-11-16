@@ -1,6 +1,9 @@
 <?php
 namespace Test\Feature;
 
+use Jasny\PhpdocParser\PhpdocException;
+use Jasny\PhpdocParser\PhpdocParser;
+use Jasny\PhpdocParser\PhpDocumentor;
 use PHPUnit\Framework\TestCase;
 use Test\Fixtures\ParseAssertion;
 use function Test\Fixture\resource;
@@ -59,5 +62,38 @@ or textual references.',
                 'type' => 'void'
             ],
         ]);
+    }
+
+    /**
+     * @test
+     * @dataProvider improperDocBlocks
+     */
+    public function shouldFailForString(string $docString)
+    {
+        // given
+        $parser = new PHPDocParser(PhpDocumentor::tags());
+        // then
+        $this->expectException(PhpdocException::class);
+        $this->expectExceptionMessage('Failed to parse');
+        // when
+        $parser->parse($docString);
+    }
+
+    public function improperDocBlocks(): array
+    {
+        return [
+            ['test'],
+            ['/* test'],
+            ['/* test *'],
+            ['test */'],
+            ['test **/'],
+
+            ['/** test'],
+            ['/** test *'],
+
+            [' test */'],
+            ['* test */'],
+            ['/* test */'],
+        ];
     }
 }

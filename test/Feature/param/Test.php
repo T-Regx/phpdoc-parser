@@ -35,15 +35,15 @@ class Test extends TestCase
      */
     public function shouldParseParamMultiline()
     {
-        $this->markTestIncomplete();
         // when, then
         $this->assertParses(resource('tags/param.multiline.txt'), [
             'params' => [
-                'recursive' => [
-                    'type'        => 'bool',
+                [
                     'name'        => 'recursive',
+                    'type'        => 'bool',
                     'description' => "Optional. Whether or not to recursively\ncount elements in nested arrays.\nDefaults to `false`."
                 ]
-            ]]);
+            ]
+        ]);
     }
 }

@@ -226,3 +226,5 @@ Features fixed and improved so far:
 - Improper parsing summary in multiple lines
 - Added support for `@version` tag
 - `@method` interprets `static` properly
+- Tags `@param` failed to handle multiline tags properly
+- Fixed improper parsing of unclosed or improperly closed doc block

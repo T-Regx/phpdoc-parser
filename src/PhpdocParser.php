@@ -7,18 +7,25 @@ class PhpdocParser
 {
     /** @var TagSet */
     private $tagSet;
+    /** @var Pattern */
+    private $docBlockPattern;
 
     public function __construct(TagSet $tagSet)
     {
         $this->tagSet = $tagSet;
+        $this->docBlockPattern = Pattern::of('^\s*/\*\*(.*)\*/\s*$', 's');
     }
 
     public function parse(string $docBlock): array
     {
-        [$summaryLines, $tagList] = $this->summaryLinesAndTagList($docBlock);
+        $matcher = $this->docBlockPattern->match($docBlock);
+        if ($matcher->fails()) {
+            throw new PhpdocException("Failed to parse");
+        }
+        [$summaryLines, $tagList] = $this->summaryLinesAndTagList($matcher->first()->get(1));
         $notations = $this->summaryAndDescription($this->summaryAsString($summaryLines));
         foreach ($tagList as ['tag' => $tagName, 'value' => $value]) {
-            $notations = $this->tagSet->tagByName($tagName)->process($notations, $value ?? '');
+            $notations = $this->tagSet->tagByName($tagName)->process($notations, trim($value ?? ''));
         }
         return $notations;
     }
@@ -33,7 +40,7 @@ class PhpdocParser
     {
         $regex = Pattern::of('^
               \s*
-              (?:\/\*)?\*
+              \*?
               (?:
                 \s*?
                 @(?<tag>\S+)
@@ -52,7 +59,7 @@ class PhpdocParser
         $matcher = $regex->match($docBlock);
 
         if ($matcher->fails()) {
-            throw new \RuntimeException("Failed to parse");
+            throw new PhpdocException("Failed to parse");
         }
 
         $result = [];

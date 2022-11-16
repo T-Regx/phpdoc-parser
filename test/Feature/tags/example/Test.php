@@ -73,7 +73,6 @@ class Test extends TestCase
      */
     public function shouldThrowForEmptyExampleNoEmptyLine()
     {
-        $this->markTestIncomplete();
         // given
         $parser = new PHPDocParser(PhpDocumentor::tags());
         // then
