@@ -1,5 +1,5 @@
 <?php
-namespace Test\Feature\api;
+namespace Test\Feature\ignore;
 
 use PHPUnit\Framework\TestCase;
 use Test\Fixtures\ParseAssertion;
@@ -12,9 +12,9 @@ class Test extends TestCase
     /**
      * @test
      */
-    public function shouldParseApi()
+    public function shouldParseIgnore()
     {
         // when, then
-        $this->assertParses(resource('api.txt'), ['api' => true]);
+        $this->assertParses(resource('ignore.txt'), ['ignore' => true]);
     }
 }
