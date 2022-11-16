@@ -1,0 +1,61 @@
+name: build
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - php-version: 7.1
+            coverage: none
+          - php-version: 7.2
+            coverage: none
+          - php-version: 7.3
+            coverage: none
+          - php-version: 7.4
+            coverage: none
+          - php-version: 8.0
+            coverage: xdebug
+          - php-version: 8.1
+            coverage: none
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:v2
+          coverage: "${{ matrix.coverage }}"
+
+      - name: Cache dependencies installed with Composer
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/composer
+          key: php${{ matrix.php-version }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: php${{ matrix.php-version }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress
+
+      - name: Run tests
+        run: ./vendor/bin/phpunit test --coverage-clover=coverage/clover.xml
+
+      - name: Install "php-coveralls"
+        if: "${{ matrix.coverage != 'none' }}"
+        run: composer require php-coveralls/php-coveralls
+
+      - name: Upload coverage results to Coveralls
+        if: "${{ matrix.coverage != 'none' }}"
+        continue-on-error: true
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: git config --global --add safe.directory /__w/T-Regx/phpdoc-parser && ./vendor/bin/php-coveralls --coverage_clover=coverage/clover.xml --json_path=out.json
