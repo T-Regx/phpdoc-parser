@@ -1,0 +1,4 @@
+/**
+ * @method setString()
+ * @method setString(int $argument)
+ */

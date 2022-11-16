@@ -1,0 +1,5 @@
+/**
+ * @method string getString()
+ * @method void setInteger(int $integer)
+ * @method setString(int $integer)
+ */
