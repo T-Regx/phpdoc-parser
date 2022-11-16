@@ -1,7 +1,6 @@
 <?php
 namespace Jasny\PhpdocParser;
 
-use function Jasny\array_without;
 use function Jasny\expect_type;
 
 class TagSet implements \IteratorAggregate, \ArrayAccess
@@ -34,11 +33,6 @@ class TagSet implements \IteratorAggregate, \ArrayAccess
         }
 
         return new TagSet(array_merge(array_values($this->tags), $tagArray));
-    }
-
-    public function without(string ...$tags): self
-    {
-        return new TagSet(array_without($this->tags, $tags));
     }
 
     public function offsetExists($key): bool

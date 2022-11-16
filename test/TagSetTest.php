@@ -82,26 +82,6 @@ class TagSetTest extends TestCase
         $this->assertEquals(['foo', 'bar', 'qux'], array_keys(iterator_to_array($this->tagSet)));
     }
 
-    public function testWithout()
-    {
-        $filtered = $this->tagSet->without('bar');
-
-        $this->assertNotSame($this->tagSet, $filtered);
-
-        $this->assertEquals(['foo', 'qux'], array_keys(iterator_to_array($filtered)));
-        $this->assertEquals(['foo', 'bar', 'qux'], array_keys(iterator_to_array($this->tagSet)));
-    }
-
-    public function testWithoutMultiple()
-    {
-        $filtered = $this->tagSet->without('foo', 'bar');
-
-        $this->assertNotSame($this->tagSet, $filtered);
-
-        $this->assertEquals(['qux'], array_keys(iterator_to_array($filtered)));
-        $this->assertEquals(['foo', 'bar', 'qux'], array_keys(iterator_to_array($this->tagSet)));
-    }
-
     public function testOffsetExists()
     {
         $this->assertTrue(isset($this->tagSet['foo']));
