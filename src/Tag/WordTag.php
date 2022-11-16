@@ -15,10 +15,6 @@ class WordTag implements Tag
     /** @var string|bool */
     private $default;
 
-    /**
-     * @param string $name
-     * @param string|bool $default
-     */
     public function __construct(string $name, $default = '')
     {
         $this->name = $name;
@@ -27,9 +23,9 @@ class WordTag implements Tag
         $this->default = $default;
     }
 
-    public function getDefault()
+    public function getName(): string
     {
-        return $this->default;
+        return $this->name;
     }
 
     public function process(array $notations, string $value): array
@@ -40,10 +36,7 @@ class WordTag implements Tag
         }
 
         $matches = [];
-        $quoted = in_array($value[0], ['"', '\''], true) &&
-            preg_match('/^(?|"((?:[^"]+|\\\\.)*)"|\'((?:[^\']+|\\\\.)*)\')/', $value, $matches);
-
-        if ($quoted) {
+        if (in_array($value[0], ['"', "'"], true) && preg_match('/^(?|"((?:[^"]+|\\\\.)*)"|\'((?:[^\']+|\\\\.)*)\')/', $value, $matches)) {
             $word = $matches[1];
         } else {
             $word = str_before($value, ' ');
@@ -51,10 +44,5 @@ class WordTag implements Tag
         $notations[$this->name] = $word;
 
         return $notations;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
     }
 }

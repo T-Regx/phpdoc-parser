@@ -5,7 +5,6 @@ use Jasny\PhpdocParser\Tag;
 
 class FlagTag implements Tag
 {
-
     /** @var string */
     private $name;
 
