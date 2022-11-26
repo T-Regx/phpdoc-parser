@@ -66,6 +66,42 @@ or textual references.',
 
     /**
      * @test
+     */
+    public function shouldParseCrlf()
+    {
+        // given
+        $crlfDoc = "/**\r\n * @deprecated\r\n */";
+        // when, then
+        $this->assertParses($crlfDoc, ['deprecated' => true,]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldParseCr()
+    {
+        // given
+        $crlfDoc = "/**\r * @deprecated\r */";
+        // when, then
+        $this->assertParses($crlfDoc, ['deprecated' => true,]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldParseCrNewlines()
+    {
+        // given
+        $crlfDoc = "/** summary\r*\r*description */";
+        // when, then
+        $this->assertParses($crlfDoc, [
+            'summary'     => 'summary',
+            'description' => 'description',
+        ]);
+    }
+
+    /**
+     * @test
      * @dataProvider improperDocBlocks
      */
     public function shouldFailForString(string $docString)

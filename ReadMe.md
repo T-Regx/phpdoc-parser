@@ -239,9 +239,10 @@ The original implementation is in <https://github.com/jasny/phpdoc-parser>.
 
 Features fixed and improved so far:
 
+- Tags `@param` failed to handle multiline tags properly, now it's fixed
 - Typo `"summery"` to `"summary"`
 - Improper parsing summary in multiple lines
 - Added support for `@version` tag
 - `@method` interprets `static` properly
-- Tags `@param` failed to handle multiline tags properly
 - Fixed improper parsing of unclosed or improperly closed doc block
+- Previous parser failed parsing for line endings `CR` and `CRLF`, now it supports: `LF`, `CR`, `CRLF`.

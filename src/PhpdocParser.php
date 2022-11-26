@@ -41,7 +41,7 @@ class PhpdocParser
 
     private function tagsAndLines(string $docBlock): array
     {
-        $regex = Pattern::of('^
+        $regex = Pattern::of('(*ANYCRLF)^
               \s*
               \*?
               (?:
